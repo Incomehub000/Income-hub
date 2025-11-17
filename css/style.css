@@ -1,3 +1,4 @@
+/* Reset এবং বেসিক স্টাইল */
 * {
     margin: 0;
     padding: 0;
@@ -117,7 +118,7 @@ body {
     transform: translateY(-3px);
 }
 
-/* সোশ্যাল মিডিয়া */
+/* সোশ্যাল মিডিয়া সেকশন */
 .social-section {
     padding: 80px 0;
     background: white;
@@ -161,7 +162,7 @@ body {
 .facebook { background: #3b5998; }
 .instagram { background: #E1306C; }
 
-/* ফিচারস */
+/* ফিচারস সেকশন */
 .features {
     padding: 80px 0;
     background: #f8f9fa;
@@ -198,6 +199,46 @@ body {
     color: #666;
 }
 
+/* রেফারেল সেকশন স্টাইল */
+.referral-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.referral-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.referral-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.referral-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px 20px;
+    border-radius: 15px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.referral-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.referral-card p {
+    opacity: 0.9;
+}
+
 /* মোবাইল রেস্পন্সিভ */
 @media (max-width: 768px) {
     .nav-container {
@@ -209,7 +250,23 @@ body {
         font-size: 2rem;
     }
     
+    .hero p {
+        font-size: 1rem;
+    }
+    
     .social-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .referral-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .referral-section h2 {
+        font-size: 2rem;
     }
 }
