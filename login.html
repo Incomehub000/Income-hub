@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লগইন - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='login.html'">লগইন</button>
+                <button class="btn register-btn" onclick="window.location.href='register.html'">রেজিস্ট্রেশন</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="login-section">
+        <div class="login-container">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">অ্যাকাউন্টে লগইন করুন</h2>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="phone">মোবাইল নম্বর বা ইমেইল</label>
+                    <input type="text" id="phone" name="phone" required placeholder="মোবাইল নম্বর বা ইমেইল">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">পাসওয়ার্ড</label>
+                    <input type="password" id="password" name="password" required placeholder="আপনার পাসওয়ার্ড">
+                </div>
+                
+                <button type="submit" class="submit-btn">লগইন করুন</button>
+            </form>
+            
+            <div class="register-link">
+                <p>অ্যাকাউন্ট নেই? <a href="register.html">রেজিস্ট্রেশন করুন</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            
+            // ইউজার ভেরিফিকেশন
+            let users = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            const user = users.find(u => (u.phone === phone || u.email === phone) && u.password === password);
+            
+            if (user) {
+                // লগইন সফল
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                alert('লগইন সফল! ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে...');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('ভুল মোবাইল নম্বর/ইমেইল বা পাসওয়ার্ড!');
+            }
+        });
+    </script>
+</body>
+</html>
