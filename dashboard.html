@@ -46,7 +46,7 @@
             background: #e8f5e8;
             padding: 15px;
             border-radius: 10px;
-            margin: 15px 0;
+            margin: 15px 0 30px 0;
             border-left: 4px solid #4CAF50;
         }
         
@@ -68,30 +68,6 @@
             border-radius: 5px;
             cursor: pointer;
             margin-left: 10px;
-        }
-        
-        .income-breakdown {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .income-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .income-source {
-            font-weight: bold;
-        }
-        
-        .income-amount {
-            color: #f39c12;
-            font-weight: bold;
         }
         
         .sidebar {
@@ -137,6 +113,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+            margin-bottom: 40px;
         }
         
         .menu-card {
@@ -171,6 +148,74 @@
             cursor: pointer;
             margin-top: 20px;
         }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .income-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .income-method {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        
+        .income-method h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .time-estimate {
+            background: #fff3cd;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #856404;
+            font-size: 0.9rem;
+        }
+        
+        .income-details {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -182,11 +227,16 @@
             <div class="nav-buttons">
                 <button class="btn login-btn" onclick="logout()">লগআউট</button>
             </div>
+            <div class="menu-toggle" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
     <!-- সাইডবার মেনু -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <ul class="sidebar-menu">
             <li><a href="dashboard.html">🏠 হোম পেজ</a></li>
             <li><a href="tasks.html">📋 ফ্রি টাস্ক</a></li>
@@ -195,6 +245,7 @@
             <li><a href="referral.html">👥 রেফার সিস্টেম</a></li>
             <li><a href="income.html">💰 ইনকাম রিপোর্ট</a></li>
             <li><a href="profile.html">👤 প্রোফাইল</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">🚪 লগআউট</a></li>
         </ul>
     </div>
 
@@ -242,14 +293,7 @@
                 <button class="copy-btn" onclick="copyReferralLink()">লিংক কপি করুন</button>
             </div>
 
-            <!-- ইনকাম ব্রেকডাউন -->
-            <div class="income-breakdown">
-                <h3>📊 ইনকাম সারাংশ</h3>
-                <div id="incomeBreakdown">
-                    <!-- JavaScript দিয়ে ডাটা লোড হবে -->
-                </div>
-            </div>
-            
+            <!-- দ্রুত মেনু -->
             <div class="menu-grid">
                 <div class="menu-card" onclick="window.location.href='tasks.html'">
                     <h3>📋 ফ্রি টাস্ক</h3>
@@ -258,7 +302,7 @@
                 
                 <div class="menu-card" onclick="window.location.href='premium.html'">
                     <h3>⭐ প্রিমিয়াম টাস্ক</h3>
-                    <p>১২৫ টাকায় প্রিমিয়াম এক্টিভ করুন</p>
+                    <p>প্রিমিয়াম টাস্ক করে বেশি ইনকাম করুন</p>
                 </div>
                 
                 <div class="menu-card" onclick="window.location.href='referral.html'">
@@ -269,6 +313,61 @@
                 <div class="menu-card" onclick="window.location.href='withdraw.html'">
                     <h3>💳 টাকা উঠান</h3>
                     <p>আপনার কয়েন ক্যাশ আউট করুন</p>
+                </div>
+            </div>
+
+            <!-- কিভাবে ইনকাম করবেন সেকশন -->
+            <div class="income-breakdown">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #333;">ইনকামের উপায়সমূহ</h2>
+                
+                <div class="income-methods">
+                    <div class="income-method">
+                        <h3>📱 এড দেখে ইনকাম</h3>
+                        <p>বিভিন্ন কোম্পানির এডভার্টাইজমেন্ট দেখে সহজেই ইনকাম করুন।</p>
+                        <div class="time-estimate">
+                            ⏱️ সময়: ১-২ ঘন্টা
+                        </div>
+                        <div class="income-details">
+                            <strong>💰 আয়: ৩০০-৪০০ টাকা দৈনিক</strong>
+                            <p>প্রতিদিন কিছু এড দেখে নিয়মিত আয় করুন</p>
+                        </div>
+                    </div>
+                    
+                    <div class="income-method">
+                        <h3>🌐 সোশ্যাল মিডিয়া একাউন্ট তৈরি</h3>
+                        <p>বিভিন্ন সোশ্যাল মিডিয়া প্লাটফর্মে একাউন্ট তৈরি করে ইনকাম করুন।</p>
+                        <div class="time-estimate">
+                            ⏱️ সময়: ৩০ মিনিট - ১ ঘন্টা
+                        </div>
+                        <div class="income-details">
+                            <strong>💰 আয়: ২০০-৩০০ টাকা প্রতি একাউন্ট</strong>
+                            <p>ফেসবুক, ইন্সটাগ্রাম, টুইটার একাউন্ট তৈরি করুন</p>
+                        </div>
+                    </div>
+                    
+                    <div class="income-method">
+                        <h3>👥 রেফারেল সিস্টেম</h3>
+                        <p>বন্ধুদের রেফার করে অতিরিক্ত ইনকাম করুন।</p>
+                        <div class="time-estimate">
+                            ⏱️ সময়: আপনার ইচ্ছা
+                        </div>
+                        <div class="income-details">
+                            <strong>💰 আয়: ২০ কয়েন প্রতি রেফারেল</strong>
+                            <p>অনলিমিটেড রেফারেল করে ইনকাম বাড়ান</p>
+                        </div>
+                    </div>
+                    
+                    <div class="income-method">
+                        <h3>⭐ প্রিমিয়াম টাস্ক</h3>
+                        <p>প্রিমিয়াম টাস্ক করে বেশি ইনকাম করুন।</p>
+                        <div class="time-estimate">
+                            ⏱️ সময়: ২-৩ ঘন্টা
+                        </div>
+                        <div class="income-details">
+                            <strong>💰 আয়: ৫০০-৭০০ টাকা দৈনিক</strong>
+                            <p>হাই-পেইং টাস্ক করে বেশি আয় করুন</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -287,7 +386,6 @@
             
             // ড্যাশবোর্ড আপডেট
             updateDashboard(currentUser);
-            updateIncomeBreakdown(currentUser);
             updateReferralLink(currentUser);
         });
 
@@ -322,39 +420,6 @@
             document.getElementById('referralLink').textContent = referralLink;
         }
 
-        function updateIncomeBreakdown(user) {
-            const incomeBreakdown = document.getElementById('incomeBreakdown');
-            const incomeData = user.incomeHistory || [
-                { source: 'রেজিস্ট্রেশন বোনাস', amount: 100, date: new Date().toLocaleDateString('bn-BD') },
-                { source: 'ফ্রি টাস্ক', amount: 50, date: new Date().toLocaleDateString('bn-BD') },
-                { source: 'রেফারেল বোনাস', amount: 20, date: new Date().toLocaleDateString('bn-BD') }
-            ];
-
-            let html = '';
-            incomeData.forEach(income => {
-                html += `
-                    <div class="income-item">
-                        <div>
-                            <span class="income-source">${income.source}</span>
-                            <br><small>${income.date}</small>
-                        </div>
-                        <span class="income-amount">+${income.amount} কয়েন</span>
-                    </div>
-                `;
-            });
-
-            // টোটাল ইনকাম
-            const totalIncome = incomeData.reduce((sum, income) => sum + income.amount, 0);
-            html += `
-                <div class="income-item" style="border-top: 2px solid #f39c12; margin-top: 10px; padding-top: 15px;">
-                    <span class="income-source" style="font-size: 1.1rem;">মোট ইনকাম</span>
-                    <span class="income-amount" style="font-size: 1.1rem;">${totalIncome} কয়েন</span>
-                </div>
-            `;
-
-            incomeBreakdown.innerHTML = html;
-        }
-
         function copyReferralLink() {
             const referralLink = document.getElementById('referralLink').textContent;
             navigator.clipboard.writeText(referralLink).then(function() {
@@ -364,11 +429,29 @@
             });
         }
 
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+        }
+
         function logout() {
             localStorage.removeItem('currentUser');
             alert('লগআউট সফল!');
             window.location.href = 'index.html';
         }
+
+        // মোবাইলে সাইডবার অটো হাইড
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').style.display = 'block';
+            } else {
+                document.getElementById('sidebar').style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
