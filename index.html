@@ -3,443 +3,839 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INCOME HUB - অনলাইনে আয় করুন</title>
+    <title>প্রিমিয়াম - INCOME HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 5px;
+        .premium-container {
+            max-width: 1200px;
+            margin: 80px auto 20px;
+            padding: 20px;
         }
         
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
+        .premium-hero {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: black;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .premium-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .validity-info {
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .premium-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
             background: white;
-            margin: 3px 0;
-            transition: 0.3s;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
         }
         
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            background: #2c3e50;
-            z-index: 999;
+        .stat-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
         }
         
-        .mobile-menu.active {
-            display: block;
+        .coin-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f39c12;
         }
         
-        .mobile-menu ul {
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .package-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .package-header {
+            padding: 25px;
+            text-align: center;
+            color: white;
+        }
+        
+        .package-basic .package-header { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .package-silver .package-header { background: linear-gradient(135deg, #C0C0C0, #A9A9A9); }
+        .package-gold .package-header { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .package-platinum .package-header { background: linear-gradient(135deg, #E5E4E2, #C0C0C0); }
+        .package-diamond .package-header { background: linear-gradient(135deg, #b9f2ff, #89CFF0); }
+        
+        .package-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .validity-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+        }
+        
+        .package-price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .package-features {
+            padding: 25px;
+        }
+        
+        .feature-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
         
-        .mobile-menu li {
-            border-bottom: 1px solid #34495e;
-        }
-        
-        .mobile-menu a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 15px 20px;
-            transition: background 0.3s;
-        }
-        
-        .mobile-menu a:hover {
-            background: #34495e;
-        }
-        
-        .income-system {
-            padding: 80px 0;
-            background: white;
-        }
-        
-        .income-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .income-method {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 5px solid #667eea;
-            transition: transform 0.3s;
-        }
-        
-        .income-method:hover {
-            transform: translateY(-5px);
-        }
-        
-        .income-method h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .income-details {
-            background: #e8f5e8;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 4px solid #4CAF50;
-        }
-        
-        .time-estimate {
-            background: #fff3cd;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-weight: bold;
-            color: #856404;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .service-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .services-section {
-            padding: 80px 0;
-            background: #f8f9fa;
-        }
-        
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .nav-buttons {
-                display: none;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-        
-        .hero-buttons {
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            align-items: center;
         }
         
-        .hero-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
+        .feature-list li:before {
+            content: "✓";
+            color: #4CAF50;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin-right: 10px;
+        }
+        
+        .referral-bonus {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            border-left: 4px solid #2196F3;
             font-size: 1rem;
         }
         
-        .hero-btn:hover {
+        .buy-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .buy-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
         }
         
-        .tasks-btn {
-            background: #4CAF50;
+        .buy-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .deposit-section {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .deposit-btn {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
             color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            text-align: center;
+            text-decoration: none;
         }
         
-        .premium-btn {
-            background: #FFD700;
-            color: black;
+        .deposit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
         }
         
-        .nav-tasks-btn {
-            background: #4CAF50;
+        .active-premium {
+            background: #d4edda;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .referral-stats {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            margin-right: 10px;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
         }
         
-        .nav-premium-btn {
-            background: #FFD700;
+        .referral-info {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .daily-ads-section {
+            background: #fff3cd;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .ads-counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .ads-progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .ads-progress-bar {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        .view-ad-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
             color: black;
-            margin-right: 10px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .view-ad-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .view-ad-btn:disabled {
+            background: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .next-reset-info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <!-- নেভিগেশন বার -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
             </div>
             <div class="nav-buttons">
-                <!-- নতুন টাস্ক এবং প্রিমিয়াম বাটন -->
-                <button class="btn nav-tasks-btn" onclick="window.location.href='tasks.html'">📋 টাস্ক</button>
-                <button class="btn nav-premium-btn" onclick="window.location.href='premium.html'">⭐ প্রিমিয়াম</button>
-                <button class="btn login-btn" onclick="window.location.href='login.html'">🔐 লগইন</button>
-                <button class="btn register-btn" onclick="window.location.href='register.html'">📝 রেজিস্ট্রেশন</button>
-            </div>
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+                <button class="btn login-btn" onclick="window.location.href='dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
             </div>
         </div>
     </nav>
 
-    <!-- মোবাইল মেনু -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">🏠 হোম পেজ</a></li>
-            <li><a href="tasks.html">📋 টাস্ক সিস্টেম</a></li>
-            <li><a href="premium.html">⭐ প্রিমিয়াম</a></li>
-            <li><a href="login.html">🔐 লগইন</a></li>
-            <li><a href="register.html">📝 রেজিস্ট্রেশন</a></li>
-            <li><a href="dashboard.html">📊 ড্যাশবোর্ড</a></li>
-        </ul>
+    <div class="premium-container">
+        <!-- প্রিমিয়াম হিরো -->
+        <div class="premium-hero">
+            <h1>⭐ প্রিমিয়াম সিস্টেম</h1>
+            <p>প্রিমিয়াম প্যাকেজ কিনে বেশি ইনকাম করুন</p>
+            <div class="validity-info">⏰ সকল প্যাকেজের মেয়াদ ৩০ দিন</div>
+        </div>
+        
+        <!-- সক্রিয় প্রিমিয়াম -->
+        <div class="active-premium" id="activePremium" style="display: none;">
+            <h3>✅ আপনার সক্রিয় প্রিমিয়াম প্যাকেজ</h3>
+            <p id="premiumInfoText">আপনার প্রিমিয়াম প্যাকেজ সক্রিয় আছে</p>
+            <p id="expiryInfoText">মেয়াদ শেষ হবে: </p>
+        </div>
+        
+        <!-- ডেইলি এড সেকশন -->
+        <div class="daily-ads-section" id="dailyAdsSection" style="display: none;">
+            <h3>📺 ডেইলি এড ভিউ সিস্টেম</h3>
+            <p>প্রতিদিন আপনার প্রিমিয়াম প্যাকেজের এডগুলো দেখে ইনকাম করুন</p>
+            
+            <div class="next-reset-info">
+                ⏰ পরবর্তী রিসেট: <span id="nextResetTime"></span>
+            </div>
+            
+            <div class="ads-counter">
+                <div>
+                    <h4>আজকের এড ভিউ</h4>
+                    <p id="adsProgressText">0/0 এড দেখা হয়েছে</p>
+                </div>
+                <div id="adsProgressSection">
+                    <!-- প্রোগ্রেস বার এখানে লোড হবে -->
+                </div>
+            </div>
+            
+            <div id="dailyAdsList">
+                <!-- ডেইলি এড লিস্ট এখানে লোড হবে -->
+            </div>
+        </div>
+        
+        <!-- রেফারেল স্ট্যাটস -->
+        <div class="referral-stats">
+            <h3 style="text-align: center; margin-bottom: 20px;">👥 রেফারেল ইনকাম সিস্টেম</h3>
+            <div class="referral-info">
+                <h4>💰 আপনার রেফারেল ইনকাম</h4>
+                <p>আপনার রেফার করা ইউজাররা যখন প্রিমিয়াম প্যাকেজ কিনবে, আপনি পাবেন:</p>
+                <p style="font-size: 1.5rem; font-weight: bold; text-align: center; margin: 10px 0;">
+                    ১০% কমিশন
+                </p>
+                <p>✅ প্রতি প্রিমিয়াম প্যাকেজ কেনায় ১০% কমিশন</p>
+                <p>✅ একাধিক প্যাকেজ কিনলে একাধিক কমিশন</p>
+                <p>✅ শুধুমাত্র রেফারেল থেকে ইনকাম</p>
+            </div>
+            
+            <div class="premium-stats">
+                <div class="stat-card" style="background: rgba(255,255,255,0.2); color: white;">
+                    <h3>👥 মোট রেফারেল</h3>
+                    <div class="coin-amount" id="totalReferrals">0</div>
+                    <p>ব্যক্তি</p>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.2); color: white;">
+                    <h3>💎 রেফারেল ব্যালেন্স</h3>
+                    <div class="coin-amount" id="referralBalance">0</div>
+                    <p>কয়েন</p>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.2); color: white;">
+                    <h3>📊 মোট কমিশন</h3>
+                    <div class="coin-amount" id="totalCommission">0</div>
+                    <p>কয়েন</p>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.2); color: white;">
+                    <h3>🎯 এক্টিভ রেফারেল</h3>
+                    <div class="coin-amount" id="activeReferrals">0</div>
+                    <p>ব্যক্তি</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ব্যালেন্স স্ট্যাটস -->
+        <div class="premium-stats">
+            <div class="stat-card">
+                <h3>💰 মোট ব্যালেন্স</h3>
+                <div class="coin-amount" id="totalBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+            <div class="stat-card">
+                <h3>💎 প্রিমিয়াম ব্যালেন্স</h3>
+                <div class="coin-amount" id="premiumBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+            <div class="stat-card">
+                <h3>📊 ডিপোজিট ব্যালেন্স</h3>
+                <div class="coin-amount" id="depositBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+            <div class="stat-card">
+                <h3>🔄 টাস্ক ব্যালেন্স</h3>
+                <div class="coin-amount" id="taskBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+        </div>
+        
+        <!-- ডিপোজিট সেকশন -->
+        <div class="deposit-section">
+            <h3>💳 প্রথমে ডিপোজিট করুন</h3>
+            <p>প্রিমিয়াম প্যাকেজ কিনতে ডিপোজিট ব্যালেন্স প্রয়োজন</p>
+            <a href="deposit.html" class="deposit-btn">
+                💰 ডিপোজিট করুন - পেমেন্ট স্ক্রিনশট জমা দিন
+            </a>
+            <p style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;">
+                ডিপোজিট করা কয়েন দিয়ে শুধু প্রিমিয়াম প্যাকেজ কেনা যাবে
+            </p>
+        </div>
+        
+        <!-- প্রিমিয়াম প্যাকেজ -->
+        <h2 style="text-align: center; margin: 40px 0 20px 0; color: #333;">🎁 প্রিমিয়াম প্যাকেজ (৩০ দিনের জন্য)</h2>
+        
+        <div class="packages-grid">
+            <!-- ইজি প্যাকেজ -->
+            <div class="package-card package-basic">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">ইজি</span>
+                    <h3>শুরু</h3>
+                    <div class="package-price">১,০০০ কয়েন</div>
+                    <p>নতুনদের জন্য পারফেক্ট</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>প্রতিদিন ২টি এড দেখার সুযোগ</li>
+                        <li>দৈনিক ইনকাম: ১০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>বেসিক সাপোর্ট</li>
+                        <li>২৪/৭ এক্সেস</li>
+                    </ul>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ১০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" id="buyEasy" onclick="buyPackage('easy', 1000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- বেসিক প্যাকেজ -->
+            <div class="package-card package-silver">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">বেসিক</span>
+                    <h3>স্ট্যান্ডার্ড</h3>
+                    <div class="package-price">৫,০০০ কয়েন</div>
+                    <p>নরমাল ইউজারদের জন্য</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>প্রতিদিন ১০টি এড দেখার সুযোগ</li>
+                        <li>দৈনিক ইনকাম: ৫০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>প্রিয়োরিটি সাপোর্ট</li>
+                        <li>এডভান্সড ফিচার</li>
+                    </ul>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ৫০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" id="buyBasic" onclick="buyPackage('basic', 5000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- সিলভার প্যাকেজ -->
+            <div class="package-card package-gold">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">সিলভার</span>
+                    <h3>এডভান্সড</h3>
+                    <div class="package-price">১০,০০০ কয়েন</div>
+                    <p>সিরিয়াস ইনকামের জন্য</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>প্রতিদিন ২২টি এড দেখার সুযোগ</li>
+                        <li>দৈনিক ইনকাম: ১,১০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>ভিআইপি সাপোর্ট</li>
+                        <li>এক্সক্লুসিভ ফিচার</li>
+                        <li>স্পেশাল বোনাস</li>
+                    </ul>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ১,১০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" id="buySilver" onclick="buyPackage('silver', 10000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- রেফারেল ইনকাম হিস্ট্রি -->
+        <div style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-top: 40px;">
+            <h3 style="text-align: center; margin-bottom: 25px; color: #333;">📊 রেফারেল ইনকাম হিস্ট্রি</h3>
+            <div id="referralHistory">
+                <!-- রেফারেল হিস্ট্রি এখানে লোড হবে -->
+            </div>
+        </div>
     </div>
 
-    <!-- হিরো সেকশন -->
-    <section class="hero">
-        <div class="hero-container">
-            <h1>স্বাগতম INCOME HUB এ</h1>
-            <p>অনলাইনে আয় করুন সহজভাবে। কোনো ডিপোজিট ছাড়াই শুরু করুন!</p>
-            <button class="cta-btn" onclick="window.location.href='register.html'">এখনই শুরু করুন</button>
-            
-            <!-- নতুন হিরো বাটন -->
-            <div class="hero-buttons">
-                <button class="hero-btn tasks-btn" onclick="window.location.href='tasks.html'">
-                    📋 টাস্ক সিস্টেম
-                </button>
-                <button class="hero-btn premium-btn" onclick="window.location.href='premium.html'">
-                    ⭐ প্রিমিয়াম প্যাকেজ
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- সার্ভিস সেকশন -->
-    <section class="services-section">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 50px; color: #333;">আমাদের সার্ভিসসমূহ</h2>
-            
-            <div class="services-grid">
-                <!-- টাস্ক সার্ভিস -->
-                <div class="service-card" style="border-top: 5px solid #4CAF50;">
-                    <h3 style="color: #4CAF50; margin-bottom: 15px;">📋 টাস্ক সিস্টেম</h3>
-                    <p style="color: #666; margin-bottom: 20px;">বিভিন্ন ধরনের টাস্ক কমপ্লিট করে কয়েন অর্জন করুন</p>
-                    <ul style="text-align: left; color: #555; margin-bottom: 20px; padding-left: 20px;">
-                        <li>সোশ্যাল মিডিয়া অ্যাকাউন্ট তৈরি</li>
-                        <li>ইমেইল অ্যাকাউন্ট ভেরিফিকেশন</li>
-                        <li>ম্যানুয়াল এপ্রুভাল সিস্টেম</li>
-                        <li>২৪ ঘন্টার মধ্যে পেমেন্ট</li>
-                        <li>WhatsApp টিউটোরিয়াল সাপোর্ট</li>
-                    </ul>
-                    <button class="hero-btn tasks-btn" onclick="window.location.href='tasks.html'" style="width: 100%;">
-                        🎯 টাস্ক শুরু করুন
-                    </button>
-                </div>
-                
-                <!-- প্রিমিয়াম সার্ভিস -->
-                <div class="service-card" style="border-top: 5px solid #FFD700;">
-                    <h3 style="color: #FFD700; margin-bottom: 15px;">⭐ প্রিমিয়াম সিস্টেম</h3>
-                    <p style="color: #666; margin-bottom: 20px;">প্রিমিয়াম প্যাকেজ কিনে বেশি ইনকাম করুন</p>
-                    <ul style="text-align: left; color: #555; margin-bottom: 20px; padding-left: 20px;">
-                        <li>৬টি প্রিমিয়াম প্যাকেজ</li>
-                        <li>৩০ দিন মেয়াদ</li>
-                        <li>১০% রেফারেল বোনাস</li>
-                        <li>হাইয়ার ইনকাম রেট</li>
-                        <li>এক্সক্লুসিভ টাস্ক</li>
-                        <li>অটো এক্সপায়ার সিস্টেম</li>
-                    </ul>
-                    <button class="hero-btn premium-btn" onclick="window.location.href='premium.html'" style="width: 100%;">
-        💎 প্রিমিয়াম দেখুন
-    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- কিভাবে ইনকাম করবেন সেকশন -->
-    <section class="income-system">
-        <div class="container">
-            <h2>কিভাবে ইনকাম করবেন?</h2>
-            <p style="text-align: center; margin-bottom: 30px; color: #666; font-size: 1.1rem;">
-                কোনো ডিপোজিট ছাড়াই শুরু করুন এবং বিভিন্ন উপায়ে ইনকাম করুন
-            </p>
-            
-            <div class="income-methods">
-                <div class="income-method">
-                    <h3>📱 এড দেখে ইনকাম</h3>
-                    <p>বিভিন্ন কোম্পানির এডভার্টাইজমেন্ট দেখে সহজেই ইনকাম করুন।</p>
-                    <div class="time-estimate">
-                        ⏱️ সময়: ১-২ ঘন্টা
-                    </div>
-                    <div class="income-details">
-                        <strong>💰 আয়: ৩০০-৪০০ টাকা দৈনিক</strong>
-                        <p>প্রতিদিন কিছু এড দেখে নিয়মিত আয় করুন</p>
-                    </div>
-                </div>
-                
-                <div class="income-method">
-                    <h3>🌐 সোশ্যাল মিডিয়া একাউন্ট তৈরি</h3>
-                    <p>বিভিন্ন সোশ্যাল মিডিয়া প্লাটফর্মে একাউন্ট তৈরি করে ইনকাম করুন।</p>
-                    <div class="time-estimate">
-                        ⏱️ সময়: ৩০ মিনিট - ১ ঘন্টা
-                    </div>
-                    <div class="income-details">
-                        <strong>💰 আয়: ২০০-৩০০ টাকা প্রতি একাউন্ট</strong>
-                        <p>ফেসবুক, ইন্সটাগ্রাম, টুইটার একাউন্ট তৈরি করুন</p>
-                    </div>
-                </div>
-                
-                <div class="income-method">
-                    <h3>👥 রেফারেল সিস্টেম</h3>
-                    <p>বন্ধুদের রেফার করে অতিরিক্ত ইনকাম করুন।</p>
-                    <div class="time-estimate">
-                        ⏱️ সময়: আপনার ইচ্ছা
-                    </div>
-                    <div class="income-details">
-                        <strong>💰 আয়: ২০ কয়েন প্রতি রেফারেল</strong>
-                        <p>অনলিমিটেড রেফারেল করে ইনকাম বাড়ান</p>
-                    </div>
-                </div>
-                
-                <div class="income-method">
-                    <h3>⭐ প্রিমিয়াম টাস্ক</h3>
-                    <p>প্রিমিয়াম টাস্ক করে বেশি ইনকাম করুন।</p>
-                    <div class="time-estimate">
-                        ⏱️ সময়: ২-৩ ঘন্টা
-                    </div>
-                    <div class="income-details">
-                        <strong>💰 আয়: ৫০০-৭০০ টাকা দৈনিক</strong>
-                        <p>হাই-পেইং টাস্ক করে বেশি আয় করুন</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- সোশ্যাল মিডিয়া -->
-    <section class="social-section">
-        <div class="container">
-            <h2>আমাদের কমিউনিটি</h2>
-            <div class="social-grid">
-                <a href="https://t.me/yourchannel" class="social-card telegram" target="_blank">
-                    <span>টেলিগ্রাম</span>
-                </a>
-                <a href="https://wa.me/yournumber" class="social-card whatsapp" target="_blank">
-                    <span>হোয়াটসঅ্যাপ</span>
-                </a>
-                <a href="https://youtube.com/yourchannel" class="social-card youtube" target="_blank">
-                    <span>ইউটিউব</span>
-                </a>
-                <a href="https://facebook.com/yourpage" class="social-card facebook" target="_blank">
-                    <span>ফেসবুক</span>
-                </a>
-                <a href="https://instagram.com/yourprofile" class="social-card instagram" target="_blank">
-                    <span>ইনস্টাগ্রাম</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ফিচারস সেকশন -->
-    <section class="features">
-        <div class="container">
-            <h2>শুরু করার ধাপসমূহ</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>১. রেজিস্ট্রেশন</h3>
-                    <p>বিনামূল্যে অ্যাকাউন্ট তৈরি করুন</p>
-                </div>
-                <div class="feature-card">
-                    <h3>২. টাস্ক সিলেক্ট</h3>
-                    <p>ইনকামের উপায় সিলেক্ট করুন</p>
-                </div>
-                <div class="feature-card">
-                    <h3>৩. কাজ করুন</h3>
-                    <p>টাস্ক কমপ্লিট করুন</p>
-                </div>
-                <div class="feature-card">
-                    <h3>৪. টাকা উঠান</h3>
-                    <p>আপনার ইনকাম উইথড্র করুন</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- রেফারেল সিস্টেম -->
-    <section class="referral-section">
-        <div class="container">
-            <h2>রেফারেল সিস্টেম</h2>
-            <div class="referral-grid">
-                <div class="referral-card">
-                    <h3>👥 রেফার করুন</h3>
-                    <p>বন্ধুদের রেফার করে <strong>২০ কয়েন</strong> পান</p>
-                </div>
-                <div class="referral-card">
-                    <h3>🎁 বোনাস পান</h3>
-                    <p>নতুন ইউজার পাবে <strong>১০ কয়েন</strong> বোনাস</p>
-                </div>
-                <div class="referral-card">
-                    <h3>💰 কয়েন সিস্টেম</h3>
-                    <p>আমাদের ওয়েবসাইটের মূল মুদ্রা কয়েন</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <script>
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('active');
+        // প্যাকেজ কনফিগারেশন
+        const packageConfigs = {
+            'easy': { dailyAds: 2, rewardPerAd: 50, totalDaily: 100 },
+            'basic': { dailyAds: 10, rewardPerAd: 50, totalDaily: 500 },
+            'silver': { dailyAds: 22, rewardPerAd: 50, totalDaily: 1100 },
+            'gold': { dailyAds: 50, rewardPerAd: 50, totalDaily: 2500 },
+            'platinum': { dailyAds: 55, rewardPerAd: 100, totalDaily: 5500 },
+            'diamond': { dailyAds: 120, rewardPerAd: 100, totalDaily: 12000 }
+        };
+
+        // পেজ লোড হলে ডেটা আপডেট
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            checkPremiumValidity(currentUser);
+            updateAllBalances(currentUser);
+            loadReferralHistory(currentUser);
+            updateBuyButtons(currentUser);
+            checkDailyReset(currentUser);
+            loadDailyAds(currentUser);
+        });
+
+        // ডেইলি রিসেট চেক
+        function checkDailyReset(user) {
+            const today = new Date().toDateString();
+            
+            if (!user.lastAdReset || user.lastAdReset !== today) {
+                // নতুন দিন, এড রিসেট করুন
+                user.dailyAdsWatched = 0;
+                user.lastAdReset = today;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                updateAllUsers(user);
+            }
         }
 
-        // মেনু বাইরে ক্লিক করলে বন্ধ হবে
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuToggle = document.querySelector('.menu-toggle');
+        // ডেইলি এড লোড
+        function loadDailyAds(user) {
+            const dailyAdsSection = document.getElementById('dailyAdsSection');
+            const dailyAdsList = document.getElementById('dailyAdsList');
+            const adsProgressSection = document.getElementById('adsProgressSection');
             
-            if (!menuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
-                mobileMenu.classList.remove('active');
+            if (!user.premium) {
+                dailyAdsSection.style.display = 'none';
+                return;
             }
-        });
+            
+            dailyAdsSection.style.display = 'block';
+            const config = packageConfigs[user.premiumPackage];
+            const adsWatched = user.dailyAdsWatched || 0;
+            const remainingAds = config.dailyAds - adsWatched;
+            
+            // প্রোগ্রেস টেক্সট
+            document.getElementById('adsProgressText').textContent = 
+                `${adsWatched}/${config.dailyAds} এড দেখা হয়েছে`;
+            
+            // প্রোগ্রেস বার
+            const progressPercent = (adsWatched / config.dailyAds) * 100;
+            adsProgressSection.innerHTML = `
+                <div class="ads-progress">
+                    <div class="ads-progress-bar" style="width: ${progressPercent}%"></div>
+                </div>
+                <div>
+                    <strong>${remainingAds} এড বাকি</strong>
+                </div>
+            `;
+            
+            // নেক্সট রিসেট টাইম
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            
+            const timeUntilReset = tomorrow - now;
+            const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
+            const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('nextResetTime').textContent = 
+                `${hours} ঘন্টা ${minutes} মিনিট`;
+            
+            // ডেইলি এড লিস্ট
+            let html = '';
+            for (let i = 1; i <= config.dailyAds; i++) {
+                const isWatched = i <= adsWatched;
+                html += `
+                    <div class="ads-counter">
+                        <div>
+                            <h4>এড #${i}</h4>
+                            <p>পুরস্কার: ${config.rewardPerAd} কয়েন</p>
+                        </div>
+                        <div>
+                            <button class="view-ad-btn" 
+                                onclick="viewAd(${i}, ${config.rewardPerAd})"
+                                ${isWatched ? 'disabled' : ''}
+                                ${remainingAds === 0 ? 'disabled' : ''}>
+                                ${isWatched ? '✅ দেখা হয়েছে' : '👁️ এড দেখুন'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            dailyAdsList.innerHTML = html;
+        }
 
-        // স্ক্রল এফেক্ট জন্য
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(44, 62, 80, 0.95)';
-            } else {
-                navbar.style.background = '#2c3e50';
+        // এড ভিউ ফাংশন
+        function viewAd(adNumber, reward) {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const config = packageConfigs[currentUser.premiumPackage];
+            
+            if ((currentUser.dailyAdsWatched || 0) >= config.dailyAds) {
+                alert('আজকের সকল এড দেখেছেন! আগামীকাল আবার চেষ্টা করুন।');
+                return;
             }
-        });
-    </script>
-</body>
-</html>
+            
+            if (confirm(`এড #${adNumber} দেখতে চান? পুরস্কার: ${reward} কয়েন`)) {
+                // এড ভিউয়ার পেজে রিডাইরেক্ট
+                window.location.href = `ads.html?ad=${adNumber}&reward=${reward}&package=${currentUser.premiumPackage}`;
+            }
+        }
+
+        // এড কমপ্লিট ফাংশন (ads.html থেকে কল হবে)
+        function completeAd(adNumber, reward, packageType) {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // ডেইলি এড কাউন্ট আপডেট
+            currentUser.dailyAdsWatched = (currentUser.dailyAdsWatched || 0) + 1;
+            
+            // ব্যালেন্স আপডেট
+            currentUser.premiumBalance = (currentUser.premiumBalance || 0) + reward;
+            currentUser.coins = (currentUser.coins || 0) + reward;
+            
+            // এড হিস্ট্রি যোগ
+            if (!currentUser.adHistory) currentUser.adHistory = [];
+            currentUser.adHistory.push({
+                type: 'daily_premium_ad',
+                adNumber: adNumber,
+                reward: reward,
+                package: packageType,
+                date: new Date().toLocaleString('bn-BD')
+            });
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateAllUsers(currentUser);
+            
+            alert(`সফল! ${reward} কয়েন আপনার ব্যালেন্সে যোগ করা হয়েছে`);
+            loadDailyAds(currentUser);
+            updateAllBalances(currentUser);
+        }
+
+        // বাকি সব ফাংশন আগের মতোই থাকবে
+        function updateAllBalances(user) {
+            document.getElementById('totalBalance').textContent = user.coins || 0;
+            document.getElementById('premiumBalance').textContent = user.premiumBalance || 0;
+            document.getElementById('depositBalance').textContent = user.depositBalance || 0;
+            document.getElementById('taskBalance').textContent = user.taskBalance || 0;
+            
+            // রেফারেল স্ট্যাটস
+            document.getElementById('referralBalance').textContent = user.referralBalance || 0;
+            document.getElementById('totalReferrals').textContent = user.totalReferrals || 0;
+            document.getElementById('totalCommission').textContent = user.totalCommission || 0;
+            document.getElementById('activeReferrals').textContent = user.activeReferrals || 0;
+        }
+
+        function updateBuyButtons(user) {
+            const depositBalance = user.depositBalance || 0;
+            const buttons = {
+                'buyEasy': 1000,
+                'buyBasic': 5000,
+                'buySilver': 10000
+            };
+
+            for (const [buttonId, price] of Object.entries(buttons)) {
+                const button = document.getElementById(buttonId);
+                if (depositBalance < price) {
+                    button.disabled = true;
+                    button.innerHTML = 'অপর্যাপ্ত ব্যালেন্স';
+                } else {
+                    button.disabled = false;
+                    button.innerHTML = 'প্যাকেজ কিনুন';
+                }
+            }
+        }
+
+        function buyPackage(packageType, packagePrice) {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if ((currentUser.depositBalance || 0) < packagePrice) {
+                alert('পর্যাপ্ত ডিপোজিট ব্যালেন্স নেই! প্রথমে ডিপোজিট করুন');
+                return;
+            }
+            
+            const packageNames = {
+                'easy': 'ইজি প্যাকেজ',
+                'basic': 'বেসিক প্যাকেজ',
+                'silver': 'সিলভার প্যাকেজ'
+            };
+            
+            if (confirm(`${packageNames[packageType]} কিনতে চান? মূল্য: ${packagePrice} কয়েন (৩০ দিনের জন্য)`)) {
+                // ডিপোজিট ব্যালেন্স থেকে কাটুন
+                currentUser.depositBalance -= packagePrice;
+                
+                // প্রিমিয়াম স্ট্যাটাস আপডেট (৩০ দিনের জন্য)
+                currentUser.premium = true;
+                currentUser.premiumPackage = packageType;
+                currentUser.premiumExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                
+                // ডেইলি এড সিস্টেম ইনিশিয়ালাইজ
+                currentUser.dailyAdsWatched = 0;
+                currentUser.lastAdReset = new Date().toDateString();
+                
+                // প্রিমিয়াম হিস্ট্রি যোগ করুন
+                if (!currentUser.premiumHistory) currentUser.premiumHistory = [];
+                currentUser.premiumHistory.push({
+                    package: packageType,
+                    price: packagePrice,
+                    purchaseDate: new Date().toLocaleDateString('bn-BD'),
+                    expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('bn-BD')
+                });
+
+                // রেফারেল বোনাস প্রয়োগ করুন (যদি রেফারার থাকে)
+                applyReferralBonus(currentUser, packagePrice);
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAllUsers(currentUser);
+                
+                alert(`সফল! ${packageNames[packageType]} এক্টিভ করা হয়েছে (৩০ দিনের জন্য)।`);
+                updateAllBalances(currentUser);
+                updateBuyButtons(currentUser);
+                checkPremiumValidity(currentUser);
+                loadDailyAds(currentUser);
+            }
+        }
+
+        function applyReferralBonus(currentUser, packagePrice) {
+            if (currentUser.referredBy) {
+                const referralBonus = Math.floor(packagePrice * 0.10);
+                let allUsers = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+                const referrer = allUsers.find(user => user.id === currentUser.referredBy);
+                
+                if (referrer) {
+                    referrer.referralBalance = (referrer.referralBalance || 0) + referralBonus;
+                    referrer.totalCommission = (referrer.totalCommission || 0) + referralBonus;
+                    referrer.coins = (referrer.coins || 0) + referralBonus;
+                    
+                    if (!referrer.referralHistory) referrer.referralHistory = [];
+                    referrer.referralHistory.push({
+                        type: 'premium_purchase',
+                        fromUser: currentUser.fullName,
+                        fromUserId: currentUser.id,
+                        amount: referralBonus,
+                        packagePrice: packagePrice,
+                        date: new Date().toLocaleString('bn-BD'),
+                        description: 'প্রিমিয়াম প্যাকেজ রেফারেল বোনাস'
+                    });
+
+                    referrer.activeReferrals = (referrer.activeReferrals || 0) + 1;
+                    localStorage.setItem('incomeHubUsers', JSON.stringify(allUsers));
+                }
+            }
+        }
+
+        function loadReferralHistory(user) {
+            const historyContainer = document.getElementById('referralHistory');
+            
+            if (!user.referralHistory || user.referralHistory.length === 0) {
+                historyContainer.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #666;">
+                        <h4>কোন রেফারেল ইনকাম নেই</h4>
+                        <p>আপনার রেফার করা ইউজাররা যখন প্রিমিয়াম প্যাকেজ কিনবে, তখন এখানে ইনকাম দেখানো হবে</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            user.referralHistory.forEach(history => {
+                html += `
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #4CAF50;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>${history.fromUser}</strong>
+                                <p style="margin: 5px 0; color: #666;">${history.description}</p>
+                                <small style="color: #999;">${history.date}</small>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.2rem; font-weight: bold; color: #4CAF50;">+${history.amount} কয়েন</div>
+                                <small style="color: #666;">প্যাকেজ: ${history.packagePrice} কয়েন</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyContainer.innerHTML = html;
+        }
+
+        function checkPremiumValidity(user) {
+            if (user.premium && user.premiumExpiry) {
+                const expiryDate = new Date(user.premiumExpiry);
+                const now = new Date();
+                
+                if (now > expiryDate) {
+                    user.premium = false;
+                    user.premiumPackage = null;
+                    user.premiumExpiry = null;
+                    user.dailyAdsWatched = 0;
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    updateAllUsers(user);
+                    alert('আপনার প্রিমিয়াম প্যাকেজের মেয়াদ শেষ হয়েছে। নতুন করে সাবস্ক্রাইব করুন।');
+                } else {
+                    document.getElementById('activePremium').style.display = 'block';
+                    const packageNames = {
+                        'easy': 'ইজি', 'basic': 'বেসিক', 'silver': 'সিলভার'
+                    };
+                    document.getElementById('premiumInfoText').textContent = 
+                        `প্যাকেজ: ${packageNames[user.premiumPackage]}`;
