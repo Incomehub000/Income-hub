@@ -3,8 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INCOME HUB - অনলাইনে আয় করার সহজ উপায় </title>
+    <title>INCOME HUB - অনলাইনে আয় করুন</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            z-index: 999;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-menu li {
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .mobile-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: background 0.3s;
+        }
+        
+        .mobile-menu a:hover {
+            background: #34495e;
+        }
+        
+        .income-system {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .income-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .income-method {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s;
+        }
+        
+        .income-method:hover {
+            transform: translateY(-5px);
+        }
+        
+        .income-method h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .income-details {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .time-estimate {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-buttons {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- নেভিগেশন বার -->
@@ -17,15 +126,90 @@
                 <button class="btn login-btn" onclick="window.location.href='login.html'">লগইন</button>
                 <button class="btn register-btn" onclick="window.location.href='register.html'">রেজিস্ট্রেশন</button>
             </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
+
+    <!-- মোবাইল মেনু -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">🏠 হোম পেজ</a></li>
+            <li><a href="login.html">🔐 লগইন</a></li>
+            <li><a href="register.html">📝 রেজিস্ট্রেশন</a></li>
+            <li><a href="dashboard.html">📊 ড্যাশবোর্ড</a></li>
+        </ul>
+    </div>
 
     <!-- হিরো সেকশন -->
     <section class="hero">
         <div class="hero-container">
             <h1>স্বাগতম INCOME HUB এ</h1>
-            <p>অনলাইনে আয় করুন সহজভাবে। এড দেখে এবং বিভিন্ন ধরনের সোশ্যাল মিডিয়া একাউন্ট তৈরি করে ইনকাম করুন!</p>
+            <p>অনলাইনে আয় করুন সহজভাবে। কোনো ডিপোজিট ছাড়াই শুরু করুন!</p>
             <button class="cta-btn" onclick="window.location.href='register.html'">এখনই শুরু করুন</button>
+        </div>
+    </section>
+
+    <!-- কিভাবে ইনকাম করবেন সেকশন -->
+    <section class="income-system">
+        <div class="container">
+            <h2>কিভাবে ইনকাম করবেন?</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: #666; font-size: 1.1rem;">
+                কোনো ডিপোজিট ছাড়াই শুরু করুন এবং বিভিন্ন উপায়ে ইনকাম করুন
+            </p>
+            
+            <div class="income-methods">
+                <div class="income-method">
+                    <h3>📱 এড দেখে ইনকাম</h3>
+                    <p>বিভিন্ন কোম্পানির এডভার্টাইজমেন্ট দেখে সহজেই ইনকাম করুন।</p>
+                    <div class="time-estimate">
+                        ⏱️ সময়: ১-২ ঘন্টা
+                    </div>
+                    <div class="income-details">
+                        <strong>💰 আয়: ৩০০-৪০০ টাকা দৈনিক</strong>
+                        <p>প্রতিদিন কিছু এড দেখে নিয়মিত আয় করুন</p>
+                    </div>
+                </div>
+                
+                <div class="income-method">
+                    <h3>🌐 সোশ্যাল মিডিয়া একাউন্ট তৈরি</h3>
+                    <p>বিভিন্ন সোশ্যাল মিডিয়া প্লাটফর্মে একাউন্ট তৈরি করে ইনকাম করুন।</p>
+                    <div class="time-estimate">
+                        ⏱️ সময়: ৩০ মিনিট - ১ ঘন্টা
+                    </div>
+                    <div class="income-details">
+                        <strong>💰 আয়: ২০০-৩০০ টাকা প্রতি একাউন্ট</strong>
+                        <p>ফেসবুক, ইন্সটাগ্রাম, টুইটার একাউন্ট তৈরি করুন</p>
+                    </div>
+                </div>
+                
+                <div class="income-method">
+                    <h3>👥 রেফারেল সিস্টেম</h3>
+                    <p>বন্ধুদের রেফার করে অতিরিক্ত ইনকাম করুন।</p>
+                    <div class="time-estimate">
+                        ⏱️ সময়: আপনার ইচ্ছা
+                    </div>
+                    <div class="income-details">
+                        <strong>💰 আয়: ২০ কয়েন প্রতি রেফারেল</strong>
+                        <p>অনলিমিটেড রেফারেল করে ইনকাম বাড়ান</p>
+                    </div>
+                </div>
+                
+                <div class="income-method">
+                    <h3>⭐ প্রিমিয়াম টাস্ক</h3>
+                    <p>প্রিমিয়াম টাস্ক করে বেশি ইনকাম করুন।</p>
+                    <div class="time-estimate">
+                        ⏱️ সময়: ২-৩ ঘন্টা
+                    </div>
+                    <div class="income-details">
+                        <strong>💰 আয়: ৫০০-৭০০ টাকা দৈনিক</strong>
+                        <p>হাই-পেইং টাস্ক করে বেশি আয় করুন</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -56,19 +240,19 @@
     <!-- ফিচারস সেকশন -->
     <section class="features">
         <div class="container">
-            <h2>কিভাবে ইনকাম করবেন?</h2>
+            <h2>শুরু করার ধাপসমূহ</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <h3>১. রেজিস্ট্রেশন</h3>
-                    <p>আপনি সম্পূর্ণ বিনামূল্যে আমাদের এখানে একটি অ্যাকাউন্ট পেয়ে যাবেন </p>
+                    <p>বিনামূল্যে অ্যাকাউন্ট তৈরি করুন</p>
                 </div>
                 <div class="feature-card">
-                    <h3>২. কিরকম ইনকাম করতে পারবেন আমাদের এখানে </h3>
-                    <p>আমাদের এখান থেকে প্রতিদিন দুই থেকে তিন ঘণ্টা সময় দিয়ে আপনি ৩০০ থেকে ৫০০ টাকা ইনকাম করতে পারবেন </p>
+                    <h3>২. টাস্ক সিলেক্ট</h3>
+                    <p>ইনকামের উপায় সিলেক্ট করুন</p>
                 </div>
                 <div class="feature-card">
-                    <h3>৩. ইনকাম সিস্টেম </h3>
-                    <p>আপনি প্রতিদিন এড দেখে এবং বিভিন্ন ধরনের সোশ্যাল মিডিয়ার একাউন্ট তৈরি করে আমাদের এখান থেকে ইনকাম করতে পারবেন </p>
+                    <h3>৩. কাজ করুন</h3>
+                    <p>টাস্ক কমপ্লিট করুন</p>
                 </div>
                 <div class="feature-card">
                     <h3>৪. টাকা উঠান</h3>
@@ -99,6 +283,21 @@
         </div>
     </section>
 
-    <script src="js/script.js"></script>
+    <script>
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // মেনু বাইরে ক্লিক করলে বন্ধ হবে
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!menuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
