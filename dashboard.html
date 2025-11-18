@@ -36,15 +36,101 @@
             text-align: center;
         }
         
-        .stat-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
         .coin-amount {
             font-size: 2rem;
             font-weight: bold;
             color: #f39c12;
+        }
+        
+        .referral-link-box {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .referral-link {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            border: 1px dashed #4CAF50;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .income-breakdown {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .income-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .income-source {
+            font-weight: bold;
+        }
+        
+        .income-amount {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            width: 250px;
+            height: calc(100vh - 60px);
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            padding: 0;
+        }
+        
+        .sidebar-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            transition: background 0.3s;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .sidebar-menu a:hover {
+            background: #34495e;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
         }
         
         .menu-grid {
@@ -65,6 +151,15 @@
         
         .menu-card:hover {
             transform: translateY(-5px);
+        }
+        
+        .premium-badge {
+            background: gold;
+            color: black;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
         }
         
         .logout-btn {
@@ -90,51 +185,91 @@
         </div>
     </nav>
 
-    <div class="dashboard-container">
-        <div class="user-welcome">
-            <h1 id="welcomeMessage">স্বাগতম!</h1>
-            <p>আপনার ইনকাম জার্নি শুরু করুন</p>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>💰 মোট কয়েন</h3>
-                <div class="coin-amount" id="totalCoins">0</div>
-                <p>কয়েন</p>
+    <!-- সাইডবার মেনু -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="dashboard.html">🏠 হোম পেজ</a></li>
+            <li><a href="tasks.html">📋 ফ্রি টাস্ক</a></li>
+            <li><a href="premium.html">⭐ প্রিমিয়াম টাস্ক</a></li>
+            <li><a href="withdraw.html">💳 উইথড্র সিস্টেম</a></li>
+            <li><a href="referral.html">👥 রেফার সিস্টেম</a></li>
+            <li><a href="income.html">💰 ইনকাম রিপোর্ট</a></li>
+            <li><a href="profile.html">👤 প্রোফাইল</a></li>
+        </ul>
+    </div>
+
+    <!-- মূল কন্টেন্ট -->
+    <div class="main-content">
+        <div class="dashboard-container">
+            <div class="user-welcome">
+                <h1 id="welcomeMessage">স্বাগতম!</h1>
+                <p id="userStatus">আপনার ইনকাম জার্নি শুরু করুন</p>
             </div>
             
-            <div class="stat-card">
-                <h3>👥 রেফারেল</h3>
-                <div class="coin-amount" id="totalReferrals">0</div>
-                <p>জন রেফার করেছে</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>💰 মোট কয়েন</h3>
+                    <div class="coin-amount" id="totalCoins">0</div>
+                    <p>কয়েন</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>👥 রেফারেল</h3>
+                    <div class="coin-amount" id="totalReferrals">0</div>
+                    <p>জন রেফার করেছে</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🎯 আপনার কোড</h3>
+                    <div class="coin-amount" id="referralCode" style="font-size: 1.2rem;">REF000000</div>
+                    <p>এই কোড শেয়ার করুন</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>⭐ অ্যাকাউন্ট স্ট্যাটাস</h3>
+                    <div class="coin-amount" id="accountStatus" style="font-size: 1.2rem; color: #667eea;">ফ্রি</div>
+                    <p id="premiumInfo">আপগ্রেড করুন</p>
+                </div>
+            </div>
+
+            <!-- রেফারেল লিংক সেকশন -->
+            <div class="referral-link-box">
+                <h3>🔗 আপনার রেফারেল লিংক</h3>
+                <p>এই লিংক শেয়ার করে বন্ধুদের আমন্ত্রণ করুন এবং ২০ কয়েন বোনাস পান!</p>
+                <div class="referral-link" id="referralLink">
+                    লোড হচ্ছে...
+                </div>
+                <button class="copy-btn" onclick="copyReferralLink()">লিংক কপি করুন</button>
+            </div>
+
+            <!-- ইনকাম ব্রেকডাউন -->
+            <div class="income-breakdown">
+                <h3>📊 ইনকাম সারাংশ</h3>
+                <div id="incomeBreakdown">
+                    <!-- JavaScript দিয়ে ডাটা লোড হবে -->
+                </div>
             </div>
             
-            <div class="stat-card">
-                <h3>🎯 আপনার কোড</h3>
-                <div class="coin-amount" id="referralCode" style="font-size: 1.2rem;">REF000000</div>
-                <p>এই কোড শেয়ার করুন</p>
-            </div>
-        </div>
-        
-        <div class="menu-grid">
-            <div class="menu-card" onclick="window.location.href='tasks.html'">
-                <h3>📋 টাস্ক করুন</h3>
-                <p>টাস্ক করে কয়েন অর্জন করুন</p>
-            </div>
-            
-            <div class="menu-card" onclick="window.location.href='referral.html'">
-                <h3>👥 রেফার করুন</h3>
-                <p>বন্ধুদের রেফার করে কয়েন পান</p>
-            </div>
-            
-            <div class="menu-card" onclick="window.location.href='withdraw.html'">
-                <h3>💳 টাকা উঠান</h3>
-                <p>কয়েন ক্যাশ আউট করুন</p>
-            </div>
-            
-            <div class="menu-card" onclick="window.location.href='profile.html'">
-                <h3>👤 প্রোফাইল</h3>
-                <p>আপনার তথ্য দেখুন</p>
+            <div class="menu-grid">
+                <div class="menu-card" onclick="window.location.href='tasks.html'">
+                    <h3>📋 ফ্রি টাস্ক</h3>
+                    <p>ফ্রি টাস্ক করে কয়েন অর্জন করুন</p>
+                </div>
+                
+                <div class="menu-card" onclick="window.location.href='premium.html'">
+                    <h3>⭐ প্রিমিয়াম টাস্ক</h3>
+                    <p>১২৫ টাকায় প্রিমিয়াম এক্টিভ করুন</p>
+                </div>
+                
+                <div class="menu-card" onclick="window.location.href='referral.html'">
+                    <h3>👥 রেফার করুন</h3>
+                    <p>বন্ধুদের রেফার করে কয়েন পান</p>
+                </div>
+                
+                <div class="menu-card" onclick="window.location.href='withdraw.html'">
+                    <h3>💳 টাকা উঠান</h3>
+                    <p>আপনার কয়েন ক্যাশ আউট করুন</p>
+                </div>
             </div>
         </div>
     </div>
@@ -151,12 +286,84 @@
             }
             
             // ড্যাশবোর্ড আপডেট
-            document.getElementById('welcomeMessage').textContent = `স্বাগতম, ${currentUser.fullName}!`;
-            document.getElementById('totalCoins').textContent = currentUser.coins;
-            document.getElementById('totalReferrals').textContent = currentUser.totalReferrals || 0;
-            document.getElementById('referralCode').textContent = currentUser.referralCode;
+            updateDashboard(currentUser);
+            updateIncomeBreakdown(currentUser);
+            updateReferralLink(currentUser);
         });
-        
+
+        function updateDashboard(user) {
+            document.getElementById('welcomeMessage').textContent = `স্বাগতম, ${user.fullName}!`;
+            document.getElementById('totalCoins').textContent = user.coins || 0;
+            document.getElementById('totalReferrals').textContent = user.totalReferrals || 0;
+            document.getElementById('referralCode').textContent = user.referralCode;
+            
+            // প্রিমিয়াম স্ট্যাটাস
+            const isPremium = user.premium || false;
+            const accountStatus = document.getElementById('accountStatus');
+            const userStatus = document.getElementById('userStatus');
+            const premiumInfo = document.getElementById('premiumInfo');
+            
+            if (isPremium) {
+                accountStatus.innerHTML = 'প্রিমিয়াম <span class="premium-badge">⭐</span>';
+                accountStatus.style.color = '#FFD700';
+                userStatus.textContent = 'আপনি প্রিমিয়াম মেম্বার!';
+                premiumInfo.textContent = 'সক্রিয়';
+                premiumInfo.style.color = 'green';
+            } else {
+                accountStatus.textContent = 'ফ্রি';
+                accountStatus.style.color = '#667eea';
+                userStatus.textContent = 'প্রিমিয়াম আপগ্রেড করে বেশি ইনকাম করুন!';
+                premiumInfo.innerHTML = '<button onclick="window.location.href=\'premium.html\'" style="background: #f39c12; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">আপগ্রেড করুন</button>';
+            }
+        }
+
+        function updateReferralLink(user) {
+            const referralLink = `https://incomehub000.github.io/Income-hub/register.html?ref=${user.referralCode}`;
+            document.getElementById('referralLink').textContent = referralLink;
+        }
+
+        function updateIncomeBreakdown(user) {
+            const incomeBreakdown = document.getElementById('incomeBreakdown');
+            const incomeData = user.incomeHistory || [
+                { source: 'রেজিস্ট্রেশন বোনাস', amount: 100, date: new Date().toLocaleDateString('bn-BD') },
+                { source: 'ফ্রি টাস্ক', amount: 50, date: new Date().toLocaleDateString('bn-BD') },
+                { source: 'রেফারেল বোনাস', amount: 20, date: new Date().toLocaleDateString('bn-BD') }
+            ];
+
+            let html = '';
+            incomeData.forEach(income => {
+                html += `
+                    <div class="income-item">
+                        <div>
+                            <span class="income-source">${income.source}</span>
+                            <br><small>${income.date}</small>
+                        </div>
+                        <span class="income-amount">+${income.amount} কয়েন</span>
+                    </div>
+                `;
+            });
+
+            // টোটাল ইনকাম
+            const totalIncome = incomeData.reduce((sum, income) => sum + income.amount, 0);
+            html += `
+                <div class="income-item" style="border-top: 2px solid #f39c12; margin-top: 10px; padding-top: 15px;">
+                    <span class="income-source" style="font-size: 1.1rem;">মোট ইনকাম</span>
+                    <span class="income-amount" style="font-size: 1.1rem;">${totalIncome} কয়েন</span>
+                </div>
+            `;
+
+            incomeBreakdown.innerHTML = html;
+        }
+
+        function copyReferralLink() {
+            const referralLink = document.getElementById('referralLink').textContent;
+            navigator.clipboard.writeText(referralLink).then(function() {
+                alert('রেফারেল লিংক কপি করা হয়েছে! এখন শেয়ার করুন।');
+            }).catch(function() {
+                alert('কপি করতে সমস্যা হচ্ছে। ম্যানুয়ালি কপি করুন।');
+            });
+        }
+
         function logout() {
             localStorage.removeItem('currentUser');
             alert('লগআউট সফল!');
