@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রিমিয়াম - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .premium-container {
+            max-width: 1200px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .premium-hero {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: black;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .premium-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .validity-info {
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .premium-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .coin-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .package-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .package-header {
+            padding: 25px;
+            text-align: center;
+            color: white;
+        }
+        
+        .package-basic .package-header { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .package-silver .package-header { background: linear-gradient(135deg, #C0C0C0, #A9A9A9); }
+        .package-gold .package-header { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .package-platinum .package-header { background: linear-gradient(135deg, #E5E4E2, #C0C0C0); }
+        .package-diamond .package-header { background: linear-gradient(135deg, #b9f2ff, #89CFF0); }
+        
+        .package-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .validity-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+        }
+        
+        .package-price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .package-features {
+            padding: 25px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .earnings-info {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .referral-bonus {
+            background: #e3f2fd;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 5px 0;
+            text-align: center;
+            border-left: 3px solid #2196F3;
+            font-size: 0.9rem;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .premium-tasks {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .task-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .task-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .task-reward {
+            background: #f39c12;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        
+        .view-ads-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .deposit-section {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .deposit-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .deposit-input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .deposit-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .active-premium {
+            background: #d4edda;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="premium-container">
+        <!-- প্রিমিয়াম হিরো -->
+        <div class="premium-hero">
+            <h1>⭐ প্রিমিয়াম সিস্টেম</h1>
+            <p>প্রিমিয়াম প্যাকেজ কিনে বেশি ইনকাম করুন</p>
+            <div class="validity-info">⏰ সকল প্যাকেজের মেয়াদ ৩০ দিন</div>
+        </div>
+        
+        <!-- সক্রিয় প্রিমিয়াম -->
+        <div class="active-premium" id="activePremium" style="display: none;">
+            <h3>✅ আপনার সক্রিয় প্রিমিয়াম প্যাকেজ</h3>
+            <p id="premiumInfoText">আপনার প্রিমিয়াম প্যাকেজ সক্রিয় আছে</p>
+            <p id="expiryInfoText">মেয়াদ শেষ হবে: </p>
+        </div>
+        
+        <!-- ব্যালেন্স স্ট্যাটস -->
+        <div class="premium-stats">
+            <div class="stat-card">
+                <h3>💰 মোট ব্যালেন্স</h3>
+                <div class="coin-amount" id="totalBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+            <div class="stat-card">
+                <h3>💎 প্রিমিয়াম ব্যালেন্স</h3>
+                <div class="coin-amount" id="premiumBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+            <div class="stat-card">
+                <h3>📊 ডিপোজিট ব্যালেন্স</h3>
+                <div class="coin-amount" id="depositBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+            <div class="stat-card">
+                <h3>👥 রেফারেল ব্যালেন্স</h3>
+                <div class="coin-amount" id="referralBalance">0</div>
+                <p>কয়েন</p>
+            </div>
+        </div>
+        
+        <!-- ডিপোজিট সেকশন -->
+        <div class="deposit-section">
+            <h3>💳 ডিপোজিট করুন</h3>
+            <p>প্রিমিয়াম প্যাকেজ কিনতে ডিপোজিট ব্যালেন্স প্রয়োজন</p>
+            <div class="deposit-form">
+                <input type="number" id="depositAmount" class="deposit-input" placeholder="কয়েনের পরিমাণ লিখুন (সর্বনিম্ন ১০০০)" min="1000">
+                <button class="deposit-btn" onclick="depositCoins()">ডিপোজিট করুন</button>
+            </div>
+            <small>ডিপোজিট করা কয়েন দিয়ে শুধু প্রিমিয়াম প্যাকেজ কেনা যাবে</small>
+        </div>
+        
+        <!-- প্রিমিয়াম প্যাকেজ -->
+        <h2 style="text-align: center; margin: 40px 0 20px 0; color: #333;">🎁 প্রিমিয়াম প্যাকেজ (৩০ দিনের জন্য)</h2>
+        
+        <div class="packages-grid">
+            <!-- ইজি প্যাকেজ -->
+            <div class="package-card package-basic">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">ইজি</span>
+                    <h3>শুরু</h3>
+                    <div class="package-price">১,০০০ কয়েন</div>
+                    <p>নতুনদের জন্য পারফেক্ট</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>২টি এড দেখার সুযোগ</li>
+                        <li>মোট ইনকাম: ১০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>বেসিক সাপোর্ট</li>
+                        <li>২৪/৭ এক্সেস</li>
+                    </ul>
+                    <div class="earnings-info">
+                        💰 দৈনিক ইনকাম: ১০০ কয়েন
+                    </div>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ১০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" onclick="buyPackage('easy', 1000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- বেসিক প্যাকেজ -->
+            <div class="package-card package-silver">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">বেসিক</span>
+                    <h3>স্ট্যান্ডার্ড</h3>
+                    <div class="package-price">৫,০০০ কয়েন</div>
+                    <p>নরমাল ইউজারদের জন্য</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>১০টি এড দেখার সুযোগ</li>
+                        <li>মোট ইনকাম: ৫০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>প্রিয়োরিটি সাপোর্ট</li>
+                        <li>এডভান্সড ফিচার</li>
+                    </ul>
+                    <div class="earnings-info">
+                        💰 দৈনিক ইনকাম: ৫০০ কয়েন
+                    </div>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ৫০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" onclick="buyPackage('basic', 5000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- সিলভার প্যাকেজ -->
+            <div class="package-card package-gold">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">সিলভার</span>
+                    <h3>এডভান্সড</h3>
+                    <div class="package-price">১০,০০০ কয়েন</div>
+                    <p>সিরিয়াস ইনকামের জন্য</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>২২টি এড দেখার সুযোগ</li>
+                        <li>মোট ইনকাম: ১,১০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>ভিআইপি সাপোর্ট</li>
+                        <li>এক্সক্লুসিভ ফিচার</li>
+                        <li>স্পেশাল বোনাস</li>
+                    </ul>
+                    <div class="earnings-info">
+                        💰 দৈনিক ইনকাম: ১,১০০ কয়েন
+                    </div>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ১,১০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" onclick="buyPackage('silver', 10000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- গোল্ড প্যাকেজ -->
+            <div class="package-card package-platinum">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">গোল্ড</span>
+                    <h3>প্রফেশনাল</h3>
+                    <div class="package-price">২৩,০০০ কয়েন</div>
+                    <p>হাই রিটার্ন ইনকাম</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>৫০টি এড দেখার সুযোগ</li>
+                        <li>মোট ইনকাম: ২,৫০০ কয়েন</li>
+                        <li>প্রতি এড = ৫০ কয়েন</li>
+                        <li>২৪/৭ ভিআইপি সাপোর্ট</li>
+                        <li>এলিট ফিচার</li>
+                        <li>স্পেশাল রিওয়ার্ড</li>
+                    </ul>
+                    <div class="earnings-info">
+                        💰 দৈনিক ইনকাম: ২,৫০০ কয়েন
+                    </div>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ২,৫০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" onclick="buyPackage('gold', 23000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- প্লাটিনাম প্যাকেজ -->
+            <div class="package-card package-diamond">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">প্লাটিনাম</span>
+                    <h3>এলিট</h3>
+                    <div class="package-price">৫০,০০০ কয়েন</div>
+                    <p>ম্যাক্সিমাম ইনকাম</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>৫৫টি এড দেখার সুযোগ</li>
+                        <li>মোট ইনকাম: ৫,৫০০ কয়েন</li>
+                        <li>প্রতি এড = ১০০ কয়েন</li>
+                        <li>পার্সোনাল ম্যানেজার</li>
+                        <li>আলটিমেট ফিচার</li>
+                        <li>এক্সক্লুসিভ বোনাস</li>
+                    </ul>
+                    <div class="earnings-info">
+                        💰 দৈনিক ইনকাম: ৫,৫০০ কয়েন
+                    </div>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ৫,৫০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" onclick="buyPackage('platinum', 50000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+            
+            <!-- ডায়মন্ড প্যাকেজ -->
+            <div class="package-card package-diamond">
+                <div class="package-header">
+                    <span class="validity-badge">৩০ দিন</span>
+                    <span class="package-badge">ডায়মন্ড</span>
+                    <h3>আলটিমেট</h3>
+                    <div class="package-price">১,০০,০০০ কয়েন</div>
+                    <p>আলটিমেট ইনকাম</p>
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>১২০টি এড দেখার সুযোগ</li>
+                        <li>মোট ইনকাম: ১২,০০০ কয়েন</li>
+                        <li>প্রতি এড = ১০০ কয়েন</li>
+                        <li>ডেডিকেটেড ম্যানেজার</li>
+                        <li>আলটিমেট ফিচার</li>
+                        <li>হাইয়েস্ট বোনাস</li>
+                        <li>হাইয়েস্ট প্রিয়োরিটি</li>
+                    </ul>
+                    <div class="earnings-info">
+                        💰 দৈনিক ইনকাম: ১২,০০০ কয়েন
+                    </div>
+                    <div class="referral-bonus">
+                        👥 রেফারেল বোনাস: ১২,০০০ কয়েন (১০%)
+                    </div>
+                    <button class="buy-btn" onclick="buyPackage('diamond', 100000)">প্যাকেজ কিনুন</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- প্রিমিয়াম টাস্ক -->
+        <div class="premium-tasks">
+            <h3 style="text-align: center; margin-bottom: 25px; color: #333;">📊 প্রিমিয়াম টাস্ক</h3>
+            <p style="text-align: center; margin-bottom: 20px; color: #666;">আপনার প্রিমিয়াম প্যাকেজের এড দেখে ইনকাম করুন</p>
+            
+            <div id="premiumTasksList">
+                <!-- প্রিমিয়াম টাস্কগুলো JavaScript দিয়ে লোড হবে -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // পেজ লোড হলে ব্যালেন্স আপডেট
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            checkPremiumValidity(currentUser);
+            updateBalances(currentUser);
+            loadPremiumTasks(currentUser);
+        });
+
+        function checkPremiumValidity(user) {
+            if (user.premium && user.premiumExpiry) {
+                const expiryDate = new Date(user.premiumExpiry);
+                const now = new Date();
+                
+                if (now > expiryDate) {
+                    // প্রিমিয়াম মেয়াদ শেষ
+                    user.premium = false;
+                    user.premiumPackage = null;
+                    user.premiumExpiry = null;
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    updateAllUsers(user);
+                    alert('আপনার প্রিমিয়াম প্যাকেজের মেয়াদ শেষ হয়েছে। নতুন করে সাবস্ক্রাইব করুন।');
+                } else {
+                    // প্রিমিয়াম সক্রিয় দেখাও
+                    document.getElementById('activePremium').style.display = 'block';
+                    const packageNames = {
+                        'easy': 'ইজি', 'basic': 'বেসিক', 'silver': 'সিলভার', 
+                        'gold': 'গোল্ড', 'platinum': 'প্লাটিনাম', 'diamond': 'ডায়মন্ড'
+                    };
+                    document.getElementById('premiumInfoText').textContent = 
+                        `প্যাকেজ: ${packageNames[user.premiumPackage]}`;
+                    document.getElementById('expiryInfoText').textContent = 
+                        `মেয়াদ শেষ হবে: ${new Date(user.premiumExpiry).toLocaleDateString('bn-BD')}`;
+                }
+            }
+        }
+
+        function updateBalances(user) {
+            document.getElementById('totalBalance').textContent = user.coins || 0;
+            document.getElementById('premiumBalance').textContent = user.premiumBalance || 0;
+            document.getElementById('depositBalance').textContent = user.depositBalance || 0;
+            document.getElementById('referralBalance').textContent = user.referralBalance || 0;
+        }
+
+        function depositCoins() {
+            const depositAmount = parseInt(document.getElementById('depositAmount').value);
+            
+            if (!depositAmount || depositAmount < 1000) {
+                alert('দয়া করে সর্বনিম্ন ১০০০ কয়েন ডিপোজিট করুন');
+                return;
+            }
+            
+            if (confirm(`${depositAmount} কয়েন ডিপোজিট করতে চান?`)) {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                
+                // ডিপোজিট ব্যালেন্স আপডেট
+                currentUser.depositBalance = (currentUser.depositBalance || 0) + depositAmount;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // সকল ইউজার আপডেট
+                updateAllUsers(currentUser);
+                
+                alert(`সফল! ${depositAmount} কয়েন আপনার ডিপোজিট ব্যালেন্সে যোগ করা হয়েছে`);
+                document.getElementById('depositAmount').value = '';
+                updateBalances(currentUser);
+            }
+        }
+
+        function buyPackage(packageType, packagePrice) {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if ((currentUser.depositBalance || 0) < packagePrice) {
+                alert('পর্যাপ্ত ডিপোজিট ব্যালেন্স নেই! প্রথমে ডিপোজিট করুন');
+                return;
+            }
+            
+            const packageNames = {
+                'easy': 'ইজি প্যাকেজ',
+                'basic': 'বেসিক প্যাকেজ',
+                'silver': 'সিলভার প্যাকেজ', 
+                'gold': 'গোল্ড প্যাকেজ',
+                'platinum': 'প্লাটিনাম প্যাকেজ',
+                'diamond': 'ডায়মন্ড প্যাকেজ'
+            };
+            
+            if (confirm(`${packageNames[packageType]} কিনতে চান? মূল্য: ${packagePrice} কয়েন (৩০ দিনের জন্য)`)) {
+                // ডিপোজিট ব্যালেন্স থেকে কাটুন
+                currentUser.depositBalance -= packagePrice;
+                
+                // প্রিমিয়াম স্ট্যাটাস আপডেট (৩০ দিনের জন্য)
+                currentUser.premium = true;
+                currentUser.premiumPackage = packageType;
+                currentUser.premiumExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                
+                // প্রিমিয়াম হিস্ট্রি যোগ করুন
+                if (!currentUser.premiumHistory) currentUser.premiumHistory = [];
+                currentUser.premiumHistory.push({
+                    package: packageType,
+                    price: packagePrice,
+                    purchaseDate: new Date().toLocaleDateString('bn-BD'),
+                    expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('bn-BD')
+                });
+
+                // রেফারেল বোনাস প্রয়োগ করুন (যদি রেফারার থাকে)
+                applyReferralBonus(currentUser, packagePrice);
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAllUsers(currentUser);
+                
+                alert(`সফল! ${packageNames[packageType]} এক্টিভ করা হয়েছে (৩০ দিনের জন্য)। এখন প্রিমিয়াম টাস্ক করতে পারবেন!`);
+                checkPremiumValidity(currentUser);
+                updateBalances(currentUser);
+                loadPremiumTasks(currentUser);
+            }
+        }
+
+        function applyReferralBonus(currentUser, packagePrice) {
+            // ১০% রেফারেল বোনাস
+            const referralBonus = Math.floor(packagePrice * 0.10);
+            
+            // রেফারেল বোনাস যোগ করুন
+            currentUser.referralBalance = (currentUser.referralBalance || 0) + referralBonus;
+            currentUser.coins = (currentUser.coins || 0) + referralBonus;
+            
+            // রেফারেল হিস্ট্রি যোগ করুন
+            if (!currentUser.referralHistory) currentUser.referralHistory = [];
+            currentUser.referralHistory.push({
+                type: 'premium_purchase',
+                amount: referralBonus,
+                date: new Date().toLocaleDateString('bn-BD'),
+                description: 'প্রিমিয়াম প্যাকেজ রেফারেল বোনাস'
+            });
+        }
+
+        function loadPremiumTasks(user) {
+            const tasksList = document.getElementById('premiumTasksList');
+            
+            if (!user.premium) {
+                tasksList.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #666;">
+                        <h4>প্রিমিয়াম টাস্ক এক্সেস করতে প্যাকেজ কিনুন</h4>
+                        <p>উপরে available প্যাকেজ থেকে যেকোনো একটি কিনে প্রিমিয়াম টাস্ক শুরু করুন</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const packageConfigs = {
+                'easy': { ads: 2, reward: 50 },
+                'basic': { ads: 10, reward: 50 },
+                'silver': { ads: 22, reward: 50 },
+                'gold': { ads: 50, reward: 50 },
+                'platinum': { ads: 55, reward: 100 },
+                'diamond': { ads: 120, reward: 100 }
+            };
+            
+            const config = packageConfigs[user.premiumPackage] || packageConfigs.basic;
+            
+            let html = '';
+            for (let i = 1; i <= config.ads; i++) {
+                html += `
+                    <div class="task-item">
+                        <div class="task-info">
+                            <h4>প্রিমিয়াম এড #${i}</h4>
+                            <p>প্রিমিয়াম কন্টেন্ট দেখুন এবং রিভিউ দিন</p>
+                        </div>
+                        <div>
+                            <span class="task-reward">${config.reward} কয়েন</span>
+                            <button class="view-ads-btn" onclick="viewPremiumAd(${i}, ${config.reward})">এড দেখুন</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            tasksList.innerHTML = html;
+        }
+
+        function viewPremiumAd(adNumber, reward) {
+            if (confirm(`প্রিমিয়াম এড #${adNumber} দেখতে চান? পুরস্কার: ${reward} কয়েন`)) {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                
+                // প্রিমিয়াম ব্যালেন্স যোগ করুন
+                currentUser.premiumBalance = (currentUser.premiumBalance || 0) + reward;
+                currentUser.coins = (currentUser.coins || 0) + reward;
+                
+                // এড হিস্ট্রি যোগ করুন
+                if (!currentUser.adHistory) currentUser.adHistory = [];
+                currentUser.adHistory.push({
+                    type: 'premium',
+                    adNumber: adNumber,
+                    reward: reward,
+                    date: new Date().toLocaleString('bn-BD')
+                });
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAllUsers(currentUser);
+                
+                alert(`সফল! ${reward} কয়েন আপনার প্রিমিয়াম এবং মেইন ব্যালেন্সে যোগ করা হয়েছে`);
+                updateBalances(currentUser);
+            }
+        }
+
+        function updateAllUsers(updatedUser) {
+            let allUsers = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            allUsers = allUsers.map(user => 
+                user.id === updatedUser.id ? updatedUser : user
+            );
+            localStorage.setItem('incomeHubUsers', JSON.stringify(allUsers));
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('লগআউট সফল!');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
