@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>টাস্ক - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tasks-container {
+            max-width: 1000px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .whatsapp-notice {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .whatsapp-notice h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .whatsapp-link {
+            background: white;
+            color: #25D366;
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            border: 2px solid white;
+        }
+        
+        .whatsapp-link:hover {
+            background: #25D366;
+            color: white;
+        }
+        
+        .pending-balance {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .pending-balance h3 {
+            color: #856404;
+            margin-bottom: 5px;
+        }
+        
+        .task-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .task-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .task-title {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .task-reward {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+        
+        .task-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .task-simple-req {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .task-simple-req h4 {
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        .video-info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .account-list {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        
+        .account-item {
+            background: white;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            border-left: 3px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tasks-container">
+        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">🎯 টাস্ক সিস্টেম</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">একাউন্ট তৈরি করে কয়েন অর্জন করুন</p>
+        
+        <!-- পেন্ডিং ব্যালেন্স -->
+        <div class="pending-balance" id="pendingBalanceSection" style="display: none;">
+            <h3>⏳ পেন্ডিং ব্যালেন্স</h3>
+            <p id="pendingBalanceText">আপনার পেন্ডিং ব্যালেন্স: <strong>0 কয়েন</strong></p>
+            <small>এডমিন এপ্রুভ করার পর ব্যালেন্স যোগ হবে (২৪ ঘন্টার মধ্যে)</small>
+        </div>
+        
+        <!-- WhatsApp Notice -->
+        <div class="whatsapp-notice">
+            <h3>📹 কাজের ভিডিও পেতে যোগাযোগ করুন</h3>
+            <p>প্রত্যেকটা কাজের সম্পূর্ণ ভিডিও টিউটোরিয়াল আমাদের WhatsApp চ্যানেলে দেওয়া আছে</p>
+            <a href="https://whatsapp.com/channel/0029Vb7qod8Bqbr6xYApaD42" class="whatsapp-link" target="_blank">
+                📱 WhatsApp চ্যানেলে জয়িন করুন
+            </a>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.9;">
+                ভিডিও দেখে কাজ শিখে নিন, তারপর টাস্ক সাবমিট করুন
+            </p>
+        </div>
+        
+        <!-- টাস্ক লিস্ট -->
+        <div class="task-list" id="taskList">
+            <!-- Gmail Task -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">Gmail Account Creation</h3>
+                        <p class="task-description">Create a new Gmail account with basic setup</p>
+                    </div>
+                    <span class="task-reward">100 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ শুধু Gmail অ্যাকাউন্ট তৈরি করুন<br>
+                       ✅ কোনো প্রোফাইল পিকচার লাগবে না<br>
+                       ✅ কোনো নাম্বার ভেরিফিকেশন লাগবে না</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="gmailAccounts">Gmail Accounts (প্রতি লাইনে একটি Gmail):</label>
+                    <textarea id="gmailAccounts" placeholder="example1@gmail.com&#10;example2@gmail.com&#10;example3@gmail.com"></textarea>
+                    <small>প্রতিটি Gmail এর জন্য 100 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="gmailSheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="gmailSheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('gmail', 100, 'Gmail Account Creation')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <!-- Facebook Tasks -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">0FRD 2FA Facebook Account</h3>
+                        <p class="task-description">Create Facebook account with 0 friends and 2FA</p>
+                    </div>
+                    <span class="task-reward">50 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ 0 Friends Facebook অ্যাকাউন্ট<br>
+                       ✅ 2FA enabled করুন<br>
+                       ✅ কোনো এক্সট্রা কাজ লাগবে না</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="facebook1Accounts">Facebook Accounts (ইউজারনেম বা Email):</label>
+                    <textarea id="facebook1Accounts" placeholder="username1&#10;username2&#10;email1@example.com"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 50 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="facebook1Sheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="facebook1Sheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('facebook1', 50, '0FRD 2FA Facebook Account')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">30+FRD 2FA Facebook Account</h3>
+                        <p class="task-description">Facebook account with 30+ friends and 2FA</p>
+                    </div>
+                    <span class="task-reward">90 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ 30+ Friends Facebook অ্যাকাউন্ট<br>
+                       ✅ 2FA enabled করুন<br>
+                       ✅ শুধু অ্যাকাউন্ট তৈরি করে দিন</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="facebook2Accounts">Facebook Accounts (ইউজারনেম বা Email):</label>
+                    <textarea id="facebook2Accounts" placeholder="username1&#10;username2&#10;email1@example.com"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 90 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="facebook2Sheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="facebook2Sheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('facebook2', 90, '30+FRD 2FA Facebook Account')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <!-- Hotmail Tasks -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">30+ 2FA Hotmail Account</h3>
+                        <p class="task-description">Hotmail account with 2FA enabled</p>
+                    </div>
+                    <span class="task-reward">80 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ Hotmail/Outlook অ্যাকাউন্ট<br>
+                       ✅ 2FA enabled করুন<br>
+                       ✅ কোনো ভেরিফিকেশন লাগবে না</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="hotmail1Accounts">Hotmail Accounts (Email):</label>
+                    <textarea id="hotmail1Accounts" placeholder="example1@hotmail.com&#10;example2@outlook.com"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 80 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="hotmail1Sheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="hotmail1Sheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('hotmail1', 80, '30+ 2FA Hotmail Account')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">50+FRD 2FA Hotmail Facebook</h3>
+                        <p class="task-description">Facebook with Hotmail email and 50+ friends</p>
+                    </div>
+                    <span class="task-reward">110 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ Hotmail email দিয়ে Facebook<br>
+                       ✅ 50+ Friends অ্যাকাউন্ট<br>
+                       ✅ 2FA enabled করুন</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="hotmail2Accounts">Facebook Accounts (ইউজারনেম বা Email):</label>
+                    <textarea id="hotmail2Accounts" placeholder="username1&#10;username2&#10;email1@hotmail.com"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 110 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="hotmail2Sheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="hotmail2Sheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('hotmail2', 110, '50+FRD 2FA Hotmail Facebook')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <!-- Instagram Task -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">Instagram Account Creation</h3>
+                        <p class="task-description">Create a new Instagram account</p>
+                    </div>
+                    <span class="task-reward">30 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ নতুন Instagram অ্যাকাউন্ট<br>
+                       ✅ কোনো প্রোফাইল পিকচার লাগবে না<br>
+                       ✅ কোনো এক্সট্রা কাজ লাগবে না</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="instagramAccounts">Instagram Accounts (ইউজারনেম):</label>
+                    <textarea id="instagramAccounts" placeholder="username1&#10;username2&#10;username3"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 30 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="instagramSheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="instagramSheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('instagram', 30, 'Instagram Account Creation')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <!-- Other Tasks -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">Old Clone Account</h3>
+                        <p class="task-description">Provide old cloned social media account</p>
+                    </div>
+                    <span class="task-reward">350 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ পুরানো ক্লোন অ্যাকাউন্ট<br>
+                       ✅ 6+ মাস পুরানো<br>
+                       ✅ শুধু অ্যাকাউন্ট দিলেই হবে</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="cloneAccounts">Clone Accounts (ইউজারনেম বা UID):</label>
+                    <textarea id="cloneAccounts" placeholder="username1&#10;uid123456&#10;username2"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 350 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="cloneSheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="cloneSheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('clone', 350, 'Old Clone Account')">টাস্ক সাবমিট করুন</button>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div>
+                        <h3 class="task-title">TextNow Account</h3>
+                        <p class="task-description">Create TextNow account for verification</p>
+                    </div>
+                    <span class="task-reward">200 কয়েন</span>
+                </div>
+                
+                <div class="task-simple-req">
+                    <h4>সিম্পল রিকোয়ারমেন্ট:</h4>
+                    <p>✅ নতুন TextNow অ্যাকাউন্ট<br>
+                       ✅ কোনো ভেরিফিকেশন লাগবে না<br>
+                       ✅ শুধু অ্যাকাউন্ট তৈরি করুন</p>
+                </div>
+                
+                <div class="video-info">
+                    <strong>📹 ভিডিও টিউটোরিয়াল:</strong> উপরের WhatsApp চ্যানেলে ভিডিও দেওয়া আছে
+                </div>
+                
+                <div class="form-group">
+                    <label for="textnowAccounts">TextNow Accounts (ইউজারনেম):</label>
+                    <textarea id="textnowAccounts" placeholder="username1&#10;username2&#10;username3"></textarea>
+                    <small>প্রতিটি অ্যাকাউন্টের জন্য 200 কয়েন পাবেন</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="textnowSheet">Google Sheet Link (ঐচ্ছিক):</label>
+                    <input type="url" id="textnowSheet" placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+                <button class="start-btn" onclick="submitTask('textnow', 200, 'TextNow Account')">টাস্ক সাবমিট করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // পেজ লোড হলে পেন্ডিং ব্যালেন্স দেখাও
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.pendingBalance > 0) {
+                document.getElementById('pendingBalanceSection').style.display = 'block';
+                document.getElementById('pendingBalanceText').innerHTML = 
+                    `আপনার পেন্ডিং ব্যালেন্স: <strong>${currentUser.pendingBalance} কয়েন</strong>`;
+            }
+        });
+
+        function submitTask(taskType, reward, taskName) {
+            const accountsInput = document.getElementById(taskType + 'Accounts');
+            const sheetInput = document.getElementById(taskType + 'Sheet');
+            
+            const accountsText = accountsInput.value.trim();
+            const googleSheetLink = sheetInput.value.trim();
+            
+            if (!accountsText) {
+                alert('দয়া করে অ্যাকাউন্টের তথ্য দিন');
+                return;
+            }
+            
+            // অ্যাকাউন্ট কাউন্ট করুন
+            const accounts = accountsText.split('\n').filter(acc => acc.trim() !== '');
+            const accountCount = accounts.length;
+            
+            if (accountCount === 0) {
+                alert('দয়া করে কমপক্ষে একটি অ্যাকাউন্টের তথ্য দিন');
+                return;
+            }
+            
+            const totalReward = reward * accountCount;
+            
+            if (confirm(`আপনি ${accountCount}টি "${taskName}" টাস্ক সাবমিট করতে চান? মোট পুরস্কার: ${totalReward} কয়েন`)) {
+                // পেন্ডিং ব্যালেন্স যোগ করুন
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                currentUser.pendingBalance = (currentUser.pendingBalance || 0) + totalReward;
+                
+                // টাস্ক হিস্ট্রি যোগ করুন
+                if (!currentUser.taskHistory) currentUser.taskHistory = [];
+                currentUser.taskHistory.push({
+                    task: taskName,
+                    reward: totalReward,
+                    accountCount: accountCount,
+                    accounts: accounts,
+                    sheetLink: googleSheetLink,
+                    date: new Date().toLocaleDateString('bn-BD'),
+                    status: 'pending',
+                    type: taskType
+                });
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // সকল ইউজার আপডেট
+                let allUsers = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+                allUsers = allUsers.map(user => 
+                    user.id === currentUser.id ? currentUser : user
+                );
+                localStorage.setItem('incomeHubUsers', JSON.stringify(allUsers));
+                
+                // এডমিনের জন্য টাস্ক সাবমিশন সেভ করুন
+                saveAdminSubmission(currentUser, taskName, totalReward, accountCount, accounts, googleSheetLink, taskType);
+                
+                alert(`টাস্ক সাবমিট সফল! ${totalReward} কয়েন পেন্ডিং এ যোগ করা হয়েছে। এডমিন চেক করার পর ব্যালেন্স কনফার্ম হবে (২৪ ঘন্টার মধ্যে)।`);
+                
+                // ফর্ম ক্লিয়ার করুন
+                accountsInput.value = '';
+                sheetInput.value = '';
+                
+                // পেন্ডিং ব্যালেন্স আপডেট করুন
+                document.getElementById('pendingBalanceSection').style.display = 'block';
+                document.getElementById('pendingBalanceText').innerHTML = 
+                    `আপনার পেন্ডিং ব্যালেন্স: <strong>${currentUser.pendingBalance} কয়েন</strong>`;
+            }
+        }
+
+        function saveAdminSubmission(user, taskName, reward, accountCount, accounts, sheetLink, taskType) {
+            // এডমিন সাবমিশন সেভ করুন
+            let adminSubmissions = JSON.parse(localStorage.getItem('adminTaskSubmissions') || '[]');
+            
+            adminSubmissions.push({
+                userId: user.id,
+                userName: user.fullName,
+                userEmail: user.email,
+                taskName: taskName,
+                reward: reward,
+                accountCount: accountCount,
+                accounts: accounts,
+                sheetLink: sheetLink,
+                taskType: taskType,
+                submissionDate: new Date().toLocaleString('bn-BD'),
+                status: 'pending'
+            });
+            
+            localStorage.setItem('adminTaskSubmissions', JSON.stringify(adminSubmissions));
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('লগআউট সফল!');
+            window.location.href = 'index.html';
+        }
+    </script>
+  </body>
+</html>
