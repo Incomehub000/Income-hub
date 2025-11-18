@@ -104,6 +104,31 @@
             color: #856404;
         }
         
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .services-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -112,6 +137,56 @@
             .nav-buttons {
                 display: none;
             }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .hero-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tasks-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .premium-btn {
+            background: #FFD700;
+            color: black;
+        }
+        
+        .nav-tasks-btn {
+            background: #4CAF50;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .nav-premium-btn {
+            background: #FFD700;
+            color: black;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -120,11 +195,14 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h2>INCOME HUB</h2>
+                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
             </div>
             <div class="nav-buttons">
-                <button class="btn login-btn" onclick="window.location.href='login.html'">লগইন</button>
-                <button class="btn register-btn" onclick="window.location.href='register.html'">রেজিস্ট্রেশন</button>
+                <!-- নতুন টাস্ক এবং প্রিমিয়াম বাটন -->
+                <button class="btn nav-tasks-btn" onclick="window.location.href='tasks.html'">📋 টাস্ক</button>
+                <button class="btn nav-premium-btn" onclick="window.location.href='premium.html'">⭐ প্রিমিয়াম</button>
+                <button class="btn login-btn" onclick="window.location.href='login.html'">🔐 লগইন</button>
+                <button class="btn register-btn" onclick="window.location.href='register.html'">📝 রেজিস্ট্রেশন</button>
             </div>
             <div class="menu-toggle" onclick="toggleMenu()">
                 <span></span>
@@ -138,6 +216,8 @@
     <div class="mobile-menu" id="mobileMenu">
         <ul>
             <li><a href="index.html">🏠 হোম পেজ</a></li>
+            <li><a href="tasks.html">📋 টাস্ক সিস্টেম</a></li>
+            <li><a href="premium.html">⭐ প্রিমিয়াম</a></li>
             <li><a href="login.html">🔐 লগইন</a></li>
             <li><a href="register.html">📝 রেজিস্ট্রেশন</a></li>
             <li><a href="dashboard.html">📊 ড্যাশবোর্ড</a></li>
@@ -150,6 +230,58 @@
             <h1>স্বাগতম INCOME HUB এ</h1>
             <p>অনলাইনে আয় করুন সহজভাবে। কোনো ডিপোজিট ছাড়াই শুরু করুন!</p>
             <button class="cta-btn" onclick="window.location.href='register.html'">এখনই শুরু করুন</button>
+            
+            <!-- নতুন হিরো বাটন -->
+            <div class="hero-buttons">
+                <button class="hero-btn tasks-btn" onclick="window.location.href='tasks.html'">
+                    📋 টাস্ক সিস্টেম
+                </button>
+                <button class="hero-btn premium-btn" onclick="window.location.href='premium.html'">
+                    ⭐ প্রিমিয়াম প্যাকেজ
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- সার্ভিস সেকশন -->
+    <section class="services-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px; color: #333;">আমাদের সার্ভিসসমূহ</h2>
+            
+            <div class="services-grid">
+                <!-- টাস্ক সার্ভিস -->
+                <div class="service-card" style="border-top: 5px solid #4CAF50;">
+                    <h3 style="color: #4CAF50; margin-bottom: 15px;">📋 টাস্ক সিস্টেম</h3>
+                    <p style="color: #666; margin-bottom: 20px;">বিভিন্ন ধরনের টাস্ক কমপ্লিট করে কয়েন অর্জন করুন</p>
+                    <ul style="text-align: left; color: #555; margin-bottom: 20px; padding-left: 20px;">
+                        <li>সোশ্যাল মিডিয়া অ্যাকাউন্ট তৈরি</li>
+                        <li>ইমেইল অ্যাকাউন্ট ভেরিফিকেশন</li>
+                        <li>ম্যানুয়াল এপ্রুভাল সিস্টেম</li>
+                        <li>২৪ ঘন্টার মধ্যে পেমেন্ট</li>
+                        <li>WhatsApp টিউটোরিয়াল সাপোর্ট</li>
+                    </ul>
+                    <button class="hero-btn tasks-btn" onclick="window.location.href='tasks.html'" style="width: 100%;">
+                        🎯 টাস্ক শুরু করুন
+                    </button>
+                </div>
+                
+                <!-- প্রিমিয়াম সার্ভিস -->
+                <div class="service-card" style="border-top: 5px solid #FFD700;">
+                    <h3 style="color: #FFD700; margin-bottom: 15px;">⭐ প্রিমিয়াম সিস্টেম</h3>
+                    <p style="color: #666; margin-bottom: 20px;">প্রিমিয়াম প্যাকেজ কিনে বেশি ইনকাম করুন</p>
+                    <ul style="text-align: left; color: #555; margin-bottom: 20px; padding-left: 20px;">
+                        <li>৬টি প্রিমিয়াম প্যাকেজ</li>
+                        <li>৩০ দিন মেয়াদ</li>
+                        <li>১০% রেফারেল বোনাস</li>
+                        <li>হাইয়ার ইনকাম রেট</li>
+                        <li>এক্সক্লুসিভ টাস্ক</li>
+                        <li>অটো এক্সপায়ার সিস্টেম</li>
+                    </ul>
+                    <button class="hero-btn premium-btn" onclick="window.location.href='premium.html'" style="width: 100%;">
+        💎 প্রিমিয়াম দেখুন
+    </button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -296,6 +428,16 @@
             
             if (!menuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
                 mobileMenu.classList.remove('active');
+            }
+        });
+
+        // স্ক্রল এফেক্ট জন্য
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(44, 62, 80, 0.95)';
+            } else {
+                navbar.style.background = '#2c3e50';
             }
         });
     </script>
