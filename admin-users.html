@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ইউজার ম্যানেজমেন্ট - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>INCOME HUB</h2>
+                <p>এডমিন প্যানেল</p>
+            </div>
+            <ul class="admin-sidebar-menu">
+                <li><a href="admin-dashboard.html"><span class="admin-menu-icon">📊</span> ড্যাশবোর্ড</a></li>
+                <li><a href="admin-users.html" class="active"><span class="admin-menu-icon">👥</span> ইউজার ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-staff.html"><span class="admin-menu-icon">👑</span> স্টাফ ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-tasks.html"><span class="admin-menu-icon">📋</span> টাস্ক রিভিউ</a></li>
+                <li><a href="admin-deposits.html"><span class="admin-menu-icon">💰</span> ডিপোজিট রিকোয়েস্ট</a></li>
+                <li><a href="admin-withdrawals.html"><span class="admin-menu-icon">💳</span> উইথড্র রিকোয়েস্ট</a></li>
+                <li><a href="admin-reports.html"><span class="admin-menu-icon">📈</span> রিপোর্টস</a></li>
+                <li><a href="admin-settings.html"><span class="admin-menu-icon">⚙️</span> সেটিংস</a></li>
+                <li><a href="javascript:void(0)" onclick="adminLogout()"><span class="admin-menu-icon">🚪</span> লগআউট</a></li>
+            </ul>
+        </div>
+        
+        <div class="admin-main-content">
+            <div class="admin-top-bar">
+                <div class="website-name">
+                    <span>INCOME HUB</span>
+                    <span style="font-size: 1rem; opacity: 0.7;">- ইউজার ম্যানেজমেন্ট</span>
+                </div>
+                <div class="user-info">
+                    <span id="adminWelcome">লোড হচ্ছে...</span>
+                    <span class="role-badge" id="adminRoleBadge">এডমিন</span>
+                </div>
+            </div>
+            
+            <div class="admin-content-area">
+                <h2>👥 ইউজার ম্যানেজমেন্ট</h2>
+                <div id="usersList">
+                    <!-- ইউজার লিস্ট এখানে লোড হবে -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin'));
+            if (!currentAdmin) {
+                alert('দয়া করে প্রথমে এডমিন লগইন করুন!');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            updateAdminData(currentAdmin);
+            loadUsers();
+        });
+        
+        function updateAdminData(admin) {
+            document.getElementById('adminWelcome').textContent = `স্বাগতম, ${admin.fullName}!`;
+            const roleBadge = document.getElementById('adminRoleBadge');
+            roleBadge.textContent = admin.role === 'super_admin' ? 'সুপার এডমিন' : 'এডমিন';
+            roleBadge.className = `role-badge role-${admin.role}`;
+        }
+        
+        function loadUsers() {
+            const users = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            const usersList = document.getElementById('usersList');
+            
+            let html = '<div class="admin-table">';
+            html += '<div class="admin-table-header"><div>নাম</div><div>ইমেইল</div><div>ব্যালেন্স</div><div>স্ট্যাটাস</div><div>অ্যাকশন</div></div>';
+            
+            users.forEach(user => {
+                html += `
+                    <div class="admin-table-row">
+                        <div>${user.name || 'নাম নেই'}</div>
+                        <div>${user.email || 'ইমেইল নেই'}</div>
+                        <div>${user.balance || 0} কয়েন</div>
+                        <div><span class="admin-status-badge admin-status-approved">সক্রিয়</span></div>
+                        <div>
+                            <button class="admin-btn admin-btn-view">দেখুন</button>
+                            <button class="admin-btn admin-btn-approve">এডিট</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            usersList.innerHTML = html || '<p>কোনো ইউজার নেই</p>';
+        }
+        
+        function adminLogout() {
+            if (confirm('আপনি কি এডমিন লগআউট করতে চান?')) {
+                localStorage.removeItem('currentAdmin');
+                alert('এডমিন লগআউট সফল!');
+                window.location.href = 'admin-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
