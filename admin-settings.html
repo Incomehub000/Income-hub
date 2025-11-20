@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সেটিংস - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 280px; background: linear-gradient(135deg, #2c3e50, #34495e); color: white; position: fixed; height: 100vh; overflow-y: auto; z-index: 1000; }
+        .admin-sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid #40566b; background: rgba(255,255,255,0.05); }
+        .admin-sidebar-header h2 { margin: 0; font-size: 1.5rem; color: #e74c3c; }
+        .admin-sidebar-header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        .admin-sidebar-menu { list-style: none; padding: 0; margin: 0; }
+        .admin-sidebar-menu li { border-bottom: 1px solid #40566b; }
+        .admin-sidebar-menu a { display: flex; align-items: center; color: white; text-decoration: none; padding: 18px 25px; transition: all 0.3s; border-left: 4px solid transparent; }
+        .admin-sidebar-menu a:hover { background: rgba(231, 76, 60, 0.1); border-left-color: #e74c3c; padding-left: 30px; }
+        .admin-sidebar-menu a.active { background: rgba(231, 76, 60, 0.2); border-left-color: #e74c3c; color: #e74c3c; }
+        .admin-menu-icon { margin-right: 15px; font-size: 1.3rem; width: 25px; text-align: center; }
+        .admin-main-content { flex: 1; margin-left: 280px; padding: 0; background: #f8f9fa; min-height: 100vh; }
+        .admin-top-bar { background: white; padding: 20px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content-area { padding: 30px; }
+        .page-header { background: linear-gradient(135deg, #34495e, #2c3e50); color: white; padding: 25px 30px; border-radius: 15px; margin-bottom: 30px; }
+        .settings-tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #e9ecef; }
+        .tab-btn { background: none; border: none; padding: 15px 25px; cursor: pointer; font-weight: 600; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; }
+        .tab-btn.active { color: #e74c3c; border-bottom-color: #e74c3c; }
+        .tab-btn:hover { color: #e74c3c; }
+        .settings-content { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #667eea; outline: none; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .btn-save { background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: transform 0.3s; }
+        .btn-save:hover { transform: translateY(-2px); }
+        .system-info { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 30px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .info-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef; }
+        .info-label { font-weight: 600; color: #555; }
+        .info-value { color: #333; }
+        .danger-zone { background: #f8d7da; border: 1px solid #f5c6cb; padding: 25px; border-radius: 10px; margin-top: 30px; }
+        .danger-zone h3 { color: #721c24; margin-bottom: 15px; }
+        .btn-danger { background: #e74c3c; color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-danger:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header"><h2>INCOME HUB</h2><p>এডমিন প্যানেল</p></div>
+            <ul class="admin-sidebar-menu">
+                <li><a href="admin-dashboard.html"><span class="admin-menu-icon">📊</span> ড্যাশবোর্ড</a></li>
+                <li><a href="admin-users.html"><span class="admin-menu-icon">👥</span> ইউজার ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-staff.html"><span class="admin-menu-icon">👑</span> স্টাফ ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-tasks.html"><span class="admin-menu-icon">📋</span> টাস্ক রিভিউ</a></li>
+                <li><a href="admin-deposits.html"><span class="admin-menu-icon">💰</span> ডিপোজিট রিকোয়েস্ট</a></li>
+                <li><a href="admin-withdrawals.html"><span class="admin-menu-icon">💳</span> উইথড্র রিকোয়েস্ট</a></li>
+                <li><a href="admin-reports.html"><span class="admin-menu-icon">📈</span> রিপোর্টস</a></li>
+                <li><a href="admin-settings.html" class="active"><span class="admin-menu-icon">⚙️</span> সেটিংস</a></li>
+                <li><a href="javascript:void(0)" onclick="adminLogout()"><span class="admin-menu-icon">🚪</span> লগআউট</a></li>
+            </ul>
+        </div>
+        
+        <div class="admin-main-content">
+            <div class="admin-top-bar">
+                <div class="website-name"><span>INCOME HUB</span><span style="font-size: 1rem; opacity: 0.7;">- সেটিংস</span></div>
+                <div class="user-info"><span id="adminWelcome">লোড হচ্ছে...</span><span class="role-badge" id="adminRoleBadge">এডমিন</span></div>
+            </div>
+            
+            <div class="page-header">
+                <h1 style="margin: 0 0 10px 0; font-size: 2rem;">⚙️ সিস্টেম সেটিংস</h1>
+                <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">সিস্টেম কনফিগারেশন এবং ম্যানেজমেন্ট</p>
+            </div>
+            
+            <div class="admin-content-area">
+                <div class="settings-tabs">
+                    <button class="tab-btn active" onclick="openTab('general')">সাধারণ</button>
+                    <button class="tab-btn" onclick="openTab('payment')">পেমেন্ট</button>
+                    <button class="tab-btn" onclick="openTab('tasks')">টাস্ক</button>
+                    <button class="tab-btn" onclick="openTab('security')">নিরাপত্তা</button>
+                </div>
+                
+                <div class="settings-content">
+                    <!-- সাধারণ সেটিংস -->
+                    <div id="general" class="tab-content active">
+                        <h2 style="margin-bottom: 25px; color: #333;">সাধারণ সেটিংস</h2>
+                        <form id="generalSettingsForm">
+                            <div class="form-group">
+                                <label for="siteName">ওয়েবসাইট নাম</label>
+                                <input type="text" id="siteName" value="INCOME HUB" placeholder="ওয়েবসাইটের নাম">
+                            </div>
+                            <div class="form-group">
+                                <label for="siteUrl">ওয়েবসাইট URL</label>
+                                <input type="url" id="siteUrl" value="https://incomehub.com" placeholder="ওয়েবসাইটের URL">
+                            </div>
+                            <div class="form-group">
+                                <label for="adminEmail">এডমিন ইমেইল</label>
+                                <input type="email" id="adminEmail" value="admin@incomehub.com" placeholder="এডমিন ইমেইল">
+                            </div>
+                            <div class="form-group">
+                                <label for="coinRate">কয়েন রেট (কয়েন প্রতি টাকা)</label>
+                                <input type="number" id="coinRate" value="10" placeholder="কয়েন রেট">
+                                <small style="color: #666;">১০ কয়েন = ১ টাকা</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="siteDescription">ওয়েবসাইট বিবরণ</label>
+                                <textarea id="siteDescription" placeholder="ওয়েবসাইটের সংক্ষিপ্ত বিবরণ">ইনকাম হাব - আপনার আয়ের নির্ভরযোগ্য প্লাটফর্ম</textarea>
+                            </div>
+                            <button type="button" class="btn-save" onclick="saveGeneralSettings()">সেটিংস সেভ করুন</button>
+                        </form>
+                    </div>
+                    
+                    <!-- পেমেন্ট সেটিংস -->
+                    <div id="payment" class="tab-content">
+                        <h2 style="margin-bottom: 25px; color: #333;">পেমেন্ট সেটিংস</h2>
+                        <form id="paymentSettingsForm">
+                            <div class="form-group">
+                                <label for="minDeposit">ন্যূনতম ডিপোজিট</label>
+                                <input type="number" id="minDeposit" value="10" placeholder="ন্যূনতম ডিপোজিট পরিমাণ">
+                            </div>
+                            <div class="form-group">
+                                <label for="maxDeposit">সর্বোচ্চ ডিপোজিট</label>
+                                <input type="number" id="maxDeposit" value="10000" placeholder="সর্বোচ্চ ডিপোজিট পরিমাণ">
+                            </div>
+                            <div class="form-group">
+                                <label for="minWithdraw">ন্যূনতম উইথড্র</label>
+                                <input type="number" id="minWithdraw" value="100" placeholder="ন্যূনতম উইথড্র কয়েন">
+                            </div>
+                            <div class="form-group">
+                                <label for="withdrawFee">উইথড্র ফি (%)</label>
+                                <input type="number" id="withdrawFee" value="5" placeholder="উইথড্র ফি শতাংশ" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>পেমেন্ট মেথড</label>
+                                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                    <label style="display: flex; align-items: center; gap: 5px;">
+                                        <input type="checkbox" name="paymentMethods" value="bkash" checked> বিকাশ
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 5px;">
+                                        <input type="checkbox" name="paymentMethods" value="nagad" checked> নগদ
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 5px;">
+                                        <input type="checkbox" name="paymentMethods" value="rocket"> রকেট
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-save" onclick="savePaymentSettings()">পেমেন্ট সেটিংস সেভ করুন</button>
+                        </form>
+                    </div>
+                    
+                    <!-- টাস্ক সেটিংস -->
+                    <div id="tasks" class="tab-content">
+                        <h2 style="margin-bottom: 25px; color: #333;">টাস্ক সেটিংস</h2>
+                        <form id="taskSettingsForm">
+                            <div class="form-group">
+                                <label for="dailyTaskLimit">দৈনিক টাস্ক লিমিট</label>
+                                <input type="number" id="dailyTaskLimit" value="10" placeholder="প্রতিদিন সর্বোচ্চ টাস্ক">
+                            </div>
+                            <div class="form-group">
+                                <label for="taskApprovalTime">টাস্ক অ্যাপ্রুভাল সময় (ঘন্টা)</label>
+                                <input type="number" id="taskApprovalTime" value="24" placeholder="টাস্ক অ্যাপ্রুভাল সময়">
+                            </div>
+                            <div class="form-group">
+                                <label for="minTaskCoins">ন্যূনতম টাস্ক কয়েন</label>
+                                <input type="number" id="minTaskCoins" value="5" placeholder="ন্যূনতম টাস্ক কয়েন">
+                            </div>
+                            <div class="form-group">
+                                <label for="maxTaskCoins">সর্বোচ্চ টাস্ক কয়েন</label>
+                                <input type="number" id="maxTaskCoins" value="100" placeholder="সর্বোচ্চ টাস্ক কয়েন">
+                            </div>
+                            <div class="form-group">
+                                <label for="taskCategories">টাস্ক ক্যাটাগরিস</label>
+                                <textarea id="taskCategories" placeholder="টাস্ক ক্যাটাগরিস (কমা দিয়ে আলাদা করুন)">YouTube, Facebook, Instagram, Website, App Review, Survey</textarea>
+                            </div>
+                            <button type="button" class="btn-save" onclick="saveTaskSettings()">টাস্ক সেটিংস সেভ করুন</button>
+                        </form>
+                    </div>
+                    
+                    <!-- নিরাপত্তা সেটিংস -->
+                    <div id="security" class="tab-content">
+                        <h2 style="margin-bottom: 25px; color: #333;">নিরাপত্তা সেটিংস</h2>
+                        <form id="securitySettingsForm">
+                            <div class="form-group">
+                                <label for="adminSessionTimeout">এডমিন সেশন টাইমআউট (মিনিট)</label>
+                                <input type="number" id="adminSessionTimeout" value="60" placeholder="সেশন টাইমআউট">
+                            </div>
+                            <div class="form-group">
+                                <label for="maxLoginAttempts">সর্বোচ্চ লগইন প্রচেষ্টা</label>
+                                <input type="number" id="maxLoginAttempts" value="5" placeholder="সর্বোচ্চ লগইন প্রচেষ্টা">
+                            </div>
+                            <div class="form-group">
+                                <label for="passwordExpiry">পাসওয়ার্ড এক্সপাইরি (দিন)</label>
+                                <input type="number" id="passwordExpiry" value="90" placeholder="পাসওয়ার্ড এক্সপাইরি">
+                            </div>
+                            <div class="form-group">
+                                <label>নিরাপত্তা ফিচার</label>
+                                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                                    <label style="display: flex; align-items: center; gap: 5px;">
+                                        <input type="checkbox" name="securityFeatures" value="2fa" checked> দুই-ফ্যাক্টর অথেন্টিকেশন
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 5px;">
+                                        <input type="checkbox" name="securityFeatures" value="ip_whitelist"> আইপি হোয়াইটলিস্ট
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 5px;">
+                                        <input type="checkbox" name="securityFeatures" value="activity_log"> অ্যাক্টিভিটি লগ
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-save" onclick="saveSecuritySettings()">নিরাপত্তা সেটিংস সেভ করুন</button>
+                        </form>
+                        
+                        <div class="system-info">
+                            <h3>সিস্টেম তথ্য</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">সিস্টেম ভার্সন:</span>
+                                    <span class="info-value">v1.0.0</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">শেষ আপডেট:</span>
+                                    <span class="info-value" id="lastUpdate">লোড হচ্ছে...</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">ডাটাবেস সাইজ:</span>
+                                    <span class="info-value" id="dbSize">লোড হচ্ছে...</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">সক্রিয় সেশন:</span>
+                                    <span class="info-value" id="activeSessions">1</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="danger-zone">
+                            <h3>⚠️ বিপজ্জনক জোন</h3>
+                            <p style="color: #721c24; margin-bottom: 15px;">এই অপশনগুলো বিপজ্জনক এবং সিস্টেমে স্থায়ী পরিবর্তন করবে।</p>
+                            <button class="btn-danger" onclick="clearAllData()">সমস্ত ডেটা ক্লিয়ার করুন</button>
+                            <button class="btn-danger" onclick="resetSystem()" style="margin-left: 10px;">সিস্টেম রিসেট করুন</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin'));
+            if (!currentAdmin) { alert('দয়া করে প্রথমে এডমিন লগইন করুন!'); window.location.href = 'admin-login.html'; return; }
+            updateAdminData(currentAdmin);
+            loadSystemInfo();
+        });
+        
+        function updateAdminData(admin) {
+            document.getElementById('adminWelcome').textContent = `স্বাগতম, ${admin.fullName}!`;
+            const roleNames = {'super_admin': 'সুপার এডমিন','admin': 'এডমিন','moderator': 'মডারেটর','support': 'সাপোর্ট'};
+            const roleBadge = document.getElementById('adminRoleBadge');
+            roleBadge.textContent = roleNames[admin.role] || admin.role;
+            roleBadge.className = `role-badge role-${admin.role}`;
+        }
+        
+        function openTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        function loadSystemInfo() {
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('bn-BD');
+            
+            // ডাটাবেস সাইজ ক্যালকুলেশন
+            let totalSize = 0;
+            for (let key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    totalSize += localStorage[key].length * 2; // UTF-16 characters
+                }
+            }
+            document.getElementById('dbSize').textContent = (totalSize / 1024).toFixed(2) + ' KB';
+        }
+        
+        function saveGeneralSettings() {
+            alert('সাধারণ সেটিংস সফলভাবে সেভ করা হয়েছে!');
+        }
+        
+        function savePaymentSettings() {
+            alert('পেমেন্ট সেটিংস সফলভাবে সেভ করা হয়েছে!');
+        }
+        
+        function saveTaskSettings() {
+            alert('টাস্ক সেটিংস সফলভাবে সেভ করা হয়েছে!');
+        }
+        
+        function saveSecuritySettings() {
+            alert('নিরাপত্তা সেটিংস সফলভাবে সেভ করা হয়েছে!');
+        }
+        
+        function clearAllData() {
+            if (confirm('⚠️ আপনি কি নিশ্চিত? এটি সমস্ত ইউজার ডেটা, ট্রানজেকশন এবং সেটিংস মুছে ফেলবে!')) {
+                if (confirm('❌ এটি স্থায়ীভাবে সমস্ত ডেটা মুছে ফেলবে। আপনি কি সম্পূর্ণ নিশ্চিত?')) {
+                    localStorage.clear();
+                    alert('সমস্ত ডেটা সফলভাবে ক্লিয়ার করা হয়েছে!');
+                    window.location.href = 'admin-login.html';
+                }
+            }
+        }
+        
+        function resetSystem() {
+            if (confirm('⚠️ আপনি কি সিস্টেম রিসেট করতে চান? এটি ডিফল্ট সেটিংসে ফিরে যাবে!')) {
+                alert('সিস্টেম রিসেট করা হয়েছে!');
+                window.location.reload();
+            }
+        }
+        
+        function adminLogout() {
+            if (confirm('আপনি কি এডমিন লগআউট করতে চান?')) {
+                localStorage.removeItem('currentAdmin');
+                alert('এডমিন লগআউট সফল!');
+                window.location.href = 'admin-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
