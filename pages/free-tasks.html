@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টাস্ক - INCOME HUB</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>ফ্রি টাস্ক - INCOME HUB</title>
+    <link rel="stylesheet" href="../css/style.css">
     <style>
         .tasks-container {
             max-width: 1000px;
@@ -68,7 +68,7 @@
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-left: 5px solid #4CAF50;
+            border-left: 5px solid #3498db;
         }
         
         .task-header {
@@ -85,7 +85,7 @@
         }
         
         .task-reward {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             padding: 8px 15px;
             border-radius: 20px;
@@ -114,7 +114,7 @@
         }
         
         .start-btn {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -130,7 +130,7 @@
         
         .start-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
         
         .form-group {
@@ -159,7 +159,7 @@
         }
         
         .form-group input:focus, .form-group textarea:focus {
-            border-color: #4CAF50;
+            border-color: #3498db;
             outline: none;
         }
         
@@ -184,7 +184,17 @@
             padding: 8px;
             margin: 5px 0;
             border-radius: 3px;
-            border-left: 3px solid #4CAF50;
+            border-left: 3px solid #3498db;
+        }
+        
+        .completed-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -192,18 +202,18 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+                <h2><a href="../index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
             </div>
             <div class="nav-buttons">
-                <button class="btn login-btn" onclick="window.location.href='dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn login-btn" onclick="window.location.href='../dashboard.html'">ড্যাশবোর্ড</button>
                 <button class="btn register-btn" onclick="logout()">লগআউট</button>
             </div>
         </div>
     </nav>
 
     <div class="tasks-container">
-        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">🎯 টাস্ক সিস্টেম</h1>
-        <p style="text-align: center; margin-bottom: 30px; color: #666;">একাউন্ট তৈরি করে কয়েন অর্জন করুন</p>
+        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">🆓 ফ্রি টাস্ক</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">ফ্রি টাস্ক করে ইনকাম করুন</p>
         
         <!-- পেন্ডিং ব্যালেন্স -->
         <div class="pending-balance" id="pendingBalanceSection" style="display: none;">
@@ -546,7 +556,16 @@
                     sheetLink: googleSheetLink,
                     date: new Date().toLocaleDateString('bn-BD'),
                     status: 'pending',
-                    type: taskType
+                    type: 'task'
+                });
+
+                // ইনকাম হিস্ট্রি যোগ করুন
+                if (!currentUser.incomeHistory) currentUser.incomeHistory = [];
+                currentUser.incomeHistory.push({
+                    type: 'task',
+                    amount: totalReward,
+                    description: `${taskName} - ${accountCount} অ্যাকাউন্ট`,
+                    date: new Date().toLocaleString('bn-BD')
                 });
                 
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -598,8 +617,8 @@
         function logout() {
             localStorage.removeItem('currentUser');
             alert('লগআউট সফল!');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         }
     </script>
-  </body>
+</body>
 </html>
