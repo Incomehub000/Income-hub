@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রিপোর্টস - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 280px; background: linear-gradient(135deg, #2c3e50, #34495e); color: white; position: fixed; height: 100vh; overflow-y: auto; z-index: 1000; }
+        .admin-sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid #40566b; background: rgba(255,255,255,0.05); }
+        .admin-sidebar-header h2 { margin: 0; font-size: 1.5rem; color: #e74c3c; }
+        .admin-sidebar-header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        .admin-sidebar-menu { list-style: none; padding: 0; margin: 0; }
+        .admin-sidebar-menu li { border-bottom: 1px solid #40566b; }
+        .admin-sidebar-menu a { display: flex; align-items: center; color: white; text-decoration: none; padding: 18px 25px; transition: all 0.3s; border-left: 4px solid transparent; }
+        .admin-sidebar-menu a:hover { background: rgba(231, 76, 60, 0.1); border-left-color: #e74c3c; padding-left: 30px; }
+        .admin-sidebar-menu a.active { background: rgba(231, 76, 60, 0.2); border-left-color: #e74c3c; color: #e74c3c; }
+        .admin-menu-icon { margin-right: 15px; font-size: 1.3rem; width: 25px; text-align: center; }
+        .admin-main-content { flex: 1; margin-left: 280px; padding: 0; background: #f8f9fa; min-height: 100vh; }
+        .admin-top-bar { background: white; padding: 20px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content-area { padding: 30px; }
+        .page-header { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; padding: 25px 30px; border-radius: 15px; margin-bottom: 30px; }
+        .report-controls { display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 15px; margin-bottom: 25px; align-items: center; }
+        .date-filter { display: flex; gap: 10px; }
+        .date-input { padding: 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .search-box { position: relative; }
+        .search-box input { width: 100%; padding: 12px 45px 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .search-box input:focus { border-color: #667eea; outline: none; }
+        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #666; }
+        .filter-btn, .export-btn { background: white; border: 2px solid #ddd; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .filter-btn:hover, .export-btn:hover { border-color: #667eea; color: #667eea; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card h3 { color: #667eea; margin-bottom: 12px; font-size: 0.95rem; font-weight: 600; }
+        .stat-number { font-size: 2.2rem; font-weight: bold; color: #e74c3c; margin: 12px 0; }
+        .reports-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin-top: 30px; }
+        .table-header { background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; padding: 15px 20px; border-bottom: 1px solid #eee; align-items: center; }
+        .table-row:hover { background: #f8f9fa; }
+        .table-row:last-child { border-bottom: none; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header"><h2>INCOME HUB</h2><p>এডমিন প্যানেল</p></div>
+            <ul class="admin-sidebar-menu">
+                <li><a href="admin-dashboard.html"><span class="admin-menu-icon">📊</span> ড্যাশবোর্ড</a></li>
+                <li><a href="admin-users.html"><span class="admin-menu-icon">👥</span> ইউজার ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-staff.html"><span class="admin-menu-icon">👑</span> স্টাফ ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-tasks.html"><span class="admin-menu-icon">📋</span> টাস্ক রিভিউ</a></li>
+                <li><a href="admin-deposits.html"><span class="admin-menu-icon">💰</span> ডিপোজিট রিকোয়েস্ট</a></li>
+                <li><a href="admin-withdrawals.html"><span class="admin-menu-icon">💳</span> উইথড্র রিকোয়েস্ট</a></li>
+                <li><a href="admin-reports.html" class="active"><span class="admin-menu-icon">📈</span> রিপোর্টস</a></li>
+                <li><a href="admin-settings.html"><span class="admin-menu-icon">⚙️</span> সেটিংস</a></li>
+                <li><a href="javascript:void(0)" onclick="adminLogout()"><span class="admin-menu-icon">🚪</span> লগআউট</a></li>
+            </ul>
+        </div>
+        
+        <div class="admin-main-content">
+            <div class="admin-top-bar">
+                <div class="website-name"><span>INCOME HUB</span><span style="font-size: 1rem; opacity: 0.7;">- রিপোর্টস</span></div>
+                <div class="user-info"><span id="adminWelcome">লোড হচ্ছে...</span><span class="role-badge" id="adminRoleBadge">এডমিন</span></div>
+            </div>
+            
+            <div class="page-header">
+                <h1 style="margin: 0 0 10px 0; font-size: 2rem;">📈 রিপোর্টস</h1>
+                <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">সিস্টেমের বিস্তারিত রিপোর্ট এবং অ্যানালিটিক্স</p>
+            </div>
+            
+            <div class="admin-content-area">
+                <div class="report-controls">
+                    <div class="date-filter">
+                        <input type="date" id="startDate" class="date-input">
+                        <span style="display: flex; align-items: center;">থেকে</span>
+                        <input type="date" id="endDate" class="date-input">
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="reportSearch" placeholder="রিপোর্ট খুঁজুন...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <button class="filter-btn" onclick="applyFilters()"><span>🔧</span> ফিল্টার</button>
+                    <button class="export-btn" onclick="exportReports()"><span>📤</span> এক্সপোর্ট</button>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>💰 মোট আয়</h3>
+                        <div class="stat-number" id="totalIncome">0</div>
+                        <p>কয়েন</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>💳 মোট ব্যয়</h3>
+                        <div class="stat-number" id="totalExpense">0</div>
+                        <p>কয়েন</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>📊 নেট প্রফিট</h3>
+                        <div class="stat-number" id="netProfit">0</div>
+                        <p>কয়েন</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>👥 সক্রিয় ইউজার</h3>
+                        <div class="stat-number" id="activeUsers">0</div>
+                        <p>ব্যবহারকারী</p>
+                    </div>
+                </div>
+                
+                <div class="reports-table">
+                    <div class="table-header">
+                        <div>তারিখ</div><div>ট্রানজেকশন টাইপ</div><div>পরিমাণ</div><div>বিবরণ</div>
+                    </div>
+                    <div id="reportsTable"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const COIN_RATE = 10;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin'));
+            if (!currentAdmin) { alert('দয়া করে প্রথমে এডমিন লগইন করুন!'); window.location.href = 'admin-login.html'; return; }
+            updateAdminData(currentAdmin);
+            loadReportsData();
+            updateReportStats();
+        });
+        
+        function updateAdminData(admin) {
+            document.getElementById('adminWelcome').textContent = `স্বাগতম, ${admin.fullName}!`;
+            const roleNames = {'super_admin': 'সুপার এডমিন','admin': 'এডমিন','moderator': 'মডারেটর','support': 'সাপোর্ট'};
+            const roleBadge = document.getElementById('adminRoleBadge');
+            roleBadge.textContent = roleNames[admin.role] || admin.role;
+            roleBadge.className = `role-badge role-${admin.role}`;
+        }
+        
+        function loadReportsData() {
+            const depositRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+            const withdrawRequests = JSON.parse(localStorage.getItem('withdrawRequests') || '[]');
+            const taskSubmissions = JSON.parse(localStorage.getItem('adminTaskSubmissions') || '[]');
+            const reportsTable = document.getElementById('reportsTable');
+            
+            const allTransactions = [];
+            
+            // ডিপোজিট ট্রানজেকশন
+            depositRequests.forEach(deposit => {
+                if (deposit.status === 'approved') {
+                    allTransactions.push({
+                        date: deposit.approvedDate || deposit.submitDate,
+                        type: 'ডিপোজিট',
+                        amount: `+${deposit.amount * COIN_RATE} কয়েন`,
+                        description: `${deposit.userName} - ${deposit.method}`
+                    });
+                }
+            });
+            
+            // উইথড্র ট্রানজেকশন
+            withdrawRequests.forEach(withdrawal => {
+                if (withdrawal.status === 'approved') {
+                    allTransactions.push({
+                        date: withdrawal.approvedDate || withdrawal.submitDate,
+                        type: 'উইথড্র',
+                        amount: `-${withdrawal.coins} কয়েন`,
+                        description: `${withdrawal.userName} - ${withdrawal.method}`
+                    });
+                }
+            });
+            
+            // টাস্ক ট্রানজেকশন
+            taskSubmissions.forEach(task => {
+                if (task.status === 'approved') {
+                    allTransactions.push({
+                        date: task.approvedDate || task.submissionDate,
+                        type: 'টাস্ক ইনকাম',
+                        amount: `+${task.coins} কয়েন`,
+                        description: `${task.userName} - ${task.taskName}`
+                    });
+                }
+            });
+            
+            // তারিখ অনুযায়ী সাজানো
+            allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            let tableHtml = '';
+            if (allTransactions.length === 0) {
+                tableHtml = `<div class="empty-state"><div>📈</div><h3>কোনো ট্রানজেকশন রেকর্ড নেই</h3><p>এখনও কোনো ট্রানজেকশন সম্পন্ন হয়নি</p></div>`;
+            } else {
+                allTransactions.slice(0, 20).forEach(transaction => {
+                    tableHtml += `
+                        <div class="table-row">
+                            <div>${new Date(transaction.date).toLocaleDateString('bn-BD')}</div>
+                            <div>${transaction.type}</div>
+                            <div style="font-weight: bold; color: ${transaction.amount.startsWith('+') ? '#27ae60' : '#e74c3c'}">${transaction.amount}</div>
+                            <div>${transaction.description}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            reportsTable.innerHTML = tableHtml;
+        }
+        
+        function updateReportStats() {
+            const users = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            const depositRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+            const withdrawRequests = JSON.parse(localStorage.getItem('withdrawRequests') || '[]');
+            const taskSubmissions = JSON.parse(localStorage.getItem('adminTaskSubmissions') || '[]');
+            
+            // মোট আয় (ডিপোজিট + টাস্ক)
+            const totalDeposit = depositRequests
+                .filter(d => d.status === 'approved')
+                .reduce((sum, d) => sum + (d.amount * COIN_RATE), 0);
+            const totalTaskIncome = taskSubmissions
+                .filter(t => t.status === 'approved')
+                .reduce((sum, t) => sum + t.coins, 0);
+            const totalIncome = totalDeposit + totalTaskIncome;
+            
+            // মোট ব্যয় (উইথড্র)
+            const totalExpense = withdrawRequests
+                .filter(w => w.status === 'approved')
+                .reduce((sum, w) => sum + w.coins, 0);
+            
+            // নেট প্রফিট
+            const netProfit = totalIncome - totalExpense;
+            
+            // সক্রিয় ইউজার
+            const activeUsers = users.filter(u => u.status === 'active').length;
+            
+            document.getElementById('totalIncome').textContent = totalIncome;
+            document.getElementById('totalExpense').textContent = totalExpense;
+            document.getElementById('netProfit').textContent = netProfit;
+            document.getElementById('activeUsers').textContent = activeUsers;
+        }
+        
+        function applyFilters() {
+            alert('ফিল্টার প্রয়োগ করা হচ্ছে...');
+            loadReportsData();
+        }
+        
+        function exportReports() {
+            alert('রিপোর্ট ডেটা এক্সপোর্ট করা হচ্ছে...');
+        }
+        
+        function adminLogout() {
+            if (confirm('আপনি কি এডমিন লগআউট করতে চান?')) {
+                localStorage.removeItem('currentAdmin');
+                alert('এডমিন লগআউট সফল!');
+                window.location.href = 'admin-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
