@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এডমিন লগইন - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='login.html'">ইউজার লগইন</button>
+                <button class="btn register-btn" onclick="window.location.href='index.html'">হোম</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="login-section">
+        <div class="admin-login-container">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">👑 এডমিন লগইন</h2>
+            
+            <div class="admin-notice">
+                <strong>⚠️ শুধুমাত্র অথোরাইজড পার্সনেল</strong>
+            </div>
+            
+            <form class="admin-login-form" id="adminLoginForm">
+                <div class="admin-form-group">
+                    <label for="username">এডমিন ইউজারনেম</label>
+                    <input type="text" id="username" name="username" required placeholder="এডমিন ইউজারনেম">
+                </div>
+                
+                <div class="admin-form-group">
+                    <label for="password">পাসওয়ার্ড</label>
+                    <input type="password" id="password" name="password" required placeholder="এডমিন পাসওয়ার্ড">
+                </div>
+                
+                <button type="submit" class="admin-submit-btn">এডমিন লগইন</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <p>ইউজার অ্যাকাউন্ট? <a href="login.html" style="color: #667eea; text-decoration: none;">ইউজার লগইন</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function initializeAdminAccounts() {
+            let adminAccounts = JSON.parse(localStorage.getItem('adminAccounts'));
+            
+            if (!adminAccounts) {
+                adminAccounts = [
+                    {
+                        id: 'admin001',
+                        username: 'admin',
+                        password: 'admin123',
+                        fullName: 'সুপার এডমিন',
+                        email: 'admin@incomehub.com',
+                        role: 'super_admin',
+                        permissions: ['all'],
+                        createdBy: 'system',
+                        createdDate: new Date().toISOString(),
+                        status: 'active'
+                    }
+                ];
+                localStorage.setItem('adminAccounts', JSON.stringify(adminAccounts));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAdminAccounts();
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            let adminAccounts = JSON.parse(localStorage.getItem('adminAccounts') || '[]');
+            const admin = adminAccounts.find(a => a.username === username && a.password === password && a.status === 'active');
+            
+            if (admin) {
+                localStorage.setItem('currentAdmin', JSON.stringify(admin));
+                alert('এডমিন লগইন সফল!');
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                alert('ভুল ইউজারনেম বা পাসওয়ার্ড!');
+            }
+        });
+    </script>
+</body>
+              </html>
