@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ইনকাম রিপোর্ট - INCOME HUB</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .income-container {
+            max-width: 1000px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .income-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #667eea;
+        }
+        
+        .stat-card.today { border-top-color: #4CAF50; }
+        .stat-card.week { border-top-color: #2196F3; }
+        .stat-card.month { border-top-color: #f39c12; }
+        .stat-card.total { border-top-color: #9b59b6; }
+        
+        .income-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .today-amount { color: #4CAF50; }
+        .week-amount { color: #2196F3; }
+        .month-amount { color: #f39c12; }
+        .total-amount { color: #9b59b6; }
+        
+        .income-list {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .list-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .income-item {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .income-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .income-item:last-child {
+            border-bottom: none;
+        }
+        
+        .income-source {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .source-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .income-details h4 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .income-details p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .income-amount-positive {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 1.1rem;
+        }
+        
+        .income-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="../index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='../dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="income-container">
+        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">📈 ইনকাম রিপোর্ট</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">আপনার সকল ইনকামের বিস্তারিত রিপোর্ট</p>
+        
+        <!-- ইনকাম স্ট্যাটস -->
+        <div class="income-stats">
+            <div class="stat-card today">
+                <h3>📅 আজকের ইনকাম</h3>
+                <div class="income-amount today-amount" id="todayIncome">0</div>
+                <p>কয়েন</p>
+            </div>
+            
+            <div class="stat-card week">
+                <h3>📊 সাপ্তাহিক ইনকাম</h3>
+                <div class="income-amount week-amount" id="weekIncome">0</div>
+                <p>কয়েন</p>
+            </div>
+            
+            <div class="stat-card month">
+                <h3>🗓️ মাসিক ইনকাম</h3>
+                <div class="income-amount month-amount" id="monthIncome">0</div>
+                <p>কয়েন</p>
+            </div>
+            
+            <div class="stat-card total">
+                <h3>💰 মোট ইনকাম</h3>
+                <div class="income-amount total-amount" id="totalIncome">0</div>
+                <p>কয়েন</p>
+            </div>
+        </div>
+        
+        <!-- ফিল্টার সেকশন -->
+        <div class="filter-section">
+            <h3 style="margin-bottom: 15px; color: #333;">🔍 ফিল্টার করুন</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterIncome('all')">সব</button>
+                <button class="filter-btn" onclick="filterIncome('task')">টাস্ক</button>
+                <button class="filter-btn" onclick="filterIncome('referral')">রেফারেল</button>
+                <button class="filter-btn" onclick="filterIncome('premium')">প্রিমিয়াম</button>
+                <button class="filter-btn" onclick="filterIncome('bonus')">বোনাস</button>
+            </div>
+        </div>
+        
+        <!-- ইনকাম লিস্ট -->
+        <div class="income-list">
+            <div class="list-header">
+                <div>ইনকাম সোর্স</div>
+                <div>বিবরণ</div>
+                <div>পরিমাণ</div>
+                <div>তারিখ</div>
+            </div>
+            
+            <div id="incomeList">
+                <!-- ইনকাম লিস্ট এখানে লোড হবে -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFilter = 'all';
+        
+        // পেজ লোড হলে ইনকাম ডেটা আপডেট
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            updateIncomeData(currentUser);
+            loadIncomeHistory(currentUser);
+        });
+        
+        // ইনকাম ডেটা আপডেট
+        function updateIncomeData(user) {
+            const incomeHistory = user.incomeHistory || [];
+            
+            // আজকের ইনকাম
+            const today = new Date().toDateString();
+            const todayIncome = incomeHistory.filter(income => 
+                new Date(income.date).toDateString() === today
+            ).reduce((sum, income) => sum + income.amount, 0);
+            
+            // সাপ্তাহিক ইনকাম
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            const weekIncome = incomeHistory.filter(income => 
+                new Date(income.date) >= oneWeekAgo
+            ).reduce((sum, income) => sum + income.amount, 0);
+            
+            // মাসিক ইনকাম
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            const monthIncome = incomeHistory.filter(income => 
+                new Date(income.date) >= oneMonthAgo
+            ).reduce((sum, income) => sum + income.amount, 0);
+            
+            // মোট ইনকাম
+            const totalIncome = incomeHistory.reduce((sum, income) => sum + income.amount, 0);
+            
+            document.getElementById('todayIncome').textContent = formatNumber(todayIncome);
+            document.getElementById('weekIncome').textContent = formatNumber(weekIncome);
+            document.getElementById('monthIncome').textContent = formatNumber(monthIncome);
+            document.getElementById('totalIncome').textContent = formatNumber(totalIncome);
+        }
+        
+        // ইনকাম হিস্ট্রি লোড
+        function loadIncomeHistory(user, filter = 'all') {
+            const incomeHistory = user.incomeHistory || [];
+            const container = document.getElementById('incomeList');
+            
+            if (incomeHistory.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>😔 এখনও কোনো ইনকাম নেই</h3>
+                        <p>টাস্ক কমপ্লিট করে বা রেফারেল দিয়ে ইনকাম শুরু করুন!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // ফিল্টার প্রয়োগ
+            let filteredIncome = incomeHistory;
+            if (filter !== 'all') {
+                filteredIncome = incomeHistory.filter(income => income.type === filter);
+            }
+            
+            // তারিখ অনুযায়ী সাজানো (নতুন থেকে পুরানো)
+            filteredIncome.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            let html = '';
+            filteredIncome.forEach(income => {
+                const sourceIcons = {
+                    'task': '📋',
+                    'referral': '👥',
+                    'premium': '⭐',
+                    'bonus': '🎁',
+                    'registration': '🎯'
+                };
+                
+                const sourceNames = {
+                    'task': 'টাস্ক কমপ্লিশন',
+                    'referral': 'রেফারেল বোনাস',
+                    'premium': 'প্রিমিয়াম ইনকাম',
+                    'bonus': 'বিশেষ বোনাস',
+                    'registration': 'রেজিস্ট্রেশন বোনাস'
+                };
+                
+                html += `
+                    <div class="income-item">
+                        <div class="income-source">
+                            <div class="source-icon">
+                                ${sourceIcons[income.type] || '💰'}
+                            </div>
+                            <div class="income-details">
+                                <h4>${sourceNames[income.type] || income.type}</h4>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <p>${income.description || 'ইনকাম'}</p>
+                        </div>
+                        
+                        <div class="income-amount-positive">
+                            +${formatNumber(income.amount)} কয়েন
+                        </div>
+                        
+                        <div class="income-date">
+                            ${new Date(income.date).toLocaleDateString('bn-BD', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // ফিল্টার ফাংশন
+        function filterIncome(filter) {
+            currentFilter = filter;
+            
+            // ফিল্টার বাটন আপডেট
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // ডেটা রিলোড
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            loadIncomeHistory(currentUser, filter);
+        }
+        
+        // নাম্বার ফরম্যাট
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('লগআউট সফল!');
+            window.location.href = '../index.html';
+        }
+    </script>
+</body>
+  </html>
