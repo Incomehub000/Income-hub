@@ -14,25 +14,21 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        
         .register-form {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 5px;
         }
-        
         .form-group label {
             font-weight: bold;
             color: #333;
             font-size: 14px;
         }
-        
         .form-group input {
             padding: 12px 15px;
             border: 2px solid #ddd;
@@ -40,22 +36,14 @@
             font-size: 16px;
             transition: border-color 0.3s;
         }
-        
         .form-group input:focus {
             border-color: #667eea;
             outline: none;
         }
-        
         .required::after {
             content: " *";
             color: red;
         }
-        
-        .optional {
-            color: #666;
-            font-size: 12px;
-        }
-        
         .submit-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -68,21 +56,17 @@
             transition: transform 0.3s;
             margin-top: 10px;
         }
-        
         .submit-btn:hover {
             transform: translateY(-2px);
         }
-        
         .login-link {
             text-align: center;
             margin-top: 20px;
         }
-        
         .login-link a {
             color: #667eea;
             text-decoration: none;
         }
-        
         .bonus-info {
             background: #e8f5e8;
             padding: 15px;
@@ -90,7 +74,6 @@
             margin-bottom: 20px;
             border-left: 4px solid #4CAF50;
         }
-        
         .referral-system {
             background: #e3f2fd;
             padding: 15px;
@@ -98,18 +81,16 @@
             margin: 10px 0;
             border-left: 4px solid #2196F3;
         }
-        
-        .whatsapp-info {
-            background: #e8f5e8;
+        .no-bonus {
+            background: #ffebee;
             padding: 10px;
             border-radius: 8px;
             margin: 5px 0;
-            border-left: 4px solid #25D366;
+            border-left: 4px solid #f44336;
         }
     </style>
 </head>
 <body>
-    <!-- নেভিগেশন বার -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
@@ -117,28 +98,31 @@
             </div>
             <div class="nav-buttons">
                 <button class="btn login-btn" onclick="window.location.href='login.html'">লগইন</button>
-                <button class="btn register-btn" onclick="window.location.href='register.html'">রেজিস্ট্রেশন</button>
+                <button class="btn register-btn" onclick="window.location.href='index.html'">হোম</button>
             </div>
         </div>
     </nav>
 
-    <!-- রেজিস্ট্রেশন ফর্ম -->
     <section class="register-section">
         <div class="register-container">
             <h2 style="text-align: center; margin-bottom: 20px; color: #333;">অ্যাকাউন্ট তৈরি করুন</h2>
             
-            <div class="bonus-info">
-                <strong>🎁 রেজিস্ট্রেশন বোনাস:</strong> ১০০ কয়েন ফ্রি!
+            <div id="referralBonusInfo" class="bonus-info" style="display: none;">
+                <strong>🎁 রেফারেল বোনাস:</strong> <span id="bonusAmount">0</span> কয়েন ফ্রি!
+            </div>
+            
+            <div id="noBonusInfo" class="no-bonus" style="display: none;">
+                <strong>ℹ️ নোট:</strong> রেফারেল কোড ছাড়া রেজিস্ট্রেশন করলে কোনো বোনাস পাবেন না
             </div>
             
             <div class="referral-system">
                 <strong>👥 রেফারেল সিস্টেম:</strong><br>
-                • রেফারার পাবে: <strong>২০ কয়েন</strong><br>
-                • নতুন ইউজার পাবে: <strong>১০ কয়েন</strong>
+                • রেফারার পাবে: <strong>২০০ কয়েন</strong><br>
+                • নতুন ইউজার পাবে: <strong>১০০ কয়েন</strong><br>
+                • সরাসরি রেজিস্ট্রেশন: <strong>০ কয়েন</strong>
             </div>
             
             <form class="register-form" id="registerForm">
-                <!-- বাধ্যতামূলক ফিল্ড -->
                 <div class="form-group">
                     <label for="fullName" class="required">পুরো নাম</label>
                     <input type="text" id="fullName" name="fullName" required placeholder="আপনার পুরো নাম লিখুন">
@@ -147,7 +131,6 @@
                 <div class="form-group">
                     <label for="whatsapp" class="required">WhatsApp নম্বর</label>
                     <input type="tel" id="whatsapp" name="whatsapp" required placeholder="01XXXXXXXXX">
-                    <small style="color: #666; font-size: 12px;">এই নম্বর দিয়ে আমরা WhatsApp এ কন্টাক্ট করব</small>
                 </div>
                 
                 <div class="form-group">
@@ -170,19 +153,14 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="পাসওয়ার্ড আবার লিখুন">
                 </div>
                 
-                <!-- রেফারেল সিস্টেম (অপশনাল) -->
                 <div class="form-group">
-                    <label for="referralCode">রেফারেল কোড <span class="optional">(ঐচ্ছিক)</span></label>
-                    <input type="text" id="referralCode" name="referralCode" placeholder="রেফারেল কোড থাকলে লিখুন">
-                    <small style="color: #666; font-size: 12px;">রেফারেল কোড দিলে অতিরিক্ত ১০ কয়েন বোনাস পাবেন!</small>
+                    <label for="referralCode">রেফারেল কোড</label>
+                    <input type="text" id="referralCode" name="referralCode" placeholder="রেফারেল কোড থাকলে লিখুন" value="">
+                    <small style="color: #666; font-size: 12px;">রেফারেল কোড দিলে ১০০ কয়েন বোনাস পাবেন!</small>
                 </div>
                 
                 <button type="submit" class="submit-btn">অ্যাকাউন্ট তৈরি করুন</button>
             </form>
-            
-            <div class="whatsapp-info">
-                <strong>📞 যোগাযোগ:</strong> WhatsApp এ আমাদের কন্টাক্ট করুন: <strong>01XXXXXXXXX</strong>
-            </div>
             
             <div class="login-link">
                 <p>ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="login.html">লগইন করুন</a></p>
@@ -191,17 +169,36 @@
     </section>
 
     <script>
-        // ফর্ম সাবমিশন হ্যান্ডলার
+        function getReferralCodeFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('ref');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const referralCode = getReferralCodeFromURL();
+            const referralCodeInput = document.getElementById('referralCode');
+            const referralBonusInfo = document.getElementById('referralBonusInfo');
+            const noBonusInfo = document.getElementById('noBonusInfo');
+            const bonusAmount = document.getElementById('bonusAmount');
+            
+            if (referralCode) {
+                referralCodeInput.value = referralCode;
+                referralBonusInfo.style.display = 'block';
+                noBonusInfo.style.display = 'none';
+                bonusAmount.textContent = '১০০';
+            } else {
+                referralBonusInfo.style.display = 'none';
+                noBonusInfo.style.display = 'block';
+            }
+        });
+
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const referralCode = document.getElementById('referralCode').value;
-            const whatsapp = document.getElementById('whatsapp').value;
-            const phone = document.getElementById('phone').value;
+            const referralCode = document.getElementById('referralCode').value.trim();
             
-            // ভ্যালিডেশন
             if (password !== confirmPassword) {
                 alert('পাসওয়ার্ড মিলছে না! আবার চেষ্টা করুন।');
                 return;
@@ -211,57 +208,45 @@
                 alert('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে!');
                 return;
             }
+
+            let bonusCoins = 0;
             
-            // ইমেইল ভ্যালিডেশন
-            const email = document.getElementById('email').value;
-            if (!validateEmail(email)) {
-                alert('সঠিক ইমেইল ঠিকানা লিখুন!');
-                return;
+            if (referralCode !== '') {
+                bonusCoins = 100;
             }
 
-            // WhatsApp এবং ফোন নাম্বার ভ্যালিডেশন
-            if (!validatePhone(whatsapp) || !validatePhone(phone)) {
-                alert('সঠিক মোবাইল নম্বর লিখুন! (01XXXXXXXXX)');
-                return;
-            }
-
-            // কয়েন ক্যালকুলেশন
-            let bonusCoins = 100; // বেসিক বোনাস
-            if (referralCode.trim() !== '') {
-                bonusCoins += 10; // রেফারেল বোনাস (নতুন ইউজারের জন্য)
-            }
-
-            // ইউনিক রেফারেল কোড জেনারেট
             const userReferralCode = generateReferralCode();
 
-            // ইউজার ডাটা সংগ্রহ
             const userData = {
-                id: Date.now(), // ইউনিক আইডি
+                id: Date.now().toString(),
                 fullName: document.getElementById('fullName').value,
-                whatsapp: whatsapp,
-                phone: phone,
-                email: email,
+                whatsapp: document.getElementById('whatsapp').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
                 password: password,
-                referralCode: userReferralCode, // ইউজারের নিজের রেফারেল কোড
-                referredBy: referralCode, // কে রেফার করেছে
+                referralCode: userReferralCode,
+                referredBy: referralCode || null,
                 coins: bonusCoins,
-                registrationDate: new Date().toLocaleString(),
-                level: 'Bronze',
+                freeBalance: bonusCoins,
+                premiumBalance: 0,
+                referralBalance: 0,
+                registrationDate: new Date().toISOString(),
+                premium: false,
                 totalEarned: 0,
                 referredUsers: [],
-                totalReferrals: 0
+                totalReferrals: 0,
+                activeReferrals: 0,
+                incomeHistory: [],
+                withdrawHistory: []
             };
             
-            // রেফারেল সিস্টেম প্রয়োগ
-            if (referralCode.trim() !== '') {
-                applyReferralBonus(referralCode, userData.id);
+            if (referralCode && referralCode !== '') {
+                applyReferralBonus(referralCode, userData.id, userData.fullName);
             }
             
-            // লোকাল স্টোরেজে সেভ করা
             let users = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
             
-            // ইমেইল/ফোন already exists চেক
-            const existingUser = users.find(u => u.email === email || u.phone === phone || u.whatsapp === whatsapp);
+            const existingUser = users.find(u => u.email === userData.email || u.phone === userData.phone);
             if (existingUser) {
                 alert('এই ইমেইল বা মোবাইল নম্বর দিয়ে ইতিমধ্যে অ্যাকাউন্ট তৈরি হয়েছে!');
                 return;
@@ -270,53 +255,48 @@
             users.push(userData);
             localStorage.setItem('incomeHubUsers', JSON.stringify(users));
             
-            // সাকসেস মেসেজ
             let successMessage = `✅ অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!\n\n`;
-            successMessage += `💰 আপনি পেয়েছেন: ${bonusCoins} কয়েন\n`;
-            successMessage += `🎯 আপনার রেফারেল কোড: ${userReferralCode}\n`;
-            if (referralCode) {
-                successMessage += `👥 রেফারেল বোনাস: ১০ কয়েন\n`;
+            
+            if (bonusCoins > 0) {
+                successMessage += `💰 আপনি পেয়েছেন: ${bonusCoins} কয়েন বোনাস\n`;
+            } else {
+                successMessage += `ℹ️ সরাসরি রেজিস্ট্রেশন করায় কোনো বোনাস পাবেন না\n`;
             }
-            successMessage += `\n📧 ভেরিফিকেশন লিংক আপনার ইমেইলে পাঠানো হয়েছে।`;
+            
+            successMessage += `🎯 আপনার রেফারেল কোড: ${userReferralCode}\n`;
+            successMessage += `\n📧 লগইন করে ইনকাম শুরু করুন!`;
             
             alert(successMessage);
             window.location.href = 'login.html';
         });
 
-        // ইমেইল ভ্যালিডেশন ফাংশন
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        // ফোন নাম্বার ভ্যালিডেশন
-        function validatePhone(phone) {
-            const re = /^01[3-9]\d{8}$/;
-            return re.test(phone);
-        }
-
-        // রেফারেল বোনাস সিস্টেম
-        function applyReferralBonus(referralCode, newUserId) {
+        function applyReferralBonus(referralCode, newUserId, newUserName) {
             let users = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
             const referrer = users.find(u => u.referralCode === referralCode);
             
             if (referrer) {
-                // রেফারারকে ২০ কয়েন বোনাস দিন
-                referrer.coins += 20;
+                referrer.referralBalance = (referrer.referralBalance || 0) + 200;
+                referrer.coins = (referrer.coins || 0) + 200;
                 referrer.referredUsers.push(newUserId);
-                referrer.totalReferrals += 1;
+                referrer.totalReferrals = (referrer.totalReferrals || 0) + 1;
                 
-                // আপডেট users array
+                if (!referrer.referralHistory) referrer.referralHistory = [];
+                referrer.referralHistory.push({
+                    type: 'registration',
+                    fromUser: newUserName,
+                    fromUserId: newUserId,
+                    amount: 200,
+                    date: new Date().toLocaleString('bn-BD'),
+                    description: 'নতুন রেজিস্ট্রেশন রেফারেল বোনাস'
+                });
+
                 const index = users.findIndex(u => u.id === referrer.id);
                 users[index] = referrer;
                 
                 localStorage.setItem('incomeHubUsers', JSON.stringify(users));
-                
-                console.log(`রেফারেল বোনাস প্রয়োগ করা হয়েছে: ${referrer.fullName} পেয়েছেন ২০ কয়েন`);
             }
         }
 
-        // রেফারেল কোড জেনারেট
         function generateReferralCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let result = '';
@@ -324,12 +304,6 @@
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return 'REF' + result;
-        }
-
-        // WhatsApp নম্বর কপি ফাংশন
-        function copyWhatsApp() {
-            navigator.clipboard.writeText("01XXXXXXXXX");
-            alert('WhatsApp নম্বর কপি করা হয়েছে!');
         }
     </script>
 </body>
