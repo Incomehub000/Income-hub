@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ডিপোজিট - INCOME HUB</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <style>
         .deposit-container {
             max-width: 800px;
@@ -126,15 +126,6 @@
             border-left: 4px solid #4CAF50;
         }
         
-        .code-example {
-            background: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-family: monospace;
-        }
-        
         .upload-section {
             margin: 25px 0;
         }
@@ -153,11 +144,6 @@
         .upload-area:hover {
             border-color: #667eea;
             background: #e3f2fd;
-        }
-        
-        .upload-area.dragover {
-            border-color: #4CAF50;
-            background: #e8f5e8;
         }
         
         .preview-image {
@@ -198,23 +184,6 @@
             box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
         }
         
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .waiting-message {
-            background: #fff3cd;
-            border: 2px solid #ffeaa7;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 25px;
-            display: none;
-        }
-        
         .minimum-notice {
             background: #ffebee;
             padding: 15px;
@@ -225,27 +194,6 @@
             font-weight: bold;
         }
         
-        .instruction-tabs {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-        
-        .instruction-tab {
-            background: #e3f2fd;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .instruction-tab.active {
-            background: #2196F3;
-            color: white;
-        }
-
         .admin-approval-notice {
             background: #e3f2fd;
             padding: 20px;
@@ -260,10 +208,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h2><a href="index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+                <h2><a href="../index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
             </div>
             <div class="nav-buttons">
-                <button class="btn login-btn" onclick="window.location.href='premium.html'">⬅️ প্রিমিয়াম</button>
+                <button class="btn login-btn" onclick="window.location.href='../dashboard.html'">ড্যাশবোর্ড</button>
                 <button class="btn register-btn" onclick="logout()">লগআউট</button>
             </div>
         </div>
@@ -334,25 +282,12 @@
                         <div class="payment-number" id="rocketNumber">01577213347</div>
                         <button class="copy-btn" onclick="copyNumber('rocket', '01577213347')">নাম্বার কপি করুন</button>
                     </div>
-                    
-                    <div class="payment-option" onclick="selectPayment('upay')">
-                        <h4>✅ উপায়</h4>
-                        <div class="payment-number" id="upayNumber">01873115394</div>
-                        <button class="copy-btn" onclick="copyNumber('upay', '01873115394')">নাম্বার কপি করুন</button>
-                    </div>
                 </div>
             </div>
             
             <!-- ইন্সট্রাকশন সেকশন -->
             <div class="instructions-section">
                 <h3 style="text-align: center; margin-bottom: 20px; color: #333;">📋 কিভাবে পেমেন্ট করবেন</h3>
-                
-                <div class="instruction-tabs">
-                    <div class="instruction-tab active" onclick="showInstructions('bkash')">বিকাশ</div>
-                    <div class="instruction-tab" onclick="showInstructions('nagad')">নগদ</div>
-                    <div class="instruction-tab" onclick="showInstructions('rocket')">রকেট</div>
-                    <div class="instruction-tab" onclick="showInstructions('upay')">উপায়</div>
-                </div>
                 
                 <!-- বিকাশ ইন্সট্রাকশন -->
                 <div class="method-instructions active" id="bkashInstructions">
@@ -367,55 +302,29 @@
                         <p>• Reference তে আপনার ইউজারনেম লিখুন</p>
                         <p>• PIN দিয়ে কনফার্ম করুন</p>
                     </div>
-                    
-                    <div class="instruction-step">
-                        <strong>২. ডায়াল কোডের মাধ্যমে:</strong>
-                        <div class="code-example">
-                            *247# → Send Money → 01873115394 → Amount → Reference → PIN
-                        </div>
-                    </div>
                 </div>
                 
-                <!-- অন্যান্য ইন্সট্রাকশন একই রকম থাকবে -->
+                <!-- নগদ ইন্সট্রাকশন -->
                 <div class="method-instructions" id="nagadInstructions">
                     <h4>📱 নগদ থেকে কিভাবে সেন্ড মানি করবেন:</h4>
                     <div class="instruction-step">
                         <strong>১. অ্যাপের মাধ্যমে:</strong>
                         <p>• নগদ অ্যাপ খুলুন → Send Money → 01873115394</p>
-                    </div>
-                    <div class="instruction-step">
-                        <strong>২. ডায়াল কোডের মাধ্যমে:</strong>
-                        <div class="code-example">
-                            *167# → Send Money → 01873115394 → Amount → PIN
-                        </div>
+                        <p>• Amount লিখুন (সর্বনিম্ন ১০০ টাকা)</p>
+                        <p>• Reference তে আপনার ইউজারনেম লিখুন</p>
+                        <p>• PIN দিয়ে কনফার্ম করুন</p>
                     </div>
                 </div>
                 
+                <!-- রকেট ইন্সট্রাকশন -->
                 <div class="method-instructions" id="rocketInstructions">
                     <h4>📱 রকেট থেকে কিভাবে সেন্ড মানি করবেন:</h4>
                     <div class="instruction-step">
                         <strong>১. অ্যাপের মাধ্যমে:</strong>
                         <p>• রকেট অ্যাপ খুলুন → Send Money → 01577213347</p>
-                    </div>
-                    <div class="instruction-step">
-                        <strong>২. ডায়াল কোডের মাধ্যমে:</strong>
-                        <div class="code-example">
-                            *322# → 3 → 01577213347 → Amount → PIN
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="method-instructions" id="upayInstructions">
-                    <h4>📱 উপায় থেকে কিভাবে সেন্ড মানি করবেন:</h4>
-                    <div class="instruction-step">
-                        <strong>১. অ্যাপের মাধ্যমে:</strong>
-                        <p>• উপায় অ্যাপ খুলুন → Send Money → 01873115394</p>
-                    </div>
-                    <div class="instruction-step">
-                        <strong>২. ডায়াল কোডের মাধ্যমে:</strong>
-                        <div class="code-example">
-                            *268# → Send Money → 01873115394 → Amount → PIN
-                        </div>
+                        <p>• Amount লিখুন (সর্বনিম্ন ১০০ টাকা)</p>
+                        <p>• Reference তে আপনার ইউজারনেম লিখুন</p>
+                        <p>• PIN দিয়ে কনফার্ম করুন</p>
                     </div>
                 </div>
             </div>
@@ -445,17 +354,6 @@
             </div>
             
             <button class="submit-btn" id="submitBtn" onclick="submitDeposit()">💰 ডিপোজিট রিকোয়েস্ট জমা দিন</button>
-            
-            <!-- ওয়েটিং মেসেজ -->
-            <div class="waiting-message" id="waitingMessage">
-                <h3>⏳ ডিপোজিট Under Review</h3>
-                <p>আপনার ডিপোজিট রিকোয়েস্টটি এডমিন রিভিউ এর জন্য জমা হয়েছে।</p>
-                <p><strong>এডমিন manually verify করার পর</strong> আপনার একাউন্টে কয়েন যোগ করা হবে।</p>
-                <p>ভেরিফিকেশন সময়: ২৪ ঘন্টার মধ্যে</p>
-                <button class="submit-btn" onclick="window.location.href='dashboard.html'" style="margin-top: 15px; background: #667eea;">
-                    📊 ড্যাশবোর্ডে স্ট্যাটাস চেক করুন
-                </button>
-            </div>
         </div>
     </div>
 
@@ -477,15 +375,10 @@
         
         // ইন্সট্রাকশন দেখানো
         function showInstructions(method) {
-            document.querySelectorAll('.instruction-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
             document.querySelectorAll('.method-instructions').forEach(instruction => {
                 instruction.classList.remove('active');
             });
             
-            event.currentTarget.classList.add('active');
             document.getElementById(method + 'Instructions').classList.add('active');
         }
         
@@ -573,7 +466,7 @@
                     transactionId: transactionId,
                     userNote: userNote,
                     screenshot: screenshotFile.name,
-                    status: 'pending', // pending, approved, rejected
+                    status: 'pending',
                     adminNote: '',
                     submitDate: new Date().toLocaleString('bn-BD'),
                     approveDate: null,
@@ -593,18 +486,21 @@
                 });
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 
-                // ওয়েটিং মেসেজ দেখান
-                document.getElementById('waitingMessage').style.display = 'block';
-                document.getElementById('submitBtn').disabled = true;
-                
                 alert('ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে!\n\nএডমিন verify করার পর আপনার একাউন্টে কয়েন যোগ হবে।\nস্ট্যাটাস চেক করতে ড্যাশবোর্ড দেখুন।');
+                
+                // ফর্ম রিসেট
+                document.getElementById('depositAmount').value = '';
+                document.getElementById('transactionId').value = '';
+                document.getElementById('userNote').value = '';
+                document.getElementById('preview').style.display = 'none';
+                screenshotFile = null;
             }
         }
         
         function logout() {
             localStorage.removeItem('currentUser');
             alert('লগআউট সফল!');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         }
         
         // পেজ লোড হলে প্রথম ইন্সট্রাকশন দেখাও
@@ -613,7 +509,7 @@
             
             if (!currentUser) {
                 alert('দয়া করে প্রথমে লগইন করুন!');
-                window.location.href = 'login.html';
+                window.location.href = '../login.html';
                 return;
             }
             
@@ -623,4 +519,4 @@
         });
     </script>
 </body>
-  </html>
+</html>
