@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ব্যালেন্স - INCOME HUB</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .balance-container {
+            max-width: 1000px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .balance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .balance-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #667eea;
+        }
+        
+        .balance-card.free { border-top-color: #3498db; }
+        .balance-card.premium { border-top-color: #f39c12; }
+        .balance-card.referral { border-top-color: #9b59b6; }
+        
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .free-amount { color: #3498db; }
+        .premium-amount { color: #f39c12; }
+        .referral-amount { color: #9b59b6; }
+        
+        .balance-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .withdraw-rules {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .rule-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="../index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='../dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="balance-container">
+        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">💰 ব্যালেন্স</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">আপনার সকল ব্যালেন্সের বিস্তারিত তথ্য</p>
+        
+        <!-- ব্যালেন্স কার্ড -->
+        <div class="balance-stats">
+            <div class="balance-card free">
+                <h3>🆓 ফ্রি টাস্ক ব্যালেন্স</h3>
+                <div class="balance-amount free-amount" id="freeBalance">0</div>
+                <p>কয়েন</p>
+                <small>মিনিমাম উইথড্র: ১০০০ কয়েন</small>
+            </div>
+            
+            <div class="balance-card premium">
+                <h3>⭐ প্রিমিয়াম ব্যালেন্স</h3>
+                <div class="balance-amount premium-amount" id="premiumBalance">0</div>
+                <p>কয়েন</p>
+                <small>মিনিমাম উইথড্র: ৫০০০ কয়েন</small>
+            </div>
+            
+            <div class="balance-card referral">
+                <h3>👥 রেফারেল ব্যালেন্স</h3>
+                <div class="balance-amount referral-amount" id="referralBalance">0</div>
+                <p>কয়েন</p>
+                <small>মিনিমাম উইথড্র: ৩০০০ কয়েন</small>
+            </div>
+        </div>
+        
+        <!-- মোট ব্যালেন্স -->
+        <div class="balance-info">
+            <h3 style="text-align: center; margin-bottom: 15px;">📊 মোট ব্যালেন্স</h3>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; font-weight: bold; color: #f39c12;" id="totalBalance">0</div>
+                <p style="font-size: 1.2rem; color: #666;">কয়েন</p>
+            </div>
+        </div>
+        
+        <!-- উইথড্র নিয়ম -->
+        <div class="withdraw-rules">
+            <h3>📋 উইথড্র নিয়মাবলী</h3>
+            
+            <div class="rule-item">
+                <h4>🆓 ফ্রি টাস্ক ব্যালেন্স</h4>
+                <p>• মিনিমাম উইথড্র: ১০০০ কয়েন (১০০ টাকা)</p>
+                <p>• চার্জ: ১০%</p>
+                <p>• আপনি পাবেন: ৯০০ কয়েন (৯০ টাকা)</p>
+            </div>
+            
+            <div class="rule-item">
+                <h4>⭐ প্রিমিয়াম ব্যালেন্স</h4>
+                <p>• মিনিমাম উইথড্র: ৫০০০ কয়েন (৫০০ টাকা)</p>
+                <p>• চার্জ: ১৫%</p>
+                <p>• আপনি পাবেন: ৪২৫০ কয়েন (৪২৫ টাকা)</p>
+            </div>
+            
+            <div class="rule-item">
+                <h4>👥 রেফারেল ব্যালেন্স</h4>
+                <p>• মিনিমাম উইথড্র: ৩০০০ কয়েন (৩০০ টাকা)</p>
+                <p>• চার্জ: ২০%</p>
+                <p>• আপনি পাবেন: ২৪০০ কয়েন (২৪০ টাকা)</p>
+            </div>
+        </div>
+        
+        <!-- এক্সচেঞ্জ রেট -->
+        <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2196F3;">
+            <h3 style="text-align: center; margin-bottom: 15px;">💱 এক্সচেঞ্জ রেট</h3>
+            <div style="text-align: center; font-size: 1.5rem; font-weight: bold; color: #2196F3;">
+                ১০ কয়েন = ১ টাকা
+            </div>
+            <p style="text-align: center; margin-top: 10px; color: #666;">
+                প্রতি ১০ কয়েনের বিনিময়ে আপনি ১ টাকা পাবেন
+            </p>
+        </div>
+        
+        <!-- অ্যাকশন বাটন -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+            <button class="btn" onclick="window.location.href='withdraw.html'" style="background: #4CAF50; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">
+                💳 উইথড্র করুন
+            </button>
+            <button class="btn" onclick="window.location.href='deposit.html'" style="background: #f39c12; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">
+                💰 ডিপোজিট করুন
+            </button>
+            <button class="btn" onclick="window.location.href='../dashboard.html'" style="background: #3498db; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">
+                📊 ড্যাশবোর্ড
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // পেজ লোড হলে ব্যালেন্স আপডেট
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            updateBalanceData(currentUser);
+        });
+        
+        // ব্যালেন্স ডেটা আপডেট
+        function updateBalanceData(user) {
+            document.getElementById('freeBalance').textContent = formatNumber(user.freeBalance || 0);
+            document.getElementById('premiumBalance').textContent = formatNumber(user.premiumBalance || 0);
+            document.getElementById('referralBalance').textContent = formatNumber(user.referralBalance || 0);
+            
+            const totalBalance = (user.freeBalance || 0) + (user.premiumBalance || 0) + (user.referralBalance || 0);
+            document.getElementById('totalBalance').textContent = formatNumber(totalBalance);
+        }
+        
+        // নাম্বার ফরম্যাট
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function logout() {
+            if (confirm('আপনি কি লগআউট করতে চান?')) {
+                localStorage.removeItem('currentUser');
+                alert('লগআউট সফল!');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>
