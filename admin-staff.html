@@ -5,6 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>স্টাফ ম্যানেজমেন্ট - INCOME HUB</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 280px; background: linear-gradient(135deg, #2c3e50, #34495e); color: white; position: fixed; height: 100vh; overflow-y: auto; z-index: 1000; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        .admin-sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid #40566b; background: rgba(255,255,255,0.05); }
+        .admin-sidebar-header h2 { margin: 0; font-size: 1.5rem; color: #e74c3c; }
+        .admin-sidebar-header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        .admin-sidebar-menu { list-style: none; padding: 0; margin: 0; }
+        .admin-sidebar-menu li { border-bottom: 1px solid #40566b; }
+        .admin-sidebar-menu a { display: flex; align-items: center; color: white; text-decoration: none; padding: 18px 25px; transition: all 0.3s; border-left: 4px solid transparent; }
+        .admin-sidebar-menu a:hover { background: rgba(231, 76, 60, 0.1); border-left-color: #e74c3c; padding-left: 30px; }
+        .admin-sidebar-menu a.active { background: rgba(231, 76, 60, 0.2); border-left-color: #e74c3c; color: #e74c3c; }
+        .admin-menu-icon { margin-right: 15px; font-size: 1.3rem; width: 25px; text-align: center; }
+        .admin-main-content { flex: 1; margin-left: 280px; padding: 0; background: #f8f9fa; min-height: 100vh; }
+        .admin-top-bar { background: white; padding: 20px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 999; }
+        .admin-content-area { padding: 30px; }
+        .page-header { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 25px 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .staff-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; }
+        .create-staff-btn { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: transform 0.3s; }
+        .create-staff-btn:hover { transform: translateY(-2px); }
+        .search-box { position: relative; flex: 1; max-width: 400px; }
+        .search-box input { width: 100%; padding: 12px 45px 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .search-box input:focus { border-color: #667eea; outline: none; }
+        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #666; }
+        .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .staff-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s; border: 1px solid #e9ecef; position: relative; }
+        .staff-card:hover { transform: translateY(-5px); }
+        .staff-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .staff-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #e74c3c, #c0392b); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold; margin-right: 20px; }
+        .staff-info h3 { margin: 0 0 5px 0; color: #333; font-size: 1.3rem; }
+        .staff-info p { margin: 0; color: #666; }
+        .role-badge { padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; color: white; margin-top: 5px; display: inline-block; }
+        .role-super-admin { background: #e74c3c; }
+        .role-admin { background: #3498db; }
+        .role-moderator { background: #f39c12; }
+        .role-support { background: #9b59b6; }
+        .staff-details { margin: 20px 0; }
+        .detail-item { display: flex; justify-content: space-between; margin-bottom: 8px; padding: 5px 0; }
+        .detail-label { font-weight: 600; color: #555; flex: 1; }
+        .detail-value { color: #333; flex: 2; }
+        .permissions-list { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .permissions-list h4 { margin: 0 0 10px 0; color: #333; }
+        .permission-tag { display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; margin: 2px; border: 1px solid #bbdefb; }
+        .staff-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .staff-action-btn { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .btn-edit { background: #f39c12; color: white; }
+        .btn-permissions { background: #3498db; color: white; }
+        .btn-deactivate { background: #e74c3c; color: white; }
+        .staff-action-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .status-indicator { position: absolute; top: 20px; right: 20px; width: 12px; height: 12px; border-radius: 50%; }
+        .status-active { background: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+        .status-inactive { background: #95a5a6; }
+        .modal { display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 0; border-radius: 15px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal-header { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px 25px; border-radius: 15px 15px 0 0; }
+        .modal-body { padding: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus { border-color: #667eea; outline: none; }
+        .permission-checkboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .checkbox-group { display: flex; align-items: center; gap: 8px; }
+        .modal-footer { padding: 20px 25px; border-top: 1px solid #eee; display: flex; gap: 10px; justify-content: flex-end; }
+        .btn-cancel { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        .btn-save { background: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -38,17 +103,98 @@
                 </div>
             </div>
             
+            <div class="page-header">
+                <h1 style="margin: 0 0 10px 0; font-size: 2rem;">👑 স্টাফ ম্যানেজমেন্ট</h1>
+                <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">স্টাফ একাউন্ট তৈরি করুন এবং ম্যানেজ করুন</p>
+            </div>
+            
             <div class="admin-content-area">
-                <h2>👑 স্টাফ ম্যানেজমেন্ট</h2>
-                <button class="admin-submit-btn" onclick="createStaff()" style="margin-bottom: 20px;">➕ নতুন স্টাফ তৈরি করুন</button>
-                <div id="staffList">
-                    <!-- স্টাফ লিস্ট এখানে লোড হবে -->
+                <div class="staff-controls">
+                    <button class="create-staff-btn" onclick="openCreateStaffModal()">
+                        <span>➕</span> নতুন স্টাফ তৈরি করুন
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="staffSearch" placeholder="স্টাফ খুঁজুন...">
+                        <span class="search-icon">🔍</span>
+                    </div>
                 </div>
+                <div class="staff-grid" id="staffGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="createStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="margin: 0;">➕ নতুন স্টাফ তৈরি করুন</h2>
+            </div>
+            <div class="modal-body">
+                <form id="createStaffForm">
+                    <div class="form-group">
+                        <label for="staffFullName">পুরো নাম</label>
+                        <input type="text" id="staffFullName" required placeholder="স্টাফের পুরো নাম">
+                    </div>
+                    <div class="form-group">
+                        <label for="staffUsername">ইউজারনেম</label>
+                        <input type="text" id="staffUsername" required placeholder="ইউজারনেম">
+                    </div>
+                    <div class="form-group">
+                        <label for="staffEmail">ইমেইল</label>
+                        <input type="email" id="staffEmail" required placeholder="ইমেইল ঠিকানা">
+                    </div>
+                    <div class="form-group">
+                        <label for="staffPassword">পাসওয়ার্ড</label>
+                        <input type="password" id="staffPassword" required placeholder="পাসওয়ার্ড">
+                    </div>
+                    <div class="form-group">
+                        <label for="staffRole">ভূমিকা</label>
+                        <select id="staffRole" required onchange="updatePermissions()">
+                            <option value="">ভূমিকা নির্বাচন করুন</option>
+                            <option value="super_admin">সুপার এডমিন</option>
+                            <option value="admin">এডমিন</option>
+                            <option value="moderator">মডারেটর</option>
+                            <option value="support">সাপোর্ট</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>অনুমতিসমূহ</label>
+                        <div class="permission-checkboxes" id="permissionCheckboxes"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeCreateStaffModal()">বাতিল</button>
+                <button class="btn-save" onclick="createStaff()">স্টাফ তৈরি করুন</button>
             </div>
         </div>
     </div>
 
     <script>
+        const allPermissions = {
+            'view_users': 'ইউজার দেখুন',
+            'edit_users': 'ইউজার এডিট করুন',
+            'delete_users': 'ইউজার ডিলিট করুন',
+            'view_tasks': 'টাস্ক দেখুন',
+            'approve_tasks': 'টাস্ক অ্যাপ্রুভ করুন',
+            'reject_tasks': 'টাস্ক রিজেক্ট করুন',
+            'view_deposits': 'ডিপোজিট দেখুন',
+            'approve_deposits': 'ডিপোজিট অ্যাপ্রুভ করুন',
+            'reject_deposits': 'ডিপোজিট রিজেক্ট করুন',
+            'view_withdrawals': 'উইথড্র দেখুন',
+            'approve_withdrawals': 'উইথড্র অ্যাপ্রুভ করুন',
+            'reject_withdrawals': 'উইথড্র রিজেক্ট করুন',
+            'view_reports': 'রিপোর্ট দেখুন',
+            'manage_staff': 'স্টাফ ম্যানেজ করুন',
+            'system_settings': 'সিস্টেম সেটিংস'
+        };
+
+        const rolePermissions = {
+            'super_admin': ['all'],
+            'admin': ['view_users', 'edit_users', 'view_tasks', 'approve_tasks', 'reject_tasks', 'view_deposits', 'approve_deposits', 'view_withdrawals', 'approve_withdrawals', 'view_reports'],
+            'moderator': ['view_users', 'view_tasks', 'approve_tasks', 'reject_tasks', 'view_deposits', 'view_withdrawals'],
+            'support': ['view_users', 'view_tasks', 'view_deposits', 'view_withdrawals']
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin'));
             if (!currentAdmin) {
@@ -57,63 +203,208 @@
                 return;
             }
             updateAdminData(currentAdmin);
-            loadStaff();
+            loadStaffData();
+            initializePermissionCheckboxes();
         });
         
         function updateAdminData(admin) {
             document.getElementById('adminWelcome').textContent = `স্বাগতম, ${admin.fullName}!`;
+            const roleNames = {
+                'super_admin': 'সুপার এডমিন',
+                'admin': 'এডমিন',
+                'moderator': 'মডারেটর',
+                'support': 'সাপোর্ট'
+            };
             const roleBadge = document.getElementById('adminRoleBadge');
-            roleBadge.textContent = admin.role === 'super_admin' ? 'সুপার এডমিন' : 'এডমিন';
+            roleBadge.textContent = roleNames[admin.role] || admin.role;
             roleBadge.className = `role-badge role-${admin.role}`;
         }
         
-        function loadStaff() {
-            const staff = JSON.parse(localStorage.getItem('adminAccounts') || '[]');
-            const staffList = document.getElementById('staffList');
+        function loadStaffData() {
+            const staffAccounts = JSON.parse(localStorage.getItem('adminAccounts') || '[]');
+            const staffGrid = document.getElementById('staffGrid');
+            let gridHtml = '';
             
-            let html = '<div class="admin-table">';
-            html += '<div class="admin-table-header"><div>নাম</div><div>ইউজারনেম</div><div>রোল</div><div>স্ট্যাটাস</div><div>অ্যাকশন</div></div>';
-            
-            staff.forEach(staffMember => {
-                if (staffMember.role !== 'super_admin') {
-                    html += `
-                        <div class="admin-table-row">
-                            <div>${staffMember.fullName}</div>
-                            <div>${staffMember.username}</div>
-                            <div><span class="role-badge role-${staffMember.role}">${staffMember.role}</span></div>
-                            <div><span class="admin-status-badge admin-status-approved">সক্রিয়</span></div>
-                            <div>
-                                <button class="admin-btn admin-btn-view">দেখুন</button>
-                                <button class="admin-btn admin-btn-approve">এডিট</button>
+            staffAccounts.forEach(staff => {
+                if (staff.role !== 'super_admin') {
+                    const firstLetter = staff.fullName ? staff.fullName.charAt(0).toUpperCase() : 'S';
+                    const statusClass = staff.status === 'active' ? 'status-active' : 'status-inactive';
+                    const roleNames = {
+                        'super_admin': 'সুপার এডমিন',
+                        'admin': 'এডমিন',
+                        'moderator': 'মডারেটর',
+                        'support': 'সাপোর্ট'
+                    };
+                    
+                    let permissionsHtml = '';
+                    if (staff.permissions.includes('all')) {
+                        permissionsHtml = '<span class="permission-tag">সমস্ত অনুমতি</span>';
+                    } else {
+                        staff.permissions.forEach(perm => {
+                            if (allPermissions[perm]) {
+                                permissionsHtml += `<span class="permission-tag">${allPermissions[perm]}</span>`;
+                            }
+                        });
+                    }
+                    
+                    gridHtml += `
+                        <div class="staff-card">
+                            <div class="status-indicator ${statusClass}"></div>
+                            <div class="staff-header">
+                                <div class="staff-avatar">${firstLetter}</div>
+                                <div class="staff-info">
+                                    <h3>${staff.fullName}</h3>
+                                    <p>${staff.username}</p>
+                                    <span class="role-badge role-${staff.role}">${roleNames[staff.role]}</span>
+                                </div>
+                            </div>
+                            <div class="staff-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">ইমেইল:</span>
+                                    <span class="detail-value">${staff.email}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">স্ট্যাটাস:</span>
+                                    <span class="detail-value">${staff.status === 'active' ? 'সক্রিয়' : 'নিষ্ক্রিয়'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">তৈরির তারিখ:</span>
+                                    <span class="detail-value">${new Date(staff.createdDate).toLocaleDateString('bn-BD')}</span>
+                                </div>
+                            </div>
+                            <div class="permissions-list">
+                                <h4>অনুমতিসমূহ:</h4>
+                                ${permissionsHtml}
+                            </div>
+                            <div class="staff-actions">
+                                <button class="staff-action-btn btn-edit" onclick="editStaff('${staff.id}')">এডিট</button>
+                                <button class="staff-action-btn btn-permissions" onclick="managePermissions('${staff.id}')">অনুমতি</button>
+                                <button class="staff-action-btn btn-deactivate" onclick="toggleStaffStatus('${staff.id}')">
+                                    ${staff.status === 'active' ? 'ডিএক্টিভেট' : 'এক্টিভেট'}
+                                </button>
                             </div>
                         </div>
                     `;
                 }
             });
             
-            html += '</div>';
-            staffList.innerHTML = html || '<p>কোনো স্টাফ মেম্বার নেই</p>';
+            staffGrid.innerHTML = gridHtml || '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">কোনো স্টাফ মেম্বার নেই</p>';
+        }
+        
+        function initializePermissionCheckboxes() {
+            const container = document.getElementById('permissionCheckboxes');
+            let html = '';
+            for (const [key, value] of Object.entries(allPermissions)) {
+                html += `
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="perm_${key}" name="permissions" value="${key}">
+                        <label for="perm_${key}">${value}</label>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+        
+        function updatePermissions() {
+            const role = document.getElementById('staffRole').value;
+            const checkboxes = document.querySelectorAll('input[name="permissions"]');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.disabled = false;
+            });
+            
+            if (role && rolePermissions[role]) {
+                if (rolePermissions[role].includes('all')) {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = true;
+                        checkbox.disabled = true;
+                    });
+                } else {
+                    rolePermissions[role].forEach(perm => {
+                        const checkbox = document.getElementById(`perm_${perm}`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                        }
+                    });
+                }
+            }
+        }
+        
+        function openCreateStaffModal() {
+            document.getElementById('createStaffModal').style.display = 'block';
+        }
+        
+        function closeCreateStaffModal() {
+            document.getElementById('createStaffModal').style.display = 'none';
+            document.getElementById('createStaffForm').reset();
         }
         
         function createStaff() {
-            const username = prompt('নতুন স্টাফের ইউজারনেম:');
-            const password = prompt('পাসওয়ার্ড:');
-            const fullName = prompt('পুরো নাম:');
+            const fullName = document.getElementById('staffFullName').value;
+            const username = document.getElementById('staffUsername').value;
+            const email = document.getElementById('staffEmail').value;
+            const password = document.getElementById('staffPassword').value;
+            const role = document.getElementById('staffRole').value;
             
-            if (username && password && fullName) {
-                const staff = JSON.parse(localStorage.getItem('adminAccounts') || '[]');
-                staff.push({
-                    id: 'staff_' + Date.now(),
-                    username: username,
-                    password: password,
-                    fullName: fullName,
-                    role: 'moderator',
-                    status: 'active',
-                    createdDate: new Date().toISOString()
-                });
-                localStorage.setItem('adminAccounts', JSON.stringify(staff));
-                alert('নতুন স্টাফ তৈরি করা হয়েছে!');
-                loadStaff();
+            if (!fullName || !username || !email || !password || !role) {
+                alert('দয়া করে সব 필িল্ড পূরণ করুন!');
+                return;
+            }
+            
+            const staffAccounts = JSON.parse(localStorage.getItem('adminAccounts') || '[]');
+            const existingStaff = staffAccounts.find(s => s.username === username || s.email === email);
+            
+            if (existingStaff) {
+                alert('এই ইউজারনেম বা ইমেইল ইতিমধ্যে ব্যবহৃত হয়েছে!');
+                return;
+            }
+            
+            const selectedPermissions = [];
+            const checkboxes = document.querySelectorAll('input[name="permissions"]:checked');
+            checkboxes.forEach(checkbox => {
+                selectedPermissions.push(checkbox.value);
+            });
+            
+            const newStaff = {
+                id: 'staff_' + Date.now(),
+                username: username,
+                password: password,
+                fullName: fullName,
+                email: email,
+                role: role,
+                permissions: selectedPermissions,
+                status: 'active',
+                createdBy: JSON.parse(localStorage.getItem('currentAdmin')).id,
+                createdDate: new Date().toISOString()
+            };
+            
+            staffAccounts.push(newStaff);
+            localStorage.setItem('adminAccounts', JSON.stringify(staffAccounts));
+            
+            closeCreateStaffModal();
+            loadStaffData();
+            alert('নতুন স্টাফ সফলভাবে তৈরি করা হয়েছে!');
+        }
+        
+        function editStaff(staffId) {
+            alert(`স্টাফ ID: ${staffId} এডিট করা হবে`);
+        }
+        
+        function managePermissions(staffId) {
+            alert(`স্টাফ ID: ${staffId} এর অনুমতি ম্যানেজ করা হবে`);
+        }
+        
+        function toggleStaffStatus(staffId) {
+            if (confirm('আপনি কি স্টাফ স্ট্যাটাস পরিবর্তন করতে চান?')) {
+                const staffAccounts = JSON.parse(localStorage.getItem('adminAccounts') || '[]');
+                const staffIndex = staffAccounts.findIndex(s => s.id === staffId);
+                if (staffIndex !== -1) {
+                    staffAccounts[staffIndex].status = staffAccounts[staffIndex].status === 'active' ? 'inactive' : 'active';
+                    localStorage.setItem('adminAccounts', JSON.stringify(staffAccounts));
+                    loadStaffData();
+                    alert('স্টাফ স্ট্যাটাস আপডেট করা হয়েছে!');
+                }
             }
         }
         
