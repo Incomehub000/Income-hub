@@ -183,36 +183,6 @@
             box-shadow: none;
         }
         
-        .deposit-section {
-            background: #e8f5e8;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border-left: 4px solid #4CAF50;
-        }
-        
-        .deposit-btn {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: block;
-            width: 100%;
-            margin-top: 15px;
-            text-align: center;
-            text-decoration: none;
-        }
-        
-        .deposit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
-        }
-        
         .active-premium {
             background: #d4edda;
             padding: 20px;
@@ -234,6 +204,125 @@
             padding: 15px;
             border-radius: 10px;
             margin: 15px 0;
+        }
+        
+        /* অ্যাড ভিউ সিস্টেম স্টাইল */
+        .ad-view-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ad-content {
+            width: 90%;
+            max-width: 500px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .ad-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .ad-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .countdown-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .ad-complete-btn {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .ad-complete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        .view-ads-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .view-ads-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .view-ads-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .ads-remaining {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .deposit-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
         }
     </style>
 </head>
@@ -263,6 +352,28 @@
             <h3>✅ আপনার সক্রিয় প্রিমিয়াম প্যাকেজ</h3>
             <p id="premiumInfoText">আপনার প্রিমিয়াম প্যাকেজ সক্রিয় আছে</p>
             <p id="expiryInfoText">মেয়াদ শেষ হবে: </p>
+            
+            <!-- অ্যাড ভিউ সেকশন -->
+            <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                <h4>📺 অ্যাড ভিউ সিস্টেম</h4>
+                <p id="adsRemainingText">আপনার আজকের জন্য অ্যাড ভিউ বাকি: 0</p>
+                <button class="view-ads-btn" id="viewAdsBtn" onclick="startAdView()">🎬 অ্যাড ভিউ করুন</button>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+                    প্রতিটি অ্যাড ভিউ করার জন্য আপনাকে 5 সেকেন্ড অপেক্ষা করতে হবে
+                </p>
+            </div>
+        </div>
+        
+        <!-- ডিপোজিট ব্যালেন্স ইনফো -->
+        <div class="deposit-info">
+            <h3>💳 ডিপোজিট ব্যালেন্স</h3>
+            <p>প্রিমিয়াম প্যাকেজ কিনতে শুধুমাত্র ডিপোজিট ব্যালেন্স ব্যবহার করা যাবে</p>
+            <p style="font-size: 1.2rem; font-weight: bold; text-align: center; margin: 10px 0;">
+                আপনার ডিপোজিট ব্যালেন্স: <span id="depositBalanceDisplay">0</span> কয়েন
+            </p>
+            <p style="text-align: center; color: #666; font-size: 0.9rem;">
+                ডিপোজিট করতে ড্যাশবোর্ডে যান
+            </p>
         </div>
         
         <!-- রেফারেল স্ট্যাটস -->
@@ -321,22 +432,10 @@
                 <p>কয়েন</p>
             </div>
             <div class="stat-card">
-                <h3>🔄 টাস্ক ব্যালেন্স</h3>
-                <div class="coin-amount" id="taskBalance">0</div>
+                <h3>📺 অ্যাড ব্যালেন্স</h3>
+                <div class="coin-amount" id="adBalance">0</div>
                 <p>কয়েন</p>
             </div>
-        </div>
-        
-        <!-- ডিপোজিট সেকশন -->
-        <div class="deposit-section">
-            <h3>💳 প্রথমে ডিপোজিট করুন</h3>
-            <p>প্রিমিয়াম প্যাকেজ কিনতে ডিপোজিট ব্যালেন্স প্রয়োজন</p>
-            <a href="deposit.html" class="deposit-btn">
-                💰 ডিপোজিট করুন - পেমেন্ট স্ক্রিনশট জমা দিন
-            </a>
-            <p style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;">
-                ডিপোজিট করা কয়েন দিয়ে শুধু প্রিমিয়াম প্যাকেজ কেনা যাবে
-            </p>
         </div>
         
         <!-- প্রিমিয়াম প্যাকেজ -->
@@ -502,6 +601,32 @@
         </div>
     </div>
 
+    <!-- অ্যাড ভিউ কন্টেইনার -->
+    <div class="ad-view-container" id="adViewContainer">
+        <div class="ad-content">
+            <h2 class="ad-title" id="adTitle">অ্যাড ভিউ করুন</h2>
+            <p class="ad-description" id="adDescription">
+                দয়া করে নিচের অ্যাডটি 5 সেকেন্ডের জন্য দেখুন। সম্পূর্ণ হলে আপনি কয়েন পাবেন।
+            </p>
+            
+            <!-- অ্যাড কন্টেন্ট -->
+            <div style="background: #e0e0e0; height: 200px; border-radius: 10px; display: flex; justify-content: center; align-items: center; margin: 20px 0;">
+                <h3 style="color: #666;">🎬 অ্যাড কন্টেন্ট</h3>
+            </div>
+            
+            <!-- কাউন্টডাউন টাইমার -->
+            <div class="countdown-timer" id="countdownTimer">5</div>
+            
+            <!-- প্রোগ্রেস বার -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <!-- সম্পূর্ণ বাটন -->
+            <button class="ad-complete-btn" id="adCompleteBtn" onclick="completeAdView()">সম্পূর্ণ করুন</button>
+        </div>
+    </div>
+
     <script>
         // পেজ লোড হলে ডেটা আপডেট
         document.addEventListener('DOMContentLoaded', function() {
@@ -517,6 +642,7 @@
             updateAllBalances(currentUser);
             loadReferralHistory(currentUser);
             updateBuyButtons(currentUser);
+            updateAdViewSection(currentUser);
         });
 
         // সব ব্যালেন্স আপডেট
@@ -524,7 +650,8 @@
             document.getElementById('totalBalance').textContent = user.coins || 0;
             document.getElementById('premiumBalance').textContent = user.premiumBalance || 0;
             document.getElementById('depositBalance').textContent = user.depositBalance || 0;
-            document.getElementById('taskBalance').textContent = user.taskBalance || 0;
+            document.getElementById('adBalance').textContent = user.adBalance || 0;
+            document.getElementById('depositBalanceDisplay').textContent = user.depositBalance || 0;
             
             // রেফারেল স্ট্যাটস
             document.getElementById('referralBalance').textContent = user.referralBalance || 0;
@@ -549,7 +676,7 @@
                 const button = document.getElementById(buttonId);
                 if (depositBalance < price) {
                     button.disabled = true;
-                    button.innerHTML = 'অপর্যাপ্ত ব্যালেন্স';
+                    button.innerHTML = 'অপর্যাপ্ত ডিপোজিট ব্যালেন্স';
                 } else {
                     button.disabled = false;
                     button.innerHTML = 'প্যাকেজ কিনুন';
@@ -584,6 +711,9 @@
                 currentUser.premiumPackage = packageType;
                 currentUser.premiumExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
                 
+                // অ্যাড ভিউ সেটআপ
+                setupAdViewForPackage(currentUser, packageType);
+                
                 // প্রিমিয়াম হিস্ট্রি যোগ করুন
                 if (!currentUser.premiumHistory) currentUser.premiumHistory = [];
                 currentUser.premiumHistory.push({
@@ -603,7 +733,128 @@
                 updateAllBalances(currentUser);
                 updateBuyButtons(currentUser);
                 checkPremiumValidity(currentUser);
+                updateAdViewSection(currentUser);
             }
+        }
+
+        // প্যাকেজ অনুযায়ী অ্যাড ভিউ সেটআপ
+        function setupAdViewForPackage(user, packageType) {
+            const adConfig = {
+                'easy': { totalAds: 2, coinsPerAd: 50 },
+                'basic': { totalAds: 10, coinsPerAd: 50 },
+                'silver': { totalAds: 22, coinsPerAd: 50 },
+                'gold': { totalAds: 50, coinsPerAd: 50 },
+                'platinum': { totalAds: 55, coinsPerAd: 100 },
+                'diamond': { totalAds: 120, coinsPerAd: 100 }
+            };
+            
+            const config = adConfig[packageType];
+            
+            // অ্যাড ভিউ ডেটা সেট করুন
+            user.adViews = {
+                totalAds: config.totalAds,
+                coinsPerAd: config.coinsPerAd,
+                adsViewed: 0,
+                lastAdDate: new Date().toDateString()
+            };
+        }
+
+        // অ্যাড ভিউ সেকশন আপডেট
+        function updateAdViewSection(user) {
+            if (user.premium && user.adViews) {
+                const adsRemaining = user.adViews.totalAds - user.adViews.adsViewed;
+                document.getElementById('adsRemainingText').textContent = 
+                    `আপনার আজকের জন্য অ্যাড ভিউ বাকি: ${adsRemaining}`;
+                
+                const viewAdsBtn = document.getElementById('viewAdsBtn');
+                if (adsRemaining > 0) {
+                    viewAdsBtn.disabled = false;
+                    viewAdsBtn.textContent = '🎬 অ্যাড ভিউ করুন';
+                } else {
+                    viewAdsBtn.disabled = true;
+                    viewAdsBtn.textContent = 'আজকের অ্যাড শেষ';
+                }
+            }
+        }
+
+        // অ্যাড ভিউ শুরু
+        function startAdView() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser.premium || !currentUser.adViews) {
+                alert('প্রিমিয়াম প্যাকেজ সক্রিয় নেই!');
+                return;
+            }
+            
+            const adsRemaining = currentUser.adViews.totalAds - currentUser.adViews.adsViewed;
+            if (adsRemaining <= 0) {
+                alert('আপনার আজকের জন্য অ্যাড ভিউ শেষ!');
+                return;
+            }
+            
+            // অ্যাড ভিউ কন্টেইনার দেখান
+            document.getElementById('adViewContainer').style.display = 'flex';
+            
+            // কাউন্টডাউন শুরু
+            startCountdown();
+        }
+
+        // কাউন্টডাউন টাইমার
+        function startCountdown() {
+            let timeLeft = 5;
+            const timerElement = document.getElementById('countdownTimer');
+            const progressFill = document.getElementById('progressFill');
+            const completeBtn = document.getElementById('adCompleteBtn');
+            
+            // রিসেট করুন
+            timerElement.textContent = timeLeft;
+            progressFill.style.width = '0%';
+            completeBtn.style.display = 'none';
+            
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                // প্রোগ্রেস বার আপডেট
+                const progressPercent = ((5 - timeLeft) / 5) * 100;
+                progressFill.style.width = `${progressPercent}%`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    completeBtn.style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        // অ্যাড ভিউ সম্পূর্ণ
+        function completeAdView() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // অ্যাড ভিউ কন্টেইনার লুকান
+            document.getElementById('adViewContainer').style.display = 'none';
+            
+            // অ্যাড ভিউ কাউন্ট আপডেট
+            currentUser.adViews.adsViewed++;
+            
+            // কয়েন যোগ করুন
+            const coinsEarned = currentUser.adViews.coinsPerAd;
+            currentUser.adBalance = (currentUser.adBalance || 0) + coinsEarned;
+            currentUser.coins = (currentUser.coins || 0) + coinsEarned;
+            
+            // হিস্ট্রি যোগ করুন
+            if (!currentUser.adHistory) currentUser.adHistory = [];
+            currentUser.adHistory.push({
+                date: new Date().toLocaleString('bn-BD'),
+                coins: coinsEarned,
+                adNumber: currentUser.adViews.adsViewed
+            });
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateAllUsers(currentUser);
+            
+            alert(`অভিনন্দন! আপনি ${coinsEarned} কয়েন অর্জন করেছেন!`);
+            updateAllBalances(currentUser);
+            updateAdViewSection(currentUser);
         }
 
         // রেফারেল বোনাস প্রয়োগ
@@ -694,6 +945,7 @@
                     user.premium = false;
                     user.premiumPackage = null;
                     user.premiumExpiry = null;
+                    user.adViews = null;
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     updateAllUsers(user);
                     alert('আপনার প্রিমিয়াম প্যাকেজের মেয়াদ শেষ হয়েছে। নতুন করে সাবস্ক্রাইব করুন।');
