@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রোফাইল - INCOME HUB</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .avatar-edit {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .profile-info h2 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        
+        .profile-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            border-bottom: 2px solid #f8f9fa;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .form-group input:read-only {
+            background: #f8f9fa;
+            color: #666;
+        }
+        
+        .save-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .change-password-btn {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .change-password-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .referral-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .referral-code {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            border: 2px dashed #2196F3;
+        }
+        
+        .referral-link {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+        
+        .copy-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .password-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .password-form.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="../index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='../dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">👤 প্রোফাইল</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">আপনার প্রোফাইল তথ্য ব্যবস্থাপনা</p>
+        
+        <div class="profile-card">
+            <!-- প্রোফাইল হেডার -->
+            <div class="profile-header">
+                <div class="profile-avatar" onclick="changeAvatar()">
+                    <span id="avatarText">U</span>
+                    <div class="avatar-edit">✏️</div>
+                </div>
+                <div class="profile-info">
+                    <h2 id="userFullName">লোড হচ্ছে...</h2>
+                    <p id="userEmail">লোড হচ্ছে...</p>
+                    <p id="userPhone">লোড হচ্ছে...</p>
+                    <p id="userStatus">স্ট্যাটাস: <span id="statusText">ফ্রি ইউজার</span></p>
+                </div>
+            </div>
+            
+            <!-- প্রোফাইল স্ট্যাটস -->
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalEarned">0</div>
+                    <div>মোট ইনকাম</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalReferrals">0</div>
+                    <div>মোট রেফারেল</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="tasksCompleted">0</div>
+                    <div>টাস্ক কমপ্লিট</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="memberSince">0</div>
+                    <div>দিন যাবত সদস্য</div>
+                </div>
+            </div>
+            
+            <!-- ব্যক্তিগত তথ্য -->
+            <div class="form-section">
+                <h3>📝 ব্যক্তিগত তথ্য</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">পুরো নাম</label>
+                        <input type="text" id="fullName" placeholder="আপনার পুরো নাম">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">ইউজারনেম</label>
+                        <input type="text" id="username" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">ইমেইল ঠিকানা</label>
+                        <input type="email" id="email" placeholder="আপনার ইমেইল ঠিকানা">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">মোবাইল নম্বর</label>
+                        <input type="tel" id="phone" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="whatsapp">WhatsApp নম্বর</label>
+                        <input type="tel" id="whatsapp" placeholder="আপনার WhatsApp নম্বর">
+                    </div>
+                    <div class="form-group">
+                        <label for="joinDate">রেজিস্ট্রেশন তারিখ</label>
+                        <input type="text" id="joinDate" readonly>
+                    </div>
+                </div>
+                
+                <button class="save-btn" onclick="updateProfile()">💾 তথ্য আপডেট করুন</button>
+            </div>
+            
+            <!-- পাসওয়ার্ড পরিবর্তন -->
+            <div class="form-section">
+                <h3>🔒 পাসওয়ার্ড পরিবর্তন</h3>
+                <button class="change-password-btn" onclick="togglePasswordForm()">🔑 পাসওয়ার্ড পরিবর্তন করুন</button>
+                
+                <div class="password-form" id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">বর্তমান পাসওয়ার্ড</label>
+                        <input type="password" id="currentPassword" placeholder="বর্তমান পাসওয়ার্ড">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">নতুন পাসওয়ার্ড</label>
+                        <input type="password" id="newPassword" placeholder="নতুন পাসওয়ার্ড">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                        <input type="password" id="confirmPassword" placeholder="পাসওয়ার্ড আবার লিখুন">
+                    </div>
+                    
+                    <button class="save-btn" onclick="changePassword()">🔄 পাসওয়ার্ড পরিবর্তন করুন</button>
+                </div>
+            </div>
+            
+            <!-- রেফারেল তথ্য -->
+            <div class="form-section">
+                <h3>👥 রেফারেল তথ্য</h3>
+                
+                <div class="referral-info">
+                    <h4>🎯 আপনার রেফারেল কোড</h4>
+                    <div class="referral-code" id="referralCode">লোড হচ্ছে...</div>
+                    
+                    <h4 style="margin-top: 20px;">🔗 আপনার রেফারেল লিংক</h4>
+                    <div class="referral-link" id="referralLink">লোড হচ্ছে...</div>
+                    
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button class="copy-btn" onclick="copyReferralCode()">📋 কোড কপি করুন</button>
+                        <button class="copy-btn" onclick="copyReferralLink()">🔗 লিংক কপি করুন</button>
+                    </div>
+                </div>
+                
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #4CAF50;">
+                    <h4>💰 রেফারেল বোনাস সিস্টেম</h4>
+                    <p>• নতুন ইউজার রেজিস্ট্রেশন: <strong>১০০ কয়েন</strong></p>
+                    <p>• রেফারার বোনাস: <strong>২০০ কয়েন</strong></p>
+                    <p>• প্রিমিয়াম কিনলে: <strong>১০% কমিশন</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        
+        // পেজ লোড হলে প্রোফাইল ডেটা আপডেট
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            updateProfileData(currentUser);
+        });
+        
+        // প্রোফাইল ডেটা আপডেট
+        function updateProfileData(user) {
+            // ব্যক্তিগত তথ্য
+            document.getElementById('userFullName').textContent = user.fullName || 'নাম নেই';
+            document.getElementById('userEmail').textContent = user.email || 'ইমেইল নেই';
+            document.getElementById('userPhone').textContent = user.phone || 'ফোন নেই';
+            
+            const statusText = user.premium ? '⭐ প্রিমিয়াম মেম্বার' : '🆓 ফ্রি ইউজার';
+            document.getElementById('statusText').textContent = statusText;
+            
+            // ফর্ম ফিল্ড
+            document.getElementById('fullName').value = user.fullName || '';
+            document.getElementById('username').value = user.username || user.email.split('@')[0];
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('phone').value = user.phone || '';
+            document.getElementById('whatsapp').value = user.whatsapp || '';
+            document.getElementById('joinDate').value = new Date(user.registrationDate).toLocaleDateString('bn-BD');
+            
+            // প্রোফাইল স্ট্যাটস
+            document.getElementById('totalEarned').textContent = formatNumber(user.totalEarned || 0);
+            document.getElementById('totalReferrals').textContent = user.totalReferrals || 0;
+            document.getElementById('tasksCompleted').textContent = user.tasksCompleted || 0;
+            
+            // সদস্য হওয়ার দিন সংখ্যা
+            const joinDate = new Date(user.registrationDate);
+            const today = new Date();
+            const daysSinceJoin = Math.floor((today - joinDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('memberSince').textContent = daysSinceJoin;
+            
+            // রেফারেল তথ্য
+            document.getElementById('referralCode').textContent = user.referralCode || 'REF' + user.id.substr(0, 8).toUpperCase();
+            document.getElementById('referralLink').textContent = `https://incomehub.com/register.html?ref=${user.referralCode || user.id}`;
+            
+            // অ্যাভাটার টেক্সট
+            document.getElementById('avatarText').textContent = (user.fullName || 'U').charAt(0).toUpperCase();
+        }
+        
+        // প্রোফাইল আপডেট
+        function updateProfile() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+            
+            if (!fullName) {
+                alert('দয়া করে আপনার পুরো নাম লিখুন');
+                return;
+            }
+            
+            if (!email) {
+                alert('দয়া করে আপনার ইমেইল ঠিকানা লিখুন');
+                return;
+            }
+            
+            // ইমেইল ভেরিফিকেশন
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('দয়া করে সঠিক ইমেইল ঠিকানা লিখুন');
+                return;
+            }
+            
+            // ইউজার আপডেট
+            currentUser.fullName = fullName;
+            currentUser.email = email;
+            currentUser.whatsapp = whatsapp;
+            
+            // লোকাল স্টোরেজ আপডেট
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // সকল ইউজার আপডেট
+            let allUsers = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            allUsers = allUsers.map(u => u.id === currentUser.id ? currentUser : u);
+            localStorage.setItem('incomeHubUsers', JSON.stringify(allUsers));
+            
+            alert('✅ প্রোফাইল সফলভাবে আপডেট করা হয়েছে!');
+            updateProfileData(currentUser);
+        }
+        
+        // পাসওয়ার্ড ফর্ম টগল
+        function togglePasswordForm() {
+            const passwordForm = document.getElementById('passwordForm');
+            passwordForm.classList.toggle('active');
+        }
+        
+        // পাসওয়ার্ড পরিবর্তন
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword) {
+                alert('দয়া করে বর্তমান পাসওয়ার্ড লিখুন');
+                return;
+            }
+            
+            if (!newPassword) {
+                alert('দয়া করে নতুন পাসওয়ার্ড লিখুন');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                alert('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('নতুন পাসওয়ার্ড মিলছে না!');
+                return;
+            }
+            
+            // বর্তমান পাসওয়ার্ড চেক
+            if (currentPassword !== currentUser.password) {
+                alert('বর্তমান পাসওয়ার্ড ভুল!');
+                return;
+            }
+            
+            // পাসওয়ার্ড আপডেট
+            currentUser.password = newPassword;
+            
+            // লোকাল স্টোরেজ আপডেট
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // সকল ইউজার আপডেট
+            let allUsers = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            allUsers = allUsers.map(u => u.id === currentUser.id ? currentUser : u);
+            localStorage.setItem('incomeHubUsers', JSON.stringify(allUsers));
+            
+            alert('✅ পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
+            
+            // ফর্ম ক্লিয়ার
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            document.getElementById('passwordForm').classList.remove('active');
+        }
+        
+        // অ্যাভাটার পরিবর্তন (সিমুলেশন)
+        function changeAvatar() {
+            alert('অ্যাভাটার পরিবর্তনের ফিচারটি খুব শীঘ্রই আসছে!');
+        }
+        
+        // রেফারেল কোড কপি
+        function copyReferralCode() {
+            const code = document.getElementById('referralCode').textContent;
+            copyToClipboard(code);
+            alert('রেফারেল কোড কপি করা হয়েছে: ' + code);
+        }
+        
+        // রেফারেল লিংক কপি
+        function copyReferralLink() {
+            const link = document.getElementById('referralLink').textContent;
+            copyToClipboard(link);
+            alert('রেফারেল লিংক কপি করা হয়েছে!');
+        }
+        
+        // ক্লিপবোর্ডে কপি
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).catch(() => {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            });
+        }
+        
+        // নাম্বার ফরম্যাট
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('লগআউট সফল!');
+            window.location.href = '../index.html';
+        }
+    </script>
+</body>
+</html>
