@@ -5,6 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>এডমিন লগইন - INCOME HUB</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .admin-login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .user-login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .user-login-link a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .admin-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -28,26 +103,27 @@
             </div>
             
             <form class="admin-login-form" id="adminLoginForm">
-                <div class="admin-form-group">
+                <div class="form-group">
                     <label for="username">এডমিন ইউজারনেম</label>
                     <input type="text" id="username" name="username" required placeholder="এডমিন ইউজারনেম">
                 </div>
                 
-                <div class="admin-form-group">
+                <div class="form-group">
                     <label for="password">পাসওয়ার্ড</label>
                     <input type="password" id="password" name="password" required placeholder="এডমিন পাসওয়ার্ড">
                 </div>
                 
-                <button type="submit" class="admin-submit-btn">এডমিন লগইন</button>
+                <button type="submit" class="submit-btn">এডমিন লগইন</button>
             </form>
             
-            <div style="text-align: center; margin-top: 20px;">
-                <p>ইউজার অ্যাকাউন্ট? <a href="login.html" style="color: #667eea; text-decoration: none;">ইউজার লগইন</a></p>
+            <div class="user-login-link">
+                <p>ইউজার অ্যাকাউন্ট? <a href="login.html">ইউজার লগইন</a></p>
             </div>
         </div>
     </section>
 
     <script>
+        // ডিফল্ট এডমিন একাউন্ট তৈরি
         function initializeAdminAccounts() {
             let adminAccounts = JSON.parse(localStorage.getItem('adminAccounts'));
             
@@ -64,8 +140,21 @@
                         createdBy: 'system',
                         createdDate: new Date().toISOString(),
                         status: 'active'
+                    },
+                    {
+                        id: 'mod001',
+                        username: 'moderator',
+                        password: 'mod123',
+                        fullName: 'মডারেটর',
+                        email: 'mod@incomehub.com',
+                        role: 'moderator',
+                        permissions: ['view_users', 'approve_tasks', 'approve_withdrawals'],
+                        createdBy: 'admin001',
+                        createdDate: new Date().toISOString(),
+                        status: 'active'
                     }
                 ];
+                
                 localStorage.setItem('adminAccounts', JSON.stringify(adminAccounts));
             }
         }
@@ -93,4 +182,4 @@
         });
     </script>
 </body>
-              </html>
+</html>
