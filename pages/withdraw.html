@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>উইথড্র - INCOME HUB</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .withdraw-container {
+            max-width: 800px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .withdraw-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .balance-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .balance-type {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .balance-type:hover {
+            border-color: #667eea;
+            background: #e3f2fd;
+        }
+        
+        .balance-type.active {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+        }
+        
+        .balance-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .free-amount { color: #3498db; }
+        .premium-amount { color: #f39c12; }
+        .referral-amount { color: #9b59b6; }
+        
+        .withdraw-form {
+            margin: 25px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .calculation-box {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .calculation-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #d4edda;
+        }
+        
+        .final-amount {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2e7d32;
+            text-align: center;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .minimum-notice {
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            border-left: 4px solid #f44336;
+            font-weight: bold;
+        }
+        
+        .charge-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><a href="../index.html" style="color: white; text-decoration: none;">INCOME HUB</a></h2>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn login-btn" onclick="window.location.href='../dashboard.html'">ড্যাশবোর্ড</button>
+                <button class="btn register-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="withdraw-container">
+        <h1 style="text-align: center; margin-bottom: 10px; color: #333;">💳 উইথড্র</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">আপনার ইনকাম টাকা তুলে নিন</p>
+        
+        <div class="withdraw-card">
+            <!-- এক্সচেঞ্জ রেট -->
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 25px;">
+                <h2>💱 এক্সচেঞ্জ রেট</h2>
+                <h1 style="margin: 10px 0;">১০ কয়েন = ১ টাকা</h1>
+            </div>
+            
+            <!-- ব্যালেন্স টাইপ সিলেক্ট -->
+            <h3 style="text-align: center; margin-bottom: 20px; color: #333;">💰 ব্যালেন্স টাইপ সিলেক্ট করুন</h3>
+            
+            <div class="balance-types">
+                <div class="balance-type" onclick="selectBalanceType('free')">
+                    <h4>🆓 ফ্রি টাস্ক</h4>
+                    <div class="balance-amount free-amount" id="freeBalanceAmount">0</div>
+                    <p>কয়েন</p>
+                    <small>মিনিমাম: ১০০০ কয়েন</small>
+                </div>
+                
+                <div class="balance-type" onclick="selectBalanceType('premium')">
+                    <h4>⭐ প্রিমিয়াম</h4>
+                    <div class="balance-amount premium-amount" id="premiumBalanceAmount">0</div>
+                    <p>কয়েন</p>
+                    <small>মিনিমাম: ৫০০০ কয়েন</small>
+                </div>
+                
+                <div class="balance-type" onclick="selectBalanceType('referral')">
+                    <h4>👥 রেফারেল</h4>
+                    <div class="balance-amount referral-amount" id="referralBalanceAmount">0</div>
+                    <p>কয়েন</p>
+                    <small>মিনিমাম: ৩০০০ কয়েন</small>
+                </div>
+            </div>
+            
+            <!-- উইথড্র ফর্ম -->
+            <div class="withdraw-form" id="withdrawForm" style="display: none;">
+                <div class="minimum-notice" id="minimumNotice">
+                    সর্বনিম্ন উইথড্র: ১০০০ কয়েন (১০০ টাকা)
+                </div>
+                
+                <div class="charge-info" id="chargeInfo">
+                    চার্জ: ১০% | আপনি পাবেন: ৯০%
+                </div>
+                
+                <div class="form-group">
+                    <label for="withdrawAmount">কত কয়েন উইথড্র করবেন?</label>
+                    <input type="number" id="withdrawAmount" placeholder="কয়েন সংখ্যা লিখুন" min="0">
+                    <small id="amountHelp" style="color: #666;">আপনার ব্যালেন্স: 0 কয়েন</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod">পেমেন্ট মেথড</label>
+                    <select id="paymentMethod">
+                        <option value="">সিলেক্ট করুন</option>
+                        <option value="bkash">বিকাশ</option>
+                        <option value="nagad">নগদ</option>
+                        <option value="rocket">রকেট</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="accountNumber">আপনার একাউন্ট নম্বর</label>
+                    <input type="text" id="accountNumber" placeholder="01XXXXXXXXX">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">পাসওয়ার্ড</label>
+                    <input type="password" id="password" placeholder="আপনার অ্যাকাউন্ট পাসওয়ার্ড">
+                </div>
+                
+                <!-- ক্যালকুলেশন বক্স -->
+                <div class="calculation-box" id="calculationBox" style="display: none;">
+                    <h4 style="text-align: center; margin-bottom: 15px;">🧮 ক্যালকুলেশন</h4>
+                    
+                    <div class="calculation-item">
+                        <span>উইথড্র কয়েন:</span>
+                        <span id="calcCoins">0</span>
+                    </div>
+                    
+                    <div class="calculation-item">
+                        <span>এক্সচেঞ্জ রেট:</span>
+                        <span>১০ কয়েন = ১ টাকা</span>
+                    </div>
+                    
+                    <div class="calculation-item">
+                        <span>মোট টাকা:</span>
+                        <span id="calcTotalTaka">0 টাকা</span>
+                    </div>
+                    
+                    <div class="calculation-item">
+                        <span id="chargeLabel">চার্জ (১০%):</span>
+                        <span id="calcCharge">0 টাকা</span>
+                    </div>
+                    
+                    <div class="final-amount">
+                        আপনি পাবেন: <span id="calcFinalAmount">0</span> টাকা
+                    </div>
+                </div>
+                
+                <button class="submit-btn" id="submitBtn" onclick="submitWithdraw()" disabled>💳 উইথড্র রিকোয়েস্ট জমা দিন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedBalanceType = '';
+        let currentUser = null;
+        
+        // পেজ লোড হলে ব্যালেন্স আপডেট
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            updateBalanceData(currentUser);
+        });
+        
+        // ব্যালেন্স ডেটা আপডেট
+        function updateBalanceData(user) {
+            document.getElementById('freeBalanceAmount').textContent = formatNumber(user.freeBalance || 0);
+            document.getElementById('premiumBalanceAmount').textContent = formatNumber(user.premiumBalance || 0);
+            document.getElementById('referralBalanceAmount').textContent = formatNumber(user.referralBalance || 0);
+        }
+        
+        // ব্যালেন্স টাইপ সিলেক্ট
+        function selectBalanceType(type) {
+            selectedBalanceType = type;
+            
+            document.querySelectorAll('.balance-type').forEach(balance => {
+                balance.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+            
+            // ফর্ম শো করুন
+            document.getElementById('withdrawForm').style.display = 'block';
+            
+            // মিনিমাম নোটিস আপডেট
+            const minimumNotice = document.getElementById('minimumNotice');
+            const chargeInfo = document.getElementById('chargeInfo');
+            const amountHelp = document.getElementById('amountHelp');
+            
+            let minAmount = 0;
+            let chargeRate = 0;
+            let balanceAmount = 0;
+            
+            switch(type) {
+                case 'free':
+                    minAmount = 1000;
+                    chargeRate = 10;
+                    balanceAmount = currentUser.freeBalance || 0;
+                    minimumNotice.textContent = `সর্বনিম্ন উইথড্র: ${minAmount} কয়েন (${minAmount/10} টাকা)`;
+                    chargeInfo.textContent = `চার্জ: ${chargeRate}% | আপনি পাবেন: ${100-chargeRate}%`;
+                    amountHelp.textContent = `আপনার ফ্রি টাস্ক ব্যালেন্স: ${formatNumber(balanceAmount)} কয়েন`;
+                    break;
+                    
+                case 'premium':
+                    minAmount = 5000;
+                    chargeRate = 15;
+                    balanceAmount = currentUser.premiumBalance || 0;
+                    minimumNotice.textContent = `সর্বনিম্ন উইথড্র: ${minAmount} কয়েন (${minAmount/10} টাকা)`;
+                    chargeInfo.textContent = `চার্জ: ${chargeRate}% | আপনি পাবেন: ${100-chargeRate}%`;
+                    amountHelp.textContent = `আপনার প্রিমিয়াম ব্যালেন্স: ${formatNumber(balanceAmount)} কয়েন`;
+                    break;
+                    
+                case 'referral':
+                    minAmount = 3000;
+                    chargeRate = 20;
+                    balanceAmount = currentUser.referralBalance || 0;
+                    minimumNotice.textContent = `সর্বনিম্ন উইথড্র: ${minAmount} কয়েন (${minAmount/10} টাকা)`;
+                    chargeInfo.textContent = `চার্জ: ${chargeRate}% | আপনি পাবেন: ${100-chargeRate}%`;
+                    amountHelp.textContent = `আপনার রেফারেল ব্যালেন্স: ${formatNumber(balanceAmount)} কয়েন`;
+                    break;
+            }
+            
+            // ইনপুট মিন ভ্যালু সেট
+            document.getElementById('withdrawAmount').min = minAmount;
+            document.getElementById('withdrawAmount').placeholder = `সর্বনিম্ন ${minAmount} কয়েন`;
+            
+            // ক্যালকুলেশন আপডেট
+            updateCalculation();
+        }
+        
+        // ক্যালকুলেশন আপডেট
+        function updateCalculation() {
+            const withdrawAmount = parseInt(document.getElementById('withdrawAmount').value) || 0;
+            const submitBtn = document.getElementById('submitBtn');
+            const calculationBox = document.getElementById('calculationBox');
+            
+            if (withdrawAmount > 0) {
+                calculationBox.style.display = 'block';
+                
+                let chargeRate = 0;
+                switch(selectedBalanceType) {
+                    case 'free': chargeRate = 10; break;
+                    case 'premium': chargeRate = 15; break;
+                    case 'referral': chargeRate = 20; break;
+                }
+                
+                const totalTaka = withdrawAmount / 10;
+                const chargeAmount = totalTaka * (chargeRate / 100);
+                const finalAmount = totalTaka - chargeAmount;
+                
+                document.getElementById('calcCoins').textContent = formatNumber(withdrawAmount) + ' কয়েন';
+                document.getElementById('calcTotalTaka').textContent = totalTaka.toFixed(2) + ' টাকা';
+                document.getElementById('chargeLabel').textContent = `চার্জ (${chargeRate}%):`;
+                document.getElementById('calcCharge').textContent = chargeAmount.toFixed(2) + ' টাকা';
+                document.getElementById('calcFinalAmount').textContent = finalAmount.toFixed(2);
+                
+                // ব্যালেন্স চেক
+                let availableBalance = 0;
+                switch(selectedBalanceType) {
+                    case 'free': availableBalance = currentUser.freeBalance || 0; break;
+                    case 'premium': availableBalance = currentUser.premiumBalance || 0; break;
+                    case 'referral': availableBalance = currentUser.referralBalance || 0; break;
+                }
+                
+                if (withdrawAmount <= availableBalance) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '💳 উইথড্র রিকোয়েস্ট জমা দিন';
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '❌ পর্যাপ্ত ব্যালেন্স নেই';
+                }
+                
+            } else {
+                calculationBox.style.display = 'none';
+                submitBtn.disabled = true;
+            }
+        }
+        
+        // উইথড্র সাবমিট
+        function submitWithdraw() {
+            const withdrawAmount = parseInt(document.getElementById('withdrawAmount').value);
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const accountNumber = document.getElementById('accountNumber').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!withdrawAmount || withdrawAmount <= 0) {
+                alert('দয়া করে সঠিক কয়েন সংখ্যা লিখুন');
+                return;
+            }
+            
+            if (!paymentMethod) {
+                alert('দয়া করে পেমেন্ট মেথড সিলেক্ট করুন');
+                return;
+            }
+            
+            if (!accountNumber) {
+                alert('দয়া করে আপনার একাউন্ট নম্বর লিখুন');
+                return;
+            }
+            
+            if (!password) {
+                alert('দয়া করে আপনার পাসওয়ার্ড লিখুন');
+                return;
+            }
+            
+            // পাসওয়ার্ড ভেরিফাই
+            if (password !== currentUser.password) {
+                alert('পাসওয়ার্ড ভুল! আবার চেষ্টা করুন।');
+                return;
+            }
+            
+            // ব্যালেন্স চেক
+            let availableBalance = 0;
+            let minAmount = 0;
+            
+            switch(selectedBalanceType) {
+                case 'free': 
+                    availableBalance = currentUser.freeBalance || 0;
+                    minAmount = 1000;
+                    break;
+                case 'premium': 
+                    availableBalance = currentUser.premiumBalance || 0;
+                    minAmount = 5000;
+                    break;
+                case 'referral': 
+                    availableBalance = currentUser.referralBalance || 0;
+                    minAmount = 3000;
+                    break;
+            }
+            
+            if (withdrawAmount < minAmount) {
+                alert(`সর্বনিম্ন ${minAmount} কয়েন উইথড্র করতে হবে!`);
+                return;
+            }
+            
+            if (withdrawAmount > availableBalance) {
+                alert('পর্যাপ্ত ব্যালেন্স নেই!');
+                return;
+            }
+            
+            // চার্জ ক্যালকুলেশন
+            let chargeRate = 0;
+            switch(selectedBalanceType) {
+                case 'free': chargeRate = 10; break;
+                case 'premium': chargeRate = 15; break;
+                case 'referral': chargeRate = 20; break;
+            }
+            
+            const totalTaka = withdrawAmount / 10;
+            const chargeAmount = totalTaka * (chargeRate / 100);
+            const finalAmount = totalTaka - chargeAmount;
+            
+            if (confirm(`আপনি ${withdrawAmount} কয়েন (${finalAmount.toFixed(2)} টাকা) উইথড্র করতে চান?\n\nচার্জ: ${chargeAmount.toFixed(2)} টাকা (${chargeRate}%)`)) {
+                // উইথড্র রিকোয়েস্ট সেভ করুন
+                const withdrawId = 'W' + Date.now() + Math.random().toString(36).substr(2, 9);
+                
+                const withdrawRequest = {
+                    id: withdrawId,
+                    userId: currentUser.id,
+                    userName: currentUser.fullName,
+                    balanceType: selectedBalanceType,
+                    coins: withdrawAmount,
+                    totalTaka: totalTaka,
+                    chargeRate: chargeRate,
+                    chargeAmount: chargeAmount,
+                    finalAmount: finalAmount,
+                    paymentMethod: paymentMethod,
+                    accountNumber: accountNumber,
+                    status: 'pending',
+                    adminNote: '',
+                    submitDate: new Date().toLocaleString('bn-BD'),
+                    approveDate: null,
+                    approvedBy: null
+                };
+                
+                // এডমিন রিকোয়েস্টে সেভ করুন
+                let withdrawRequests = JSON.parse(localStorage.getItem('withdrawRequests') || '[]');
+                withdrawRequests.push(withdrawRequest);
+                localStorage.setItem('withdrawRequests', JSON.stringify(withdrawRequests));
+                
+                // ইউজারের উইথড্র হিস্ট্রিতে সেভ করুন
+                if (!currentUser.withdrawHistory) currentUser.withdrawHistory = [];
+                currentUser.withdrawHistory.push(withdrawRequest);
+                
+                // ব্যালেন্স আপডেট (পেন্ডিং অবস্থায়)
+                switch(selectedBalanceType) {
+                    case 'free':
+                        currentUser.freeBalance -= withdrawAmount;
+                        break;
+                    case 'premium':
+                        currentUser.premiumBalance -= withdrawAmount;
+                        break;
+                    case 'referral':
+                        currentUser.referralBalance -= withdrawAmount;
+                        break;
+                }
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                alert('উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!\n\nএডমিন verify করার পর আপনার একাউন্টে টাকা পাঠানো হবে।\nস্ট্যাটাস চেক করতে উইথড্র হিস্ট্রি দেখুন।');
+                
+                // ফর্ম রিসেট
+                document.getElementById('withdrawAmount').value = '';
+                document.getElementById('paymentMethod').value = '';
+                document.getElementById('accountNumber').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('calculationBox').style.display = 'none';
+                document.getElementById('submitBtn').disabled = true;
+                
+                // ব্যালেন্স আপডেট
+                updateBalanceData(currentUser);
+            }
+        }
+        
+        // নাম্বার ফরম্যাট
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('লগআউট সফল!');
+            window.location.href = '../index.html';
+        }
+        
+        // ইভেন্ট লিসেনার
+        document.getElementById('withdrawAmount').addEventListener('input', updateCalculation);
+        document.getElementById('paymentMethod').addEventListener('change', updateCalculation);
+        document.getElementById('accountNumber').addEventListener('input', updateCalculation);
+    </script>
+</body>
+</html>
