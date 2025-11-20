@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এডমিন ড্যাশবোর্ড - INCOME HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>INCOME HUB</h2>
+                <p>এডমিন প্যানেল</p>
+            </div>
+            <ul class="admin-sidebar-menu">
+                <li><a href="admin-dashboard.html" class="active"><span class="admin-menu-icon">📊</span> ড্যাশবোর্ড</a></li>
+                <li><a href="admin-users.html"><span class="admin-menu-icon">👥</span> ইউজার ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-staff.html"><span class="admin-menu-icon">👑</span> স্টাফ ম্যানেজমেন্ট</a></li>
+                <li><a href="admin-tasks.html"><span class="admin-menu-icon">📋</span> টাস্ক রিভিউ</a></li>
+                <li><a href="admin-deposits.html"><span class="admin-menu-icon">💰</span> ডিপোজিট রিকোয়েস্ট</a></li>
+                <li><a href="admin-withdrawals.html"><span class="admin-menu-icon">💳</span> উইথড্র রিকোয়েস্ট</a></li>
+                <li><a href="admin-reports.html"><span class="admin-menu-icon">📈</span> রিপোর্টস</a></li>
+                <li><a href="admin-settings.html"><span class="admin-menu-icon">⚙️</span> সেটিংস</a></li>
+                <li><a href="javascript:void(0)" onclick="adminLogout()"><span class="admin-menu-icon">🚪</span> লগআউট</a></li>
+            </ul>
+        </div>
+        
+        <div class="admin-main-content">
+            <div class="admin-top-bar">
+                <div class="website-name">
+                    <span>INCOME HUB</span>
+                    <span style="font-size: 1rem; opacity: 0.7;">- এডমিন প্যানেল</span>
+                </div>
+                <div class="user-info">
+                    <span id="adminWelcome">লোড হচ্ছে...</span>
+                    <span class="role-badge" id="adminRoleBadge">এডমিন</span>
+                </div>
+            </div>
+            
+            <div class="admin-welcome-box">
+                <h1 id="welcomeMessage" style="margin: 0 0 10px 0; font-size: 2rem;">এডমিন ড্যাশবোর্ড</h1>
+                <p id="adminStatus" style="margin: 0; font-size: 1.1rem; opacity: 0.9;">সিস্টেম ম্যানেজমেন্ট ও মনিটরিং</p>
+            </div>
+            
+            <div class="admin-content-area">
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card">
+                        <h3>👥 মোট ইউজার</h3>
+                        <div class="admin-stat-number" id="totalUsers">0</div>
+                        <p>সদস্য</p>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h3>💰 মোট ডিপোজিট</h3>
+                        <div class="admin-stat-number" id="totalDeposits">0</div>
+                        <p>টাকা</p>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h3>💳 মোট উইথড্র</h3>
+                        <div class="admin-stat-number" id="totalWithdrawals">0</div>
+                        <p>টাকা</p>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h3>📈 টুডে ইনকাম</h3>
+                        <div class="admin-stat-number" id="todayIncome">0</div>
+                        <p>কয়েন</p>
+                    </div>
+                </div>
+                
+                <div class="admin-quick-actions">
+                    <div class="admin-action-btn" onclick="window.location.href='admin-users.html'">👥 ইউজার ম্যানেজ</div>
+                    <div class="admin-action-btn" onclick="window.location.href='admin-staff.html'">👑 স্টাফ তৈরি করুন</div>
+                    <div class="admin-action-btn" onclick="window.location.href='admin-tasks.html'">📋 টাস্ক রিভিউ</div>
+                    <div class="admin-action-btn" onclick="window.location.href='admin-deposits.html'">💰 ডিপোজিট ম্যানেজ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin'));
+            
+            if (!currentAdmin) {
+                alert('দয়া করে প্রথমে এডমিন লগইন করুন!');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            updateAdminData(currentAdmin);
+            loadDashboardStats();
+        });
+        
+        function updateAdminData(admin) {
+            document.getElementById('adminWelcome').textContent = `স্বাগতম, ${admin.fullName}!`;
+            document.getElementById('welcomeMessage').textContent = `স্বাগতম, ${admin.fullName}!`;
+            
+            const roleNames = {
+                'super_admin': 'সুপার এডমিন',
+                'admin': 'এডমিন',
+                'moderator': 'মডারেটর'
+            };
+            
+            const roleBadge = document.getElementById('adminRoleBadge');
+            roleBadge.textContent = roleNames[admin.role] || admin.role;
+            roleBadge.className = `role-badge role-${admin.role}`;
+        }
+        
+        function loadDashboardStats() {
+            const users = JSON.parse(localStorage.getItem('incomeHubUsers') || '[]');
+            document.getElementById('totalUsers').textContent = users.length;
+        }
+        
+        function adminLogout() {
+            if (confirm('আপনি কি এডমিন লগআউট করতে চান?')) {
+                localStorage.removeItem('currentAdmin');
+                alert('এডমিন লগআউট সফল!');
+                window.location.href = 'admin-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
