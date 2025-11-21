@@ -6,9 +6,80 @@
     <title>প্রিমিয়াম - INCOME HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo h2 {
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .login-btn:hover {
+            background: white;
+            color: #333;
+        }
+        
+        .register-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .register-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
         .premium-container {
             max-width: 1200px;
-            margin: 80px auto 20px;
+            margin: 100px auto 20px;
             padding: 20px;
         }
         
@@ -324,6 +395,15 @@
             margin: 20px 0;
             border-left: 4px solid #4CAF50;
         }
+        
+        .no-premium-message {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
     </style>
 </head>
 <body>
@@ -362,6 +442,12 @@
                     প্রতিটি অ্যাড ভিউ করার জন্য আপনাকে 5 সেকেন্ড অপেক্ষা করতে হবে
                 </p>
             </div>
+        </div>
+
+        <!-- প্রিমিয়াম না থাকলে মেসেজ -->
+        <div class="no-premium-message" id="noPremiumMessage">
+            <h3>⚠️ কোন সক্রিয় প্রিমিয়াম প্যাকেজ নেই</h3>
+            <p>অ্যাড ভিউ করতে প্রিমিয়াম প্যাকেজ কিনুন। নিচে থেকে আপনার পছন্দের প্যাকেজ সিলেক্ট করুন।</p>
         </div>
         
         <!-- ডিপোজিট ব্যালেন্স ইনফো -->
@@ -628,8 +714,41 @@
     </div>
 
     <script>
+        // ডেমো ইউজার ডেটা (যদি localStorage এ কিছু না থাকে)
+        function initializeDemoData() {
+            if (!localStorage.getItem('currentUser')) {
+                const demoUser = {
+                    id: 'user_' + Date.now(),
+                    fullName: 'ডেমো ইউজার',
+                    email: 'demo@example.com',
+                    coins: 5000,
+                    depositBalance: 3000,
+                    premiumBalance: 0,
+                    taskBalance: 2000,
+                    adBalance: 0,
+                    referralBalance: 0,
+                    totalReferrals: 2,
+                    totalCommission: 500,
+                    activeReferrals: 1,
+                    premium: false,
+                    premiumPackage: null,
+                    premiumExpiry: null,
+                    adViews: null,
+                    premiumHistory: [],
+                    referralHistory: []
+                };
+                localStorage.setItem('currentUser', JSON.stringify(demoUser));
+                
+                // সকল ইউজারের জন্য ডেমো ডেটা
+                if (!localStorage.getItem('incomeHubUsers')) {
+                    localStorage.setItem('incomeHubUsers', JSON.stringify([demoUser]));
+                }
+            }
+        }
+
         // পেজ লোড হলে ডেটা আপডেট
         document.addEventListener('DOMContentLoaded', function() {
+            initializeDemoData();
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             
             if (!currentUser) {
@@ -762,6 +881,9 @@
         // অ্যাড ভিউ সেকশন আপডেট
         function updateAdViewSection(user) {
             if (user.premium && user.adViews) {
+                document.getElementById('activePremium').style.display = 'block';
+                document.getElementById('noPremiumMessage').style.display = 'none';
+                
                 const adsRemaining = user.adViews.totalAds - user.adViews.adsViewed;
                 document.getElementById('adsRemainingText').textContent = 
                     `আপনার আজকের জন্য অ্যাড ভিউ বাকি: ${adsRemaining}`;
@@ -774,6 +896,9 @@
                     viewAdsBtn.disabled = true;
                     viewAdsBtn.textContent = 'আজকের অ্যাড শেষ';
                 }
+            } else {
+                document.getElementById('activePremium').style.display = 'none';
+                document.getElementById('noPremiumMessage').style.display = 'block';
             }
         }
 
@@ -951,6 +1076,7 @@
                     alert('আপনার প্রিমিয়াম প্যাকেজের মেয়াদ শেষ হয়েছে। নতুন করে সাবস্ক্রাইব করুন।');
                 } else {
                     document.getElementById('activePremium').style.display = 'block';
+                    document.getElementById('noPremiumMessage').style.display = 'none';
                     const packageNames = {
                         'easy': 'ইজি', 'basic': 'বেসিক', 'silver': 'সিলভার', 
                         'gold': 'গোল্ড', 'platinum': 'প্লাটিনাম', 'diamond': 'ডায়মন্ড'
@@ -960,6 +1086,9 @@
                     document.getElementById('expiryInfoText').textContent = 
                         `মেয়াদ শেষ হবে: ${new Date(user.premiumExpiry).toLocaleDateString('bn-BD')}`;
                 }
+            } else {
+                document.getElementById('activePremium').style.display = 'none';
+                document.getElementById('noPremiumMessage').style.display = 'block';
             }
         }
 
